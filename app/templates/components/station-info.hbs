@@ -1,0 +1,21 @@
+<div class="station">
+<h3>Station: {{station.stationCode}}</h3>
+
+<ul>
+<li>{{#link-to 'networks.show.stations' station.network }}
+{{station.network.networkCode}}
+{{/link-to}}</li>
+{{station.stationCode}}
+<li>{{station.network.id}}</li>
+<li>{{station.name}}</li>
+<li>{{station.description}}</li>
+<li>{{station.startTime}}</li>
+<li>{{station.endTime}}</li>
+<li>{{station.elevation}}</li>
+<li>{{station.latitudeFormatted}}</li>
+<li>{{station.longitudeFormatted}}</li>
+</ul>
+
+{{yield}}
+</div>
+

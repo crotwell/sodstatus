@@ -1,0 +1,10 @@
+
+.station {
+    width: 50%;
+    float: left;
+}
+
+.event {
+    width: 50%;
+    float: right;
+}

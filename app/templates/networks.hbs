@@ -3,7 +3,7 @@
 <ul>
 {{#each model as |net|}}
 <li>
-{{#link-to 'networks.show.stations' net}}
+{{#link-to 'networks.show.stations' net.id }}
    {{net.networkCode}}{{#if model.isTempNet}}({{model.startTimeUTC}}){{/if}} - {{net.description}}
 {{/link-to}}
 </li>

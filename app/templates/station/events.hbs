@@ -1,0 +1,13 @@
+
+<h3>Events:</h3>
+
+<ul>
+  {{#each model as |esp|}}
+  <li>
+{{#link-to 'station.event' esp.station.id esp.id}}
+{{esp.event.name}}
+{{/link-to}} {{esp.sodStatus}}
+  </li>
+  {{/each}}
+</ul>
+
