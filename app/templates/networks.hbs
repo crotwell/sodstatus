@@ -1,1 +1,14 @@
+<div class="networkList">
+<h1>Networks Index</h1>
+<ul>
+{{#each model as |net|}}
+<li>
+{{#link-to 'networks.show.stations' net}}
+   {{net.networkCode}}{{#if model.isTempNet}}({{model.startTimeUTC}}){{/if}} - {{net.description}}
+{{/link-to}}
+</li>
+{{/each}}
+</ul>
+</div>
+
 {{outlet}}
