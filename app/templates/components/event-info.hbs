@@ -1,8 +1,9 @@
-<div class="event">
+<div class="event-info">
 <h3>Event: {{event.name}}</h3>
 <ul>
   <li>{{format-iso-date event.prefOrigin.time }}</li>
   <li>{{event.prefMagnitude.value}} {{event.prefMagnitude.magType}}</li>
+  <li>{{event.prefOrigin.depth}} km</li>
   <li>({{event.prefOrigin.latitudeFormatted}},{{event.prefOrigin.longitudeFormatted}})</li>
 </ul>
 

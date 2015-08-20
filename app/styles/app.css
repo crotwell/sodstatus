@@ -1,5 +1,39 @@
 
+.leftCol {
+    width: 48%;
+    float: left;
+}
+
+.rightCol {
+    width: 48%;
+    float: right;
+}
+
+.networkList {
+    width: 40%;
+    float: left;
+}
+
 .station {
+    width: 50%;
+    float: left;
+}
+
+.event .stationList {
+    width: 100%;
+    float: left;
+}
+
+.stationList {
+    float: right;
+}
+
+.network {
+    width: 60%;
+    float: right;
+}
+
+.eventList {
     width: 50%;
     float: left;
 }

@@ -1,1 +1,14 @@
+<div class="eventList">
+<h1>Events</h1>
+
+<ul>
+  {{#each model as |e|}}
+    <li>
+{{#link-to 'events.show.stations' e}}{{e.name}}{{/link-to}} {{e.status}}
+</li>
+  {{/each}}
+</ul>
+
+</div>
+
 {{outlet}}

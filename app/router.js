@@ -14,11 +14,21 @@ Router.map(function() {
         this.route('stations');
       });
     });
-  this.route('events');
+  this.route('events', function() {
+        this.route('show', {
+          path: ':event_id'},
+          function() {
+            this.route('stations');
+          });
+       });
   this.route('station', 
     {path: 'station/:station_id' },
     function() {
-      this.route('events');
+      this.route('events', function() {
+        this.route('show', function() {
+          this.route('stations');
+        });
+      });
       this.route('event',
         {path: ':esp_id'});
     });

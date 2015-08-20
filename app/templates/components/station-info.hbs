@@ -1,4 +1,4 @@
-<div class="station">
+<div class="station-info">
 <h3>Station: {{station.stationCode}}</h3>
 
 <ul>
@@ -12,8 +12,7 @@
 <li>{{format-iso-date station.startTime format='YYYY-MM-DD'}}</li>
 <li>{{format-iso-date station.endTime format='YYYY-MM-DD'}}</li>
 <li>{{station.elevation}}</li>
-<li>{{station.latitudeFormatted}}</li>
-<li>{{station.longitudeFormatted}}</li>
+<li>({{station.latitudeFormatted}}, {{station.longitudeFormatted}})</li>
 </ul>
 
 {{yield}}
