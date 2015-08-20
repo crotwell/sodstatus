@@ -4,7 +4,7 @@
   {{#each model as |s|}}
   <li>
     {{#link-to 'station.events' s.id}}
-        {{s.network.networkCode}}.{{s.stationCode}} ({{s.latitudeFormatted}},{{s.longitudeFormatted}}) {{s.name}} {{s.description}} {{s.startTime}} {{s.endTime}}
+        {{s.network.networkCode}}.{{s.stationCode}} ({{s.latitudeFormatted}},{{s.longitudeFormatted}}) {{s.name}} {{s.description}} ({{format-iso-date s.startTime format='YYYY-MM-DD'}} - {{format-iso-date s.endTime format='YYYY-MM-DD'}})
     {{/link-to}}
   </li>
   {{/each}}

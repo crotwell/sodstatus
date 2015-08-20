@@ -5,12 +5,12 @@
 <li>{{#link-to 'networks.show.stations' station.network }}
 {{station.network.networkCode}}
 {{/link-to}}</li>
-{{station.stationCode}}
+<li>{{station.stationCode}}</li>
 <li>{{station.network.id}}</li>
 <li>{{station.name}}</li>
 <li>{{station.description}}</li>
-<li>{{station.startTime}}</li>
-<li>{{station.endTime}}</li>
+<li>{{format-iso-date station.startTime format='YYYY-MM-DD'}}</li>
+<li>{{format-iso-date station.endTime format='YYYY-MM-DD'}}</li>
 <li>{{station.elevation}}</li>
 <li>{{station.latitudeFormatted}}</li>
 <li>{{station.longitudeFormatted}}</li>

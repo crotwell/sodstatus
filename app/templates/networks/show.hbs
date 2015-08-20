@@ -3,8 +3,8 @@
 <ul>
 <li>{{model.id}}</li>
 <li>{{model.networkCode}}</li>
-<li>{{model.startTime}}</li>
-<li>{{model.endTime}}</li>
+<li>{{format-iso-date model.startTime format='YYYY-MM-DD'}}</li>
+<li>{{format-iso-date model.endTime format='YYYY-MM-DD'}}</li>
 <li>{{model.description}}</li>
 </ul>
 </div>

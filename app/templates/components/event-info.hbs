@@ -1,7 +1,7 @@
 <div class="event">
 <h3>Event: {{event.name}}</h3>
 <ul>
-  <li>{{event.prefOrigin.time}}</li>
+  <li>{{format-iso-date event.prefOrigin.time }}</li>
   <li>{{event.prefMagnitude.value}} {{event.prefMagnitude.magType}}</li>
   <li>({{event.prefOrigin.latitudeFormatted}},{{event.prefOrigin.longitudeFormatted}})</li>
 </ul>
