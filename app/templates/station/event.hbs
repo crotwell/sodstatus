@@ -1,4 +1,14 @@
 
 {{event-info event=model.event}}
 
+Status: <p>{{model.sodStatus}}</p>
+
+<ul>
+{{#each model.ecps as |ecp|}}
+  <li>{{ecp.id}}</li>
+{{/each}}
+</ul>
+
+
+
 {{outlet}}

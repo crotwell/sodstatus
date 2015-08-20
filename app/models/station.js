@@ -5,6 +5,7 @@ import Ember from 'ember';
 export default DS.Model.extend({
   stationCode: DS.attr('string'),
   network: DS.belongsTo('network', {async: true}),
+  channels: DS.hasMany('channel', {async: true}),
   name: DS.attr('string'),
   description: DS.attr('string'),
   startTime: DS.attr('date'),

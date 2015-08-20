@@ -15,6 +15,14 @@
 <li>({{station.latitudeFormatted}}, {{station.longitudeFormatted}})</li>
 </ul>
 
+<h5>Channels</h5>
+
+<ul>
+{{#each station.channels as |chan|}}
+<li>{{chan.id}}</li>
+{{/each}}
+</ul>
+
 {{yield}}
 </div>
 
