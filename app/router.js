@@ -32,6 +32,8 @@ Router.map(function() {
       this.route('event',
         {path: ':esp_id'});
     });
+  this.route('channel',
+    {path: 'channel/:channel_id'});
 });
 
 export default Router;
