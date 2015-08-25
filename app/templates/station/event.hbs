@@ -1,11 +1,13 @@
 
 {{event-info event=model.event}}
 
-Status: <p>{{model.sodStatus}}</p>
+<p>Status: {{model.sodStatus}}</p>
 
 <ul>
 {{#each model.ecps as |ecp|}}
-  <li>{{ecp.id}} {{ecp.sodStatus}}</li>
+  <li>{{ecp.id}} 
+{{#each ecp.channels as |ch|}} {{ch.siteCode}}.{{ch.channelCode}}{{/each}}
+ {{ecp.sodStatus}}</li>
 {{/each}}
 </ul>
 
