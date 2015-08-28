@@ -14,6 +14,9 @@
     "loader.js": "ember-cli/loader.js#3.2.1",
     "qunit": "~1.18.0",
     "moment": ">= 2.8.0",
-    "moment-timezone": ">= 0.1.0"
+    "moment-timezone": ">= 0.1.0",
+    "seisplot": "/Users/crotwell/dev/seis/crocus/src/main/javascript/seisplot.js",
+    "seedcodec": "/Users/crotwell/dev/seis/crocus/src/main/javascript/seedcodec.js",
+    "miniseed": "/Users/crotwell/dev/seis/crocus/src/main/javascript/miniseed.js"
   }
 }

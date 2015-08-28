@@ -36,5 +36,10 @@ module.exports = function(defaults) {
   app.import('bower_components/picnic/releases/plugins.min.css');
   app.import('bower_components/picnic/releases/picnic.min.css');
 
+  app.import('bower_components/seedcodec/index.js', {exports: { 'seedcodec': [ 'default']}});
+  app.import('bower_components/miniseed/index.js', {exports: { 'miniseed': [ 'default']}});
+//  app.import('bower_components/miniseed/index.js', {exports: { 'miniseed': ['miniseed']}});
+  app.import('bower_components/seisplot/index.js', {exports: { 'seisplot': ['seisplot']}});
+
   return app.toTree();
 };
