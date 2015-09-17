@@ -1,6 +1,7 @@
 import DS from 'ember-data';
 
 export default DS.Model.extend({
-  mseed: DS.attr('string')
+  numRecords: DS.attr('number'),
+  mseed: DS.attr()
    
 });

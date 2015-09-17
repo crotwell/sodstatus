@@ -1,20 +1,33 @@
 import DS from 'ember-data';
-import ms from 'miniseed';
+import seisplot from 'npm:seisplotjs';
 
 export default DS.RESTSerializer.extend({
   normalizeResponse: function(store, primaryModelClass, payload, id, requestType) {
-    console.log("waveform serializer normalizeResponse "+id+" "+requestType+" "+primaryModelClass.modelName+" "+payload.byteLength+" bytes");
-    var mslist = ms.parseDataRecords(payload);
-    return {
+    var ms = seisplot.miniseed;
+    var mslist = seisplot.miniseed.parseDataRecords(payload);
+let mslength = mslist.length;
+let totalPts = 0;
+for(let i=0; i<mslength; i++) {
+totalPts = totalPts + mslist[i].length;
+}
+console.log("load data, total pts="+totalPts);
+    var msByChan = seisplot.miniseed.byChannel(mslist);
+    var out = {};
+    for(let key in msByChan) {
+        out[key] = seisplot.miniseed.merge(msByChan[key]);
+    }
+    var mseed = {  byChan: out }
+    var jsonapi = {
                data: {
                  id: id,
                  type: primaryModelClass.modelName,
                  attributes: {
-                 mseed: "dummy.response "+mslist.length
+                     numRecords: mslist.length,
+                     mseed: mslist
                  }
-                 //mseed: xhr.response
                }
            };
+return jsonapi;
   },
 
   serialize: function(record, options) {

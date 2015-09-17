@@ -7,28 +7,11 @@
 {{#each model.ecps as |ecp|}}
   <li>{{ecp.id}} 
 {{#each ecp.channels as |ch|}} {{ch.siteCode}}.{{ch.channelCode}}{{/each}}
- {{ecp.sodStatus}} </li>
-{{/each}}
-</ul>
-
-<h5>waveforms</h5>
-<ul>
-{{#each model.ecps as |ecp|}}
-  <li>wf {{ecp.waveform}} w{{ecp.waveform.id}} s={{ecp.waveform.mseed}} e{{ecp.event.id}}
+ {{ecp.sodStatus}} 
+{{waveform-display waveform=ecp.waveform plotWidth=400 plotHeight=100}} 
 </li>
 {{/each}}
 </ul>
-
-<!--
-<ul>
-{{#each model.ecps as |ecp|}}
-{{#each ecp.waveforms as |wf|}}
-  <li>wf {{wf.id}} 
-</li>
-{{/each}}
-{{/each}}
-</ul>
--->
 
 
 {{outlet}}
