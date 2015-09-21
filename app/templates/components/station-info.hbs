@@ -1,16 +1,17 @@
 <div class="station-info">
-<h3>Station: {{station.stationCode}}</h3>
+<p>Station:</p>
+{{#link-to 'networks.show.stations' station.network }}
+<h3>{{station.network.networkCode}}.{{station.stationCode}}</h3>
+{{/link-to}}
 
 <ul>
 <li>{{#link-to 'networks.show.stations' station.network }}
 {{station.network.networkCode}}
 {{/link-to}}</li>
 <li>{{station.stationCode}}</li>
-<li>{{station.network.id}}</li>
 <li>{{station.name}}</li>
 <li>{{station.description}}</li>
-<li>{{format-iso-date station.startTime format='YYYY-MM-DD'}}</li>
-<li>{{format-iso-date station.endTime format='YYYY-MM-DD'}}</li>
+<li>{{format-iso-date station.startTime format='YYYY-MM-DD'}} to {{format-iso-date station.endTime format='YYYY-MM-DD'}}</li>
 <li>{{station.elevation}}</li>
 <li>({{station.latitudeFormatted}}, {{station.longitudeFormatted}})</li>
 </ul>

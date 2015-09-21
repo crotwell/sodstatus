@@ -5,7 +5,7 @@
 
 <ul>
 {{#each model.ecps as |ecp|}}
-  <li>{{ecp.id}} 
+  <li class="ecp">{{ecp.id}} 
 {{#each ecp.channels as |ch|}} {{ch.siteCode}}.{{ch.channelCode}}{{/each}}
  {{ecp.sodStatus}} 
 {{waveform-display waveform=ecp.waveform plotWidth=400 plotHeight=100}} 

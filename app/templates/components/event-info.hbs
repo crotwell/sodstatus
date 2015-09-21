@@ -1,5 +1,7 @@
 <div class="event-info">
-<h3>Event: {{event.name}}</h3>
+<h3>Event: {{#link-to 'events.show.stations' event}}
+{{event.name}}
+{{/link-to}}</h3>
 <ul>
   <li>{{format-iso-date event.prefOrigin.time }}</li>
   <li>{{event.prefMagnitude.value}} {{event.prefMagnitude.magType}}</li>

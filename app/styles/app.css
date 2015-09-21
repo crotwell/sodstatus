@@ -19,6 +19,11 @@
     float: left;
 }
 
+.station li {
+    margin: 0px 10px 0px 10px;
+    padding: 0px;
+}
+
 .event .stationList {
     width: 100%;
     float: left;
@@ -58,16 +63,21 @@
     opacity: 0;
 }
 
-.waveformPlot {
-    width: 50%;
-    height: 252px;
-    color: rgb(92, 165, 87);
-    background-color: rgb(255, 255, 255);
-    float: right;
+.ecp {
+    clear: both;
+    width: 90%;
     box-shadow: inset 0 0 4px 2px rgba(0,0,0,.75);
     border-radius: 10px;
     padding-left: 15px;
     padding-bottom: 15px;
+
+}
+
+.waveformPlot {
+    width: 98%;
+    height: 252px;
+    color: rgb(92, 165, 87);
+    background-color: rgb(255, 255, 255);
 }
 
 .graphClickPane {
