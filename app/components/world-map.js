@@ -48,6 +48,8 @@ console.log("didInsertElement "+this.get('elementId'));
     },
     updateGraph: function() {
         let elementId = this.get('elementId');
+        let quake = this.get('event');
+        let station = this.get('station');
         let svgDiv = d3.select('#'+elementId).append("div");
         svgDiv.classed('map', true);
         let styleWidth = parseInt(svgDiv.style("width"));
@@ -58,54 +60,89 @@ console.log("didInsertElement "+this.get('elementId'));
             .attr("width", styleWidth)
             .attr("height", styleHeight);
 
-let projection = d3.geo.equirectangular()
-    .scale(50)
-    .translate([styleWidth / 2, styleHeight / 2])
-    .precision(0.1);
+        let projection = d3.geo.equirectangular()
+            .scale(60*styleWidth/360)
+            .translate([styleWidth / 2, styleHeight / 2])
+            .precision(0.1);
 
-let path = d3.geo.path()
-    .projection(projection);
+        let path = d3.geo.path()
+            .projection(projection);
 
-let graticule = d3.geo.graticule();
+        let graticule = d3.geo.graticule();
 
 
-svg.append("defs").append("path")
-    .datum({type: "Sphere"})
-    .attr("id", "sphere")
-    .attr("d", path);
+        let defs = svg.append("defs")
+        defs.append("path")
+            .datum({type: "Sphere"})
+            .attr("id", "sphere")
+            .attr("d", path);
 
-svg.append("use")
-    .attr("class", "stroke")
-    .attr("xlink:href", "#sphere");
+        svg.append("use")
+            .attr("class", "stroke")
+            .attr("xlink:href", "#sphere");
 
-svg.append("use")
-    .attr("class", "fill")
-    .attr("xlink:href", "#sphere");
+        svg.append("use")
+            .attr("class", "fill")
+            .attr("xlink:href", "#sphere");
 
-svg.append("path")
-    .datum(graticule)
-    .attr("class", "graticule")
-    .attr("d", path);
+        svg.append("path")
+            .datum(graticule)
+            .attr("class", "graticule")
+            .attr("d", path);
 
         let g = svg.append("g");
+        let countryG = g.append("g");
 
         // load and display the World
         d3.json("/assets/topojsonData/world-50m.json", function(error, world) {
 
-  var countries = topojson.feature(world, world.objects.countries).features,
-      neighbors = topojson.neighbors(world.objects.countries.geometries);
+          var countries = topojson.feature(world, world.objects.countries).features,
+              neighbors = topojson.neighbors(world.objects.countries.geometries);
 
-  svg.selectAll(".country")
-      .data(countries)
-    .enter().insert("path", ".graticule")
-      .attr("class", "country")
-      .attr("d", path);
+          countryG.selectAll(".country")
+              .data(countries)
+            .enter().insert("path", ".graticule")
+              .attr("class", "country")
+              .attr("d", path);
 
-  svg.insert("path", ".graticule")
-      .datum(topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; }))
-      .attr("class", "boundary")
-      .attr("d", path);
+          svg.insert("path", ".graticule")
+              .datum(topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; }))
+              .attr("class", "boundary")
+              .attr("d", path);
+        });
 
-});
+        let eventG = g.append("g");
+        this.get('event').then(function(quake) {
+          quake.get('prefOrigin').then(function(prefOrigin) {
+console.log("######## event "+prefOrigin);
+            eventG.selectAll("circle")
+               .data([ prefOrigin ])
+               .enter()
+               .append("circle")
+               .attr("cx", function(d) {
+                   return projection([d.get('longitude'), d.get('latitude')])[0];
+               })
+               .attr("cy", function(d) {
+                   return projection([d.get('longitude'), d.get('latitude')])[1];
+               })
+               .attr("r", 5)
+               .style("fill", "red");
+          });
+        });
+
+        let stationG = g.append("g");
+        this.get('station').then(function(station) {
+console.log("######## station "+station);
+            stationG.selectAll("path")
+               .data([ station ])
+               .enter()
+               .append("path")
+                 .attr("transform", function(d) { return "translate(" +
+                   projection([d.get('longitude'), d.get('latitude')])[0]+","+
+                   projection([d.get('longitude'), d.get('latitude')])[1]+")";
+                 })
+                 .attr("d", d3.svg.symbol().type("triangle-up"))
+               .style("fill", "blue");
+        });
     }
 });
