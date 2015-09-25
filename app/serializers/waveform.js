@@ -3,7 +3,6 @@ import seisplot from 'npm:seisplotjs';
 
 export default DS.RESTSerializer.extend({
   normalizeResponse: function(store, primaryModelClass, payload, id, requestType) {
-    var ms = seisplot.miniseed;
     var mslist = seisplot.miniseed.parseDataRecords(payload);
 let mslength = mslist.length;
 let totalPts = 0;
@@ -16,7 +15,6 @@ console.log("load data, total pts="+totalPts);
     for(let key in msByChan) {
         out[key] = seisplot.miniseed.merge(msByChan[key]);
     }
-    var mseed = {  byChan: out }
     var jsonapi = {
                data: {
                  id: id,
