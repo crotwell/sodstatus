@@ -8,17 +8,19 @@ console.log("didInsertElement "+this.get('elementId'));
     Ember.run.scheduleOnce('afterRender', this, 'updateGraph');
   },
   updateGraph: function() {
-    var elementId = this.get('elementId');
+    let elementId = this.get('elementId');
     this.get('waveform').then(function(waveform) {
-    var mslist = waveform.get('mseed');
-    var msByChan = seisplot.miniseed.byChannel(mslist);
+    let mslist = waveform.get('mseed');
+    let msByChan = seisplot.miniseed.byChannel(mslist);
 
     for(let key in msByChan) {
         let dataArray = seisplot.miniseed.merge(msByChan[key]);
         let dataArrayArray = [ dataArray ];
-    var svg = d3.select('#'+elementId).select("div");
-    var seischart = new seisplot.waveformplot.chart(svg, dataArrayArray);
+    let svg = d3.select('#'+elementId).select("div");
+    let seischart = new seisplot.waveformplot.chart(svg, dataArrayArray);
     seischart.draw();
+    seischart.enableDrag();
+    seischart.enableZoom();
     }
 });
   }
