@@ -1,6 +1,6 @@
 import Ember from 'ember';
-
 import d3 from 'npm:d3';
+
 /*
 
  Dependency Hell!!!
@@ -71,23 +71,15 @@ console.log("didInsertElement "+this.get('elementId'));
         let graticule = d3.geo.graticule();
 
 
-        let defs = svg.append("defs")
-        defs.append("path")
+        let defs = svg.append("defs");
+        defs.append("g").append("path")
             .datum({type: "Sphere"})
             .attr("id", "sphere")
             .attr("d", path);
 
-        svg.append("use")
-            .attr("class", "stroke")
-            .attr("xlink:href", "#sphere");
-
-        svg.append("use")
-            .attr("class", "fill")
-            .attr("xlink:href", "#sphere");
-
-        svg.append("path")
+        svg.append("g").append("path")
             .datum(graticule)
-            .attr("class", "graticule")
+            .classed("graticule", true)
             .attr("d", path);
 
         let g = svg.append("g");
