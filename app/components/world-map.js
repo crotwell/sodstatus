@@ -50,7 +50,8 @@ console.log("didInsertElement "+this.get('elementId'));
         let elementId = this.get('elementId');
         let quake = this.get('event');
         let station = this.get('station');
-        let svgDiv = d3.select('#'+elementId).append("div");
+        let topElement = d3.select('#'+elementId);
+        let svgDiv = topElement.append("div");
         svgDiv.classed('map', true);
         let styleWidth = parseInt(svgDiv.style("width"));
         if (styleWidth < 100) { styleWidth = 100; }
@@ -60,8 +61,11 @@ console.log("didInsertElement "+this.get('elementId'));
             .attr("width", styleWidth)
             .attr("height", styleHeight);
 
+// equirectangular is 640x360
+        let internalMapWidth = 640;
+        let internalMapHeight = 360;
         let projection = d3.geo.equirectangular()
-            .scale(60*styleWidth/360)
+            .scale(100*styleWidth/internalMapWidth)
             .translate([styleWidth / 2, styleHeight / 2])
             .precision(0.1);
 
@@ -77,13 +81,14 @@ console.log("didInsertElement "+this.get('elementId'));
             .attr("id", "sphere")
             .attr("d", path);
 
-        svg.append("g").append("path")
+        let g = svg.append("g");
+
+        g.append("g").append("path")
             .datum(graticule)
             .classed("graticule", true)
             .attr("d", path);
 
-        let g = svg.append("g");
-        let countryG = g.append("g");
+        let countryG = g.append("g").classed("country", true);
 
         // load and display the World
         d3.json("/assets/topojsonData/world-50m.json", function(error, world) {
@@ -106,7 +111,6 @@ console.log("didInsertElement "+this.get('elementId'));
         let eventG = g.append("g");
         this.get('event').then(function(quake) {
           quake.get('prefOrigin').then(function(prefOrigin) {
-console.log("######## event "+prefOrigin);
             eventG.selectAll("circle")
                .data([ prefOrigin ])
                .enter()
@@ -122,9 +126,8 @@ console.log("######## event "+prefOrigin);
           });
         });
 
-        let stationG = g.append("g");
+        let stationG = g.append("g").classed("mapstation", true);
         this.get('station').then(function(station) {
-console.log("######## station "+station);
             stationG.selectAll("path")
                .data([ station ])
                .enter()
