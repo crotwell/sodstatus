@@ -43,10 +43,10 @@ will solve it, until then we live in dependency hell.
 export default Ember.Component.extend({
 
     didInsertElement: function() {
-console.log("didInsertElement "+this.get('elementId'));
         Ember.run.scheduleOnce('afterRender', this, 'updateGraph');
     },
     updateGraph: function() {
+        let myThis = this;
         let elementId = this.get('elementId');
         let quake = this.get('event');
         let station = this.get('station');
@@ -83,9 +83,10 @@ console.log("didInsertElement "+this.get('elementId'));
 
         let g = svg.append("g");
 
-        g.append("g").append("path")
-            .datum(graticule)
+        g.append("g")
             .classed("graticule", true)
+            .append("path")
+            .datum(graticule)
             .attr("d", path);
 
         let countryG = g.append("g").classed("country", true);
@@ -102,17 +103,54 @@ console.log("didInsertElement "+this.get('elementId'));
               .attr("class", "country")
               .attr("d", path);
 
-          svg.insert("path", ".graticule")
+          g.insert("path", ".graticule")
               .datum(topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; }))
               .attr("class", "boundary")
               .attr("d", path);
         });
 
-        let eventG = g.append("g");
-        this.get('event').then(function(quake) {
-          quake.get('prefOrigin').then(function(prefOrigin) {
+        let eventG = g.append("g").classed("mapevents", true);
+        let origins = [];
+        let updateQuakes = function(quakes) {
+          };
+        Ember.RSVP.Promise.resolve(this.get('events')).then(function(elist) {
+               myThis.updateEvents(elist, eventG, projection);
+            });
+        
+
+        let stationG = g.append("g").classed("mapstation", true);
+        Promise.resolve(this.get('stations')).then(function(stationList) {
+            if( ! stationList) { return;}
+            if ( ! (Array.isArray(stationList) || stationList.length)) {
+                      stationList = [ stationList ];
+            }
+            stationG.selectAll("path")
+               .data( stationList )
+               .enter()
+               .append("path")
+                 .attr("transform", function(d) { return "translate(" +
+                   projection([d.get('longitude'), d.get('latitude')])[0]+","+
+                   projection([d.get('longitude'), d.get('latitude')])[1]+")";
+                 })
+                 .attr("d", d3.svg.symbol().type("triangle-up"))
+               .style("fill", "blue");
+        });
+    },
+    updateEvents(elist, eventG, projection) {
+        let myThis = this;
+        if ( ! elist) {return;}
+        if ( ! (Array.isArray(elist) || elist.length)) {
+                  elist = [ elist ];
+        }
+        let myElist = []
+        myElist = elist.map(function(item, index, enumerable) {
+            return myThis.cleanEvent(item);
+        });
+
+        Ember.RSVP.all(myElist).then(function(locations) {
+
             eventG.selectAll("circle")
-               .data([ prefOrigin ])
+               .data( locations )
                .enter()
                .append("circle")
                .attr("cx", function(d) {
@@ -123,21 +161,28 @@ console.log("didInsertElement "+this.get('elementId'));
                })
                .attr("r", 5)
                .style("fill", "red");
-          });
-        });
 
-        let stationG = g.append("g").classed("mapstation", true);
-        this.get('station').then(function(station) {
-            stationG.selectAll("path")
-               .data([ station ])
-               .enter()
-               .append("path")
-                 .attr("transform", function(d) { return "translate(" +
-                   projection([d.get('longitude'), d.get('latitude')])[0]+","+
-                   projection([d.get('longitude'), d.get('latitude')])[1]+")";
-                 })
-                 .attr("d", d3.svg.symbol().type("triangle-up"))
-               .style("fill", "blue");
+
         });
+    },
+    cleanEvent(myEvent) {
+        if ('latitude' in myEvent && 'longitude' in myEvent) {
+            // good to go
+            return Promise.resolve(myEvent);
+        } else {
+            let subEvent = myEvent.get('event'); // for ecp
+            if (subEvent) {
+                return subEvent.then(function(eVal) {
+                    return eVal.get('prefOrigin');
+                });
+            } else {
+                subEvent = myEvent.get('prefOrigin');
+                if (subEvent) {
+                   return subEvent;
+                } else {
+                   throw Error("unknown type of event"+myEvent);
+                }
+            }
+        }
     }
 });
