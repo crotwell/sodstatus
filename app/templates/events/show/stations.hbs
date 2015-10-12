@@ -1,16 +1,5 @@
 
-<div class="stationList">
-<h5>Stations</h5>
+{{station-list stations=model}}
 
-<ul>
-  {{#each model as |esp|}}
-  <li>
-{{#link-to 'station.event' esp.station.id esp.id}}
-{{esp.station.id}} {{esp.station.stationCode}}
-{{/link-to}} {{esp.sodStatus}}
-  </li>
-  {{/each}}
-</ul>
 
 {{outlet}}
-</div>

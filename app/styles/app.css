@@ -49,6 +49,12 @@ ul {
 .eventList {
     width: 50%;
     float: left;
+    clear: both;
+}
+
+.stationEventList {
+    width: 50%;
+    float: right;
 }
 
 .event {
