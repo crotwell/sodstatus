@@ -142,7 +142,7 @@ export default Ember.Component.extend({
         if ( ! (Array.isArray(elist) || elist.length)) {
                   elist = [ elist ];
         }
-        let myElist = []
+        let myElist = [];
         myElist = elist.map(function(item, index, enumerable) {
             return myThis.cleanEvent(item);
         });
