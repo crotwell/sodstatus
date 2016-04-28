@@ -1,6 +1,8 @@
 import Ember from 'ember';
-import seisplot from 'npm:seisplotjs';
-import d3 from 'npm:d3';
+import seisplot from 'seisplotjs';
+//import seisplot from 'npm:seisplotjs';
+import d3 from 'd3';
+//import d3 from 'npm:d3';
 
 export default Ember.Component.extend({
   didInsertElement: function() {
