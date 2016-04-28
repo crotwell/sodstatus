@@ -1,4 +1,8 @@
 
+* {
+  box-sizing: border-box;
+}
+
 .leftCol {
     width: 48%;
     float: left;
@@ -24,7 +28,6 @@ ul {
 .station {
     width: 50%;
     float: left;
-    padding: 1em;
 }
 
 .station li {
@@ -47,14 +50,17 @@ ul {
 }
 
 .eventList {
+    font-size: 10px;
     width: 50%;
     float: left;
     clear: both;
 }
 
 .stationEventList {
+    font-size: 12px;
     width: 50%;
     float: right;
+    overflow: auto;
 }
 
 .event {
@@ -157,12 +163,9 @@ h5 {
 .map {
     fill: grey;
     width: 90%;
-    height: 280px;
+    height: 250px;
     border-radius: 10px;
-    margin-left: 5px;
-    margin-bottom: 15px;
-    padding-left: 5px;
-    padding-bottom: 15px;
+    border: 2px solid blue;
 }
 
 .graticule {

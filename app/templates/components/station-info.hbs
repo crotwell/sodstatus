@@ -1,8 +1,9 @@
 <div class="station-info">
-<p>Station:</p>
-{{#link-to 'station.events' station }}
-<h3>{{station.network.networkCode}}.{{station.stationCode}}</h3>
+
+<h3>Station: {{#link-to 'station.events' station }}
+{{station.network.networkCode}}.{{station.stationCode}}
 {{/link-to}}
+</h3>
 
 <ul>
 <li>{{#link-to 'networks.show.stations' station.network }}
