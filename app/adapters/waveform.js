@@ -7,7 +7,7 @@ console.log("In waveform adapter");
 export default DS.Adapter.extend({
   findRecord: function(store, type, id, snapshot) {
     var url = ['api',type.modelName, id].join('/');
-    console.log("#########################find record: "+type+" "+id+"  "+url);
+    console.log("#########################find record: "+type+" "+id+"  "+url+" "+snapshot);
 
     return new Ember.RSVP.Promise(function(resolve, reject) {
         var xhr = new XMLHttpRequest();
@@ -18,7 +18,7 @@ export default DS.Adapter.extend({
         xhr.onerror = handler;
         xhr.send();
         console.log("send for "+url);
-        function handler(e) {
+        function handler() {
           if (this.readyState === this.DONE) {
             if (this.status === 200) {
               console.log("handler onload "+xhr.response.byteLength);

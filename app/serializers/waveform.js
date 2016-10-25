@@ -1,6 +1,6 @@
 import DS from 'ember-data';
-import seisplot from 'seisplotjs';
-//import seisplot from 'npm:seisplotjs';
+//import seisplot from 'seisplotjs';
+import * as seisplot from 'npm:seisplotjs-waveformplot';
 
 export default DS.RESTSerializer.extend({
   normalizeResponse: function(store, primaryModelClass, payload, id, requestType) {

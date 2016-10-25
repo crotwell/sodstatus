@@ -1,44 +1,7 @@
 import Ember from 'ember';
-import d3 from 'd3';
-//import d3 from 'npm:d3';
-
-/*
-
- Dependency Hell!!!
-
-d3 does UMD, so will appear as AMD if that works, or requirejs if that works
-or global otherwise. But d3-geo-projection requires d3 to be global
-
-There is a topojson in npm, but it is the server side half, we need the client
-side half which is not in npm
-
-Maybe I am just stupid, but imports from amd dependencies are hard. 
-Putting this in ember-cli-build.js 
-
-  app.import('bower_components/topojson/topojson.js', {
-    exports: {
-      'topojson': [ 'default']
-    }
-  });
-doesn't work with 
-import topojson from 'topojson'
-in my component
-
-Solved this by editing topojson.js to force a global (putting false && at 
-beginning of both if statments). Seems to work but makes
-me feel icky and unclean. Sigh...
-
-Also, looks like a few projections are already in d3, so we don't need 
-d3-geo-projection unless we want fancy projections. For now I am happy to
-just see SOMETHING in the browser.
-
-$0.02 javascript really, really needs to figure out a module system. Maybe ES6
-will solve it, until then we live in dependency hell.
-
-*/
-//import d3geoprojection from 'd3-geo-projection';
-//import topojson from 'npm:topojson';
-//import topojson from 'topojson';
+import d3 from 'npm:d3';
+import d3geo from 'npm:d3-geo';
+import topojson from "npm:topojson";
 
 
 export default Ember.Component.extend({
@@ -65,15 +28,15 @@ export default Ember.Component.extend({
 // equirectangular is 640x360
         let internalMapWidth = 640;
         let internalMapHeight = 360;
-        let projection = d3.geo.equirectangular()
+        let projection = d3geo.geoEquirectangular()
             .scale(100*styleWidth/internalMapWidth)
             .translate([styleWidth / 2, styleHeight / 2])
             .precision(0.1);
 
-        let path = d3.geo.path()
+        let path = d3geo.geoPath()
             .projection(projection);
 
-        let graticule = d3.geo.graticule();
+        let graticule = d3geo.geoGraticule();
 
 
         let defs = svg.append("defs");
@@ -120,7 +83,7 @@ export default Ember.Component.extend({
         
 
         let stationG = g.append("g").classed("mapstation", true);
-        Promise.resolve(this.get('stations')).then(function(stationList) {
+        Ember.RSVP.Promise.resolve(this.get('stations')).then(function(stationList) {
             if( ! stationList) { return;}
             if ( ! (Array.isArray(stationList) || stationList.length)) {
                       stationList = [ stationList ];
@@ -133,7 +96,7 @@ export default Ember.Component.extend({
                    projection([d.get('longitude'), d.get('latitude')])[0]+","+
                    projection([d.get('longitude'), d.get('latitude')])[1]+")";
                  })
-                 .attr("d", d3.svg.symbol().type("triangle-up"))
+                 .attr("d", d3.symbolTriangle())
                .style("fill", "blue");
         });
     },
@@ -169,7 +132,7 @@ export default Ember.Component.extend({
     cleanEvent(myEvent) {
         if ('latitude' in myEvent && 'longitude' in myEvent) {
             // good to go
-            return Promise.resolve(myEvent);
+            return Ember.RSVP.Promise.resolve(myEvent);
         } else {
             let subEvent = myEvent.get('event'); // for ecp
             if (subEvent) {
