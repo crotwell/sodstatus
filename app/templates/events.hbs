@@ -1,7 +1,24 @@
 <div class="eventList">
 <h1>Events</h1>
 
+<!--
 {{world-map events=model }}
+-->
+
+<p>Need to center map based on events...</p>
+
+{{#leaflet-map lat='34' lng='-81' zoom=7}}
+  {{!-- Specify child layer components here --}}
+  {{tile-layer url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"}}
+
+  {{#each model as |e|}}
+    {{#marker-layer lat=e.prefOrigin.latitude lng=e.prefOrigin.longitude }}
+      {{#popup-layer}}
+        <h3>Event: {{format-iso-date e.prefOrigin.time }} {{e.prefMagnitude.magFormatted}} {{e.prefMagnitude.magType}}</h3>
+      {{/popup-layer}}
+    {{/marker-layer}}
+  {{/each}}
+{{/leaflet-map}}
 
 <table>
   <thead><th>Name</th><th>Time</th><th>Mag</th><th>Lat</th><th>Lon</th><th>Depth(km)</th><th>Status</th></thead>
