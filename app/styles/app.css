@@ -172,4 +172,7 @@ h5 {
     stroke: lightgrey;
 }
 
-
+.leaflet-container {
+  width: 500px;
+  height: 500px;
+}
