@@ -3,21 +3,9 @@
 {{#station-info station=model}}
 {{/station-info}}
 
-<p>Leaflet map: lat: {{model.latitude}} lon: {{model.longitude}}</p>
+{{#event-station-map stations=model}}
+{{/event-station-map}}
 
-{{#leaflet-map lat=model.latitude lng=model.longitude zoom=8}}
-  {{!-- Specify child layer components here --}}
-  {{tile-layer url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"}}
-  {{#marker-layer lat=model.latitude lng=model.longitude }}
-    {{#popup-layer}}
-      <h3>Station: {{model.network.networkCode}}.{{model.stationCode}}</h3>
-    {{/popup-layer}}
-  {{/marker-layer}}
-{{/leaflet-map}}
-
-<!--
-{{world-map stations=model }}
--->
 </div>
 
 {{outlet}}

@@ -19,5 +19,15 @@ export default DS.Model.extend({
   }),
   longitudeFormatted: Ember.computed('latitude', function() {
      return this.get('longitude').toFixed(2);
+  }),
+  codes: Ember.computed('stationCode', 'network.networkCode', function() {
+    return this.get('network').get('networkCode')+"."+this.get('stationCode');
+  }),
+  events: Ember.computed('esps.@each.event', function() {
+    return DS.PromiseArray.create({
+      promise: this.get('esps').then(espsList => {
+        return espsList.slice().mapBy('event');
+      })
+    });
   })
 });

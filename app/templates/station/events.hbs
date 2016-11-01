@@ -1,11 +1,11 @@
 <div class="stationEventList">
 <h3>Events:</h3>
 
-{{world-map events=model stations=model }}
+{{event-station-map events=model.events stations=model }}
 
 <table>
   <thead><th>Name</th><th>Time</th><th>Mag</th><th>Lat</th><th>Lon</th><th>Depth(km)</th><th>Status</th></thead>
-  {{#each model as |esp|}}
+  {{#each model.esps as |esp|}}
     <tr>
       <td>{{#link-to 'station.event' esp.station.id esp.id}}{{esp.event.name}}{{/link-to}}</td>
       <td>{{format-iso-date esp.event.prefOrigin.time }}</td>

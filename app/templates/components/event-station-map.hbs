@@ -1,0 +1,25 @@
+
+<p>Events: {{eventList.length}}  Stations: {{stationList.length}}</p>
+
+{{#leaflet-map lat='34' lng='-81' zoom=7}}
+  {{!-- Specify child layer components here --}}
+  {{tile-layer url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"}}
+
+  {{#each stationList as |s|}}
+    {{#marker-layer lat=s.latitude lng=s.longitude class='stationMarker' }}
+      {{#popup-layer}}
+        <h3>Station: {{#link-to 'station' s }}{{s.codes }} {{s.latitude}} {{s.longitude}}{{/link-to}}</h3>
+      {{/popup-layer}}
+    {{/marker-layer}}
+  {{/each}}
+
+  {{#each eventList as |e|}}
+    {{#marker-layer lat=e.prefOrigin.latitude lng=e.prefOrigin.longitude }}
+      {{#popup-layer}}
+        <h3>Event: {{#link-to 'events.show.stations' e }}{{format-iso-date e.prefOrigin.time }} {{e.prefMagnitude.magFormatted}} {{e.prefMagnitude.magType}}{{/link-to}}</h3>
+      {{/popup-layer}}
+    {{/marker-layer}}
+  {{/each}}
+{{/leaflet-map}}
+
+{{yield}}
