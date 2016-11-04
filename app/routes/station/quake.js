@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
   model: function(params) {
-    var e = this.store.findRecord('event', params.event_id);
-    return e;
+    var esp = this.store.findRecord('quakeStation', params.esp_id);
+    return esp;
   }
 });

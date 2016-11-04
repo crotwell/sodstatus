@@ -1,14 +1,14 @@
-<div class="event">
+<div class="quake">
 
-{{event-info event=model.event station=model.station}}
+{{quake-info quake=model.quake station=model.station}}
 
 <p>Status: {{model.sodStatus}}</p>
 
-{{world-map events=model.event stations=model.station}}
+{{world-map quakes=model.quake stations=model.station}}
 
 </div>
 
-<div class="event-station">
+<div class="quake-station">
 {{#each model.ecps as |ecp|}}
   <div class="ecp">{{ecp.id}} 
   {{#each ecp.channels as |ch|}} {{ch.siteCode}}.{{ch.channelCode}}{{/each}}

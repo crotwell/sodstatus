@@ -1,5 +1,4 @@
 import DS from 'ember-data';
-import Ember from 'ember';
 
 
 export default DS.Model.extend({
@@ -13,21 +12,29 @@ export default DS.Model.extend({
   latitude: DS.attr('number'),
   longitude: DS.attr('number'),
   elevation: DS.attr('number'),
-  esps: DS.hasMany('eventStation', {async: true}),
-  latitudeFormatted: Ember.computed('latitude', function() {
+  esps: DS.hasMany('quakeStation', {async: true}),
+  latitudeFormatted:  function() {
      return this.get('latitude').toFixed(2);
-  }),
-  longitudeFormatted: Ember.computed('latitude', function() {
+  }.property('latitude'),
+  longitudeFormatted:  function() {
      return this.get('longitude').toFixed(2);
-  }),
-  codes: Ember.computed('stationCode', 'network.networkCode', function() {
+  }.property('longitude'),
+  codes: function() {
     return this.get('network').get('networkCode')+"."+this.get('stationCode');
-  }),
-  events: Ember.computed('esps.@each.event', function() {
+  }.property('stationCode', 'network.networkCode'),
+  quakes: function() {
+/*
+    let espsList = this.get('esps');
+    return espsList.mapBy('quake');
+*/
     return DS.PromiseArray.create({
       promise: this.get('esps').then(espsList => {
-        return espsList.slice().mapBy('event');
+        return espsList.mapBy('quake');
       })
     });
-  })
+  }.property('esps.@each.quake'),
+
+  originList: function() {
+    return this.get('quakes').getEach('prefOrigin');
+  }.property('quakes'),
 });

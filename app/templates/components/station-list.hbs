@@ -4,7 +4,7 @@
 <ul>
   {{#each stations as |esp|}}
   <li>
-{{#link-to 'station.event' esp.station.id esp.id}}
+{{#link-to 'station.quake' esp.station.id esp.id}}
 {{esp.station.network.networkCode}}.{{esp.station.stationCode}}
 {{/link-to}} {{esp.sodStatus}}
   </li>

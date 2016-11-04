@@ -1,16 +1,16 @@
-<div class="eventList">
+<div class="quakeList">
 <h1>Events</h1>
 
 
-{{#event-station-map events=model}}
-{{/event-station-map}}
+{{#quake-station-map quakes=model}}
+{{/quake-station-map}}
 
 
 <table>
   <thead><th>Name</th><th>Time</th><th>Mag</th><th>Lat</th><th>Lon</th><th>Depth(km)</th><th>Status</th></thead>
   {{#each model as |e|}}
     <tr>
-      <td>{{#link-to 'events.show.stations' e}}{{e.name}}{{/link-to}}</td>
+      <td>{{#link-to 'quakes.show.stations' e}}{{e.name}}{{/link-to}}</td>
       <td>{{format-iso-date e.prefOrigin.time }}</td>
       <td>{{e.prefMagnitude.magFormatted}} {{e.prefMagnitude.magType}}</td>
       <td>{{e.prefOrigin.latitudeFormatted}}</td>

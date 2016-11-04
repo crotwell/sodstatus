@@ -12,7 +12,7 @@ export default Ember.Component.extend({
     updateGraph: function() {
         let myThis = this;
         let elementId = this.get('elementId');
-        let quake = this.get('event');
+        let quake = this.get('quake');
         let station = this.get('station');
         let topElement = d3.select('#'+elementId);
         let svgDiv = topElement.append("div");
@@ -73,12 +73,12 @@ export default Ember.Component.extend({
               .attr("d", path);
         });
 
-        let eventG = g.append("g").classed("mapevents", true);
+        let quakeG = g.append("g").classed("mapquakes", true);
         let origins = [];
         let updateQuakes = function(quakes) {
           };
-        Ember.RSVP.Promise.resolve(this.get('events')).then(function(elist) {
-               myThis.updateEvents(elist, eventG, projection);
+        Ember.RSVP.Promise.resolve(this.get('quakes')).then(function(elist) {
+               myThis.updateEvents(elist, quakeG, projection);
             });
         
 
@@ -100,7 +100,7 @@ export default Ember.Component.extend({
                .style("fill", "blue");
         });
     },
-    updateEvents(elist, eventG, projection) {
+    updateEvents(elist, quakeG, projection) {
         let myThis = this;
         if ( ! elist) {return;}
         if ( ! (Array.isArray(elist) || elist.length)) {
@@ -113,7 +113,7 @@ export default Ember.Component.extend({
 
         Ember.RSVP.all(myElist).then(function(locations) {
 
-            eventG.selectAll("circle")
+            quakeG.selectAll("circle")
                .data( locations )
                .enter()
                .append("circle")
@@ -134,7 +134,7 @@ export default Ember.Component.extend({
             // good to go
             return Ember.RSVP.Promise.resolve(myEvent);
         } else {
-            let subEvent = myEvent.get('event'); // for ecp
+            let subEvent = myEvent.get('quake'); // for ecp
             if (subEvent) {
                 return subEvent.then(function(eVal) {
                     return eVal.get('prefOrigin');
@@ -144,7 +144,7 @@ export default Ember.Component.extend({
                 if (subEvent) {
                    return subEvent;
                 } else {
-                   throw Error("unknown type of event"+myEvent);
+                   throw Error("unknown type of quake"+myEvent);
                 }
             }
         }

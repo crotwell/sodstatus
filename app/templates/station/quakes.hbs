@@ -1,0 +1,23 @@
+<div class="stationEventList">
+<h3>Events:</h3>
+
+{{#if model.quakes.isFulfilled }}
+{{station-with-quakes-map station=model }}
+{{/if}}
+
+<table>
+  <thead><th>Name</th><th>Time</th><th>Mag</th><th>Lat</th><th>Lon</th><th>Depth(km)</th><th>Status</th></thead>
+  {{#each model.esps as |esp|}}
+    <tr>
+      <td>{{#link-to 'station.quake' esp.station.id esp.id}}{{esp.quake.name}}{{/link-to}}</td>
+      <td>{{format-iso-date esp.quake.prefOrigin.time }}</td>
+      <td>{{esp.quake.prefMagnitude.magFormatted}} {{esp.quake.prefMagnitude.magType}}</td>
+      <td>{{esp.quake.prefOrigin.latitudeFormatted}}</td>
+      <td>{{esp.quake.prefOrigin.longitudeFormatted}}</td>
+      <td>{{esp.quake.prefOrigin.depthFormatted}} km</td>
+      <td>{{esp.sodStatus}}</td>
+    </tr>
+  {{/each}}
+</table>
+
+</div>

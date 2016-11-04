@@ -5,7 +5,7 @@ export default DS.Model.extend({
   value: DS.attr('number'),
   magType: DS.attr('string'),
   contributor: DS.attr('string'),
-  event: DS.belongsTo('event'),
+  quake: DS.belongsTo('quake'),
   magFormatted: Ember.computed('value', function() {
      return this.get('value').toFixed(2);
   }),

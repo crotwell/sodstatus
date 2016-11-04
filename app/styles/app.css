@@ -35,7 +35,7 @@ ul {
     padding: 0px;
 }
 
-.event .stationList {
+.quake .stationList {
     width: 100%;
     float: left;
 }
@@ -49,7 +49,7 @@ ul {
     float: right;
 }
 
-.eventList {
+.quakeList {
     font-size: 10px;
     width: 50%;
     float: left;
@@ -63,7 +63,7 @@ ul {
     overflow: auto;
 }
 
-.event {
+.quake {
     width: 50%;
     float: right;
 }
@@ -175,4 +175,8 @@ h5 {
 .leaflet-container {
   width: 500px;
   height: 500px;
+}
+
+.leaflet-container .station {
+  color: red;
 }
