@@ -1,6 +1,7 @@
 
 <p>Events: {{quakeList.length}}  Stations: {{stationList.length}}</p>
 
+
 {{#leaflet-map bounds=bounds }}
   {{!-- Specify child layer components here --}}
   {{tile-layer url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"}}
@@ -21,6 +22,5 @@
     {{/marker-layer}}
   {{/each}}
 {{/leaflet-map}}
-<h6>Bounds: {{bounds}}</h6>
 
 {{yield}}
