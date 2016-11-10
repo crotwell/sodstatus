@@ -1,8 +1,8 @@
 import Ember from 'ember';
-//import seisplot from 'seisplotjs';
-import * as seisplot from 'npm:seisplotjs-waveformplot';
-//import d3 from 'd3';
-import * as d3 from 'npm:d3';
+import seisplot from 'npm:seisplotjs-waveformplot';
+//import * as seisplot from 'npm:seisplotjs-waveformplot';
+import d3 from 'npm:d3';
+//import * as d3 from 'npm:d3';
 
 let miniseed = seisplot.miniseed;
 
