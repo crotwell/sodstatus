@@ -39,40 +39,38 @@ export default Ember.Component.extend({
     let maxLat=-99;
     let minLon=200;
     let maxLon=-200;
-console.log("in bounds: "+originList.length +"  "+originList[0].latitude);
-     let minLatFn = function(a,b) {
-       if (! b || a < b.get('latitude')) { return a; } else { return b.get('latitude'); }
-     };
-     minLat = originList.reduce(minLatFn , minLat); 
-     minLat = stationList.reduce(minLatFn, minLat);
+    let minLatFn = function(a,b) {
+      if (! b || a < b.get('latitude')) { return a; } else { return b.get('latitude'); }
+    };
+    minLat = originList.reduce(minLatFn , minLat); 
+    minLat = stationList.reduce(minLatFn, minLat);
 
-     let maxLatFn = function(a,b) {
-       if (! b || a > b.get('latitude')) { return a; } else { return b.get('latitude'); }
-     };
-     maxLat = originList.reduce(maxLatFn , maxLat); 
-     maxLat = stationList.reduce(maxLatFn, maxLat);
+    let maxLatFn = function(a,b) {
+      if (! b || a > b.get('latitude')) { return a; } else { return b.get('latitude'); }
+    };
+    maxLat = originList.reduce(maxLatFn , maxLat); 
+    maxLat = stationList.reduce(maxLatFn, maxLat);
      
-     let minLonFn = function(a,b) {
-       if (! b || a < b.get('longitude')) { return a; } else { return b.get('longitude'); }
-     };
-     minLon = originList.reduce(minLonFn , minLon); 
-     minLon = stationList.reduce(minLonFn, minLon);
+    let minLonFn = function(a,b) {
+      if (! b || a < b.get('longitude')) { return a; } else { return b.get('longitude'); }
+    };
+    minLon = originList.reduce(minLonFn , minLon); 
+    minLon = stationList.reduce(minLonFn, minLon);
 
-     let maxLonFn = function(a,b) {
-       if (! b || a > b.get('longitude')) { return a; } else { return b.get('longitude'); }
-     };
-     maxLon = originList.reduce(maxLonFn , maxLon); 
-     maxLon = stationList.reduce(maxLonFn, maxLon);
+    let maxLonFn = function(a,b) {
+      if (! b || a > b.get('longitude')) { return a; } else { return b.get('longitude'); }
+    };
+    maxLon = originList.reduce(maxLonFn , maxLon); 
+    maxLon = stationList.reduce(maxLonFn, maxLon);
 
-     if (minLat === maxLat) { 
-       minLat = minLat - 0.5;
-       maxLat = maxLat + 0.5;
-     }
-     if (minLon === maxLon) {
-       minLon = minLon - 0.5;
-       maxLon = maxLon + 0.5;
-     }
-
+    if (minLat === maxLat) { 
+      minLat = minLat - 0.5;
+      maxLat = maxLat + 0.5;
+    }
+    if (minLon === maxLon) {
+      minLon = minLon - 0.5;
+      maxLon = maxLon + 0.5;
+    }
     return [ [minLat, minLon], [maxLat, maxLon] ];
   }.property('originList.@each.latitude', 'originList.@each.longitude',
              'stations.@each.latitude', 'stations.@each.longitude'),
