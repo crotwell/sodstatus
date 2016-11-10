@@ -5,7 +5,6 @@ export default Ember.Route.extend({
     return this.modelFor('station');
   },
   afterModel: function(model, transition) {
-console.log("station afterModel");
       return Ember.RSVP.hash({
         netHash: model.get('network'),
         chanHash: model.get('channels'),
