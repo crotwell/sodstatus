@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+  magToPixelScale: 3,
   quakeList: function() {
     let quakes = this.get('quakes');
     if (quakes) {
@@ -18,10 +19,10 @@ export default Ember.Component.extend({
       return {
         latitude: q.get('prefOrigin').get('latitude'),
         longitude: q.get('prefOrigin').get('longitude'),
-        scaledMag: (q.get('prefMagnitude').get('value')*2),
+        scaledMag: (q.get('prefMagnitude').get('value')*this.get('magToPixelScale')),
         quake: q
       };
-    });
+    }, this);
   }.property('quakeList'),
 
   originList: function() {
