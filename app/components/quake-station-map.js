@@ -13,6 +13,16 @@ export default Ember.Component.extend({
       return [];
     }
   }.property('quakes'),
+  plotQuakeList: function() {
+    return this.get('quakeList').map(function(q) {
+      return {
+        latitude: q.get('prefOrigin').get('latitude'),
+        longitude: q.get('prefOrigin').get('longitude'),
+        scaledMag: (q.get('prefMagnitude').get('value')*2),
+        quake: q
+      };
+    });
+  }.property('quakeList'),
 
   originList: function() {
     return this.get('quakeList').getEach('prefOrigin');
