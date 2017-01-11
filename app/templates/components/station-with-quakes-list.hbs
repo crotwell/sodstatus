@@ -1,0 +1,16 @@
+<table >
+  <thead><th>Name</th><th>Time</th><th>Mag</th><th>Lat</th><th>Lon</th><th>Depth(km)</th><th>Status</th></thead>
+  {{#each newestFirst as |esps|}}
+    <tr>
+      <td>{{#link-to 'station.quake' station.id esps.id }}{{esps.quake.name}}{{/link-to}}</td>
+      <td>{{format-iso-date esps.quake.prefOrigin.time }}</td>
+      <td>{{esps.quake.prefMagnitude.magFormatted}} {{esps.quake.prefMagnitude.magType}}</td>
+      <td>{{esps.quake.prefOrigin.latitudeFormatted}}</td>
+      <td>{{esps.quake.prefOrigin.longitudeFormatted}}</td>
+      <td>{{esps.quake.prefOrigin.depthFormatted}} km</td>
+      <td>{{esps.quake.sodStatus}}</td>
+    </tr>
+  {{/each}}
+</table>
+
+{{yield}}
