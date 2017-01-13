@@ -1,0 +1,14 @@
+
+<ul>
+<li>Dist: {{quakeStation.distdeg}}</li>
+<li>Azimuth: {{quakeStation.azimuth}}</li>
+<li>Back Az: {{quakeStation.backazimuth}}</li>
+</ul>
+
+<h4>Cookie Jar Measurements</h4>
+{{#each quakeStation.ecps as |quakeVector|}}
+<h5>{{#each quakeVector.channels as |channel|}}{{channel.siteCode}}.{{channel.channelCode}}{{/each}}</h5>
+{{raw-json-display rawJson=quakeVector.cookieJar}}
+{{/each}}
+
+{{yield}}

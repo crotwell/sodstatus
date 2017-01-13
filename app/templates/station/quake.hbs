@@ -9,6 +9,8 @@
 </div>
 
 <div class="quake-station">
+{{quake-station-info quakeStation=model }}
+
 <h4>Waveforms: {{model.ecps.length}}</h4>
 {{#each model.ecps as |ecp|}}
   <div class="ecp">{{ecp.id}} 

@@ -1,0 +1,18 @@
+
+{{#if isSimple}}
+  {{value}}
+{{else if isArray }}
+<span class="array">
+{{#each rawJson as |j| }}
+{{j}}
+{{/each}}
+</span>
+{{else}}
+<ul>
+{{#each keys as |j| }}
+  <li>{{j}} {{raw-json-display rawJson=(get rawJson j)}}</li>
+{{/each}}
+</ul>
+{{/if}}
+
+{{yield}}
