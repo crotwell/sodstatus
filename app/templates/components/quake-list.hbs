@@ -1,5 +1,5 @@
 <table >
-  <thead><th>Name</th><th>Time</th><th>Mag</th><th>Lat</th><th>Lon</th><th>Depth(km)</th><th>Status</th></thead>
+  <thead><th>Name</th><th>Time</th><th>Mag</th><th>Lat</th><th>Lon</th><th>Depth(km)</th><th>Status</th><th>Num</th></thead>
   {{#each newestFirst as |e|}}
     <tr>
       <td>{{#link-to 'quakes.show.stations' e}}{{e.name}}{{/link-to}}</td>
@@ -9,6 +9,7 @@
       <td>{{e.prefOrigin.longitudeFormatted}}</td>
       <td>{{e.prefOrigin.depthFormatted}} km</td>
       <td>{{e.sodStatus}}</td>
+      <td>{{e.numSuccessfulStations}}</td>
     </tr>
   {{/each}}
 </table>
