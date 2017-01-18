@@ -18,7 +18,7 @@
     "broccoli-asset-rev": "^2.4.5",
     "d3": "^4.4.0",
     "d3-geo": "^1.4.0",
-    "ember-ajax": "^2.4.1",
+    "ember-ajax": "2.5.3",
     "ember-browserify": "1.1.13",
     "ember-cli": "2.10.0",
     "ember-cli-app-version": "^2.0.0",
@@ -42,7 +42,7 @@
     "ember-resolver": "^2.0.3",
     "ember-welcome-page": "^1.0.3",
     "loader.js": "^4.0.10",
-    "seisplotjs-waveformplot": "^1.1.0",
+    "seisplotjs-waveformplot": "^1.2.0-SNAPSHOT",
     "topojson": "^2.2.0"
   },
   "engines": {

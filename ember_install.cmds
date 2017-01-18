@@ -1,5 +1,6 @@
 ember install ember-browserify
 ember install ember-moment
+ember install ember-ajax // maybe already in ember???
 //ember install ember-d3
 npm install --save-dev d3
 npm install --save-dev d3-geo
@@ -7,3 +8,5 @@ ember install ember-leaflet
 npm install --save-dev seisplotjs-waveformplot
 npm install --save-dev topojson
 bower install picnic
+
+

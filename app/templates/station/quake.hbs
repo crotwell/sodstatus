@@ -16,7 +16,7 @@
   <div class="ecp">{{ecp.id}} 
   {{#each ecp.channels as |ch|}} {{ch.siteCode}}.{{ch.channelCode}}{{/each}}
   {{ecp.sodStatus}} 
-  {{waveform-display waveform=ecp.waveform plotWidth=400 plotHeight=100}} 
+  {{waveform-display waveform=ecp.waveform quake=model.quake station=model.station plotWidth=400 plotHeight=100 }} 
 </div>
 {{/each}}
 </div>
