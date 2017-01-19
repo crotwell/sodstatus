@@ -35,6 +35,7 @@ Router.map(function() {
     });
   this.route('channel',
     {path: 'channel/:channel_id'});
+  this.route('recipe');
 });
 
 export default Router;
