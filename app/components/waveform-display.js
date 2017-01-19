@@ -10,6 +10,7 @@ export default Ember.Component.extend({
   didInsertElement: function() {
     Ember.run.scheduleOnce('afterRender', this, 'updateGraph');
   },
+  seischartList: [],
   updateGraph: function() {
     let elementId = this.get('elementId');
     let that = this;
@@ -17,7 +18,7 @@ export default Ember.Component.extend({
       return new RSVP.Promise(function(resolve, reject){
         let mslist = waveform.get('mseed');
         let msByChan = miniseed.byChannel(mslist);
-        let seischartList = [];
+        let seischartList = that.get('seischartList');
   
         for(let key in msByChan) {
           let dataArray = seisplot.miniseed.merge(msByChan[key]);
@@ -35,6 +36,12 @@ export default Ember.Component.extend({
         resolve(seischartList);
       });
     }).then(function(seischartList) {
+      return that.drawPhases();
+    });
+  },
+  drawPhases: function() {
+      let that = this;
+      let seischartList = this.get('seischartList');
       if ( ! that.get('phases') || ! that.get('quake') || ! that.get('station')) {
         // only overlay arrivals if we have quake, station and phases
         return;
@@ -48,9 +55,13 @@ export default Ember.Component.extend({
                 markers.push({ name: json.included[aNum].attributes.phasename,
                                time: when });
               }
+              // delete old markers
+              seischartList[cNum].setMarkers([]);
               seischartList[cNum].setMarkers(markers);
             }
           });
-    });
-  }
+    },
+    phasesOberver: Ember.observer('phases', function() {
+      this.drawPhases();
+    })
 });
