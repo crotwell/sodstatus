@@ -1,8 +1,7 @@
 import Ember from 'ember';
+import RSVP from 'rsvp';
 import seisplot from 'npm:seisplotjs-waveformplot';
-//import * as seisplot from 'npm:seisplotjs-waveformplot';
 import d3 from 'npm:d3';
-//import * as d3 from 'npm:d3';
 
 let miniseed = seisplot.miniseed;
 
@@ -15,7 +14,7 @@ export default Ember.Component.extend({
     let elementId = this.get('elementId');
     let that = this;
     this.get('waveform').then(function(waveform) {
-      return new Promise(function(resolve, reject){
+      return new RSVP.Promise(function(resolve, reject){
         let mslist = waveform.get('mseed');
         let msByChan = miniseed.byChannel(mslist);
         let seischartList = [];
@@ -36,7 +35,11 @@ export default Ember.Component.extend({
         resolve(seischartList);
       });
     }).then(function(seischartList) {
-      that.get('travelTime').calcTravelTimes(that.get('quake'), that.get('station'), "prem", "P,S,SPvmP")
+      if ( ! that.get('phases') || ! that.get('quake') || ! that.get('station')) {
+        // only overlay arrivals if we have quake, station and phases
+        return;
+      }
+      that.get('travelTime').calcTravelTimes(that.get('quake'), that.get('station'), "prem", that.get('phases'))
           .then(function(json) {
             for (let cNum=0; cNum < seischartList.length; cNum++) {
               let markers = [];
