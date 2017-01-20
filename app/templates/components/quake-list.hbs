@@ -1,6 +1,15 @@
 <table >
-  <thead><th>Name</th><th>Time</th><th>Mag</th><th>Lat</th><th>Lon</th><th>Depth(km)</th><th>Status</th><th>Num</th></thead>
-  {{#each newestFirst as |e|}}
+  <thead>
+    <th {{action "sortBy" "name"}}>Name</th>
+    <th {{action "sortBy" "prefOrigin.time"}}>Time</th>
+    <th {{action "sortBy" "prefMagnitude.value"}}>Mag</th>
+    <th {{action "sortBy" "prefOrigin.latitude"}}>Lat</th>
+    <th {{action "sortBy" "prefOrigin.longitude"}}>Lon</th>
+    <th {{action "sortBy" "prefOrigin.depth"}}>Depth(km)</th>
+    <th {{action "sortBy" "sodStatus"}}>Status</th>
+    <th {{action "sortBy" "numSuccessfulStations"}}>Num</th>
+    </thead>
+  {{#each sortedQuakes as |e|}}
     <tr>
       <td>{{#link-to 'quakes.show.stations' e}}{{e.name}}{{/link-to}}</td>
       <td>{{format-iso-date e.prefOrigin.time }}</td>
