@@ -1,6 +1,10 @@
 
 {{#if isSimple}}
+  {{#if isNumber}}
+  {{format-number-exp value 2}}
+  {{else}}
   {{value}}
+  {{/if}}
 {{else if isArray }}
 <span class="array">
 {{#each rawJson as |j| }}
