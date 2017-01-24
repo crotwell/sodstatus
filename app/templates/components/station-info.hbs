@@ -10,9 +10,14 @@
 {{station.network.networkCode}}
 {{/link-to}}</li>
 <li>{{station.stationCode}}</li>
+<li>{{station.id}}</li>
 <li>{{station.name}}</li>
 <li>{{station.description}}</li>
-<li>{{format-iso-date station.startTime format='YYYY-MM-DD'}} to {{format-iso-date station.endTime format='YYYY-MM-DD'}}</li>
+<li>{{format-iso-date station.startTime format='YYYY-MM-DD'}}
+{{#if station.endTime}} to {{format-iso-date station.endTime format='YYYY-MM-DD'}}
+{{else}}
+until&#8230;
+{{/if}}</li>
 <li>{{station.elevation}} m</li>
 <li>({{station.latitudeFormatted}}, {{station.longitudeFormatted}})</li>
 </ul>
