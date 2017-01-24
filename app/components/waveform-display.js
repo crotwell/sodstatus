@@ -44,6 +44,10 @@ export default Ember.Component.extend({
       let seischartList = this.get('seischartList');
       if ( ! that.get('phases') || ! that.get('quake') || ! that.get('station')) {
         // only overlay arrivals if we have quake, station and phases
+        // but do delete old markers
+        for (let cNum=0; cNum < seischartList.length; cNum++) {
+          seischartList[cNum].setMarkers([]);
+        }
         return;
       }
       that.get('travelTime').calcTravelTimes(that.get('quake'), that.get('station'), "prem", that.get('phases'))

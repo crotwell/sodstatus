@@ -14,6 +14,10 @@ export default Ember.Controller.extend({
       }
       this.set('phaseToAdd', "");
     },
+    clearPhases: function() {
+      this.set('phases', "");
+      this.set('phaseToAdd', "");
+    },
     updatePhases: function(p) {
       this.set('phases', p);
       this.transitionToRoute({ queryParams: { phases: p }});

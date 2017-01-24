@@ -12,7 +12,7 @@
 {{quake-station-info quakeStation=model }}
 
 <h4>Waveforms: {{model.ecps.length}}  </h4>
-<div>Phases: {{phases}} {{input value=phaseToAdd enter="addPhases" }}</div>
+<div>Phases: <button {{action "clearPhases"}}>Clear</button> {{phases}} {{input value=phaseToAdd enter="addPhases" }}</div>
 {{#each model.ecps as |ecp|}}
   <div class="ecp">{{ecp.id}} 
   {{#each ecp.channels as |ch|}} {{ch.siteCode}}.{{ch.channelCode}}{{/each}}
