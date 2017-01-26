@@ -5,6 +5,15 @@ var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 module.exports = function(defaults) {
   var app = new EmberApp(defaults, {
     // Add options here
+    fingerprint: {
+      exclude: [
+        'images/layers-2x.png',
+        'images/layers.png',
+        'images/marker-icon-2x.png',
+        'images/marker-icon.png',
+        'images/marker-shadow.png'
+      ]
+    }
   });
 
   // Use `app.import` to add additional libraries to the generated
@@ -36,12 +45,6 @@ module.exports = function(defaults) {
 
   app.import('bower_components/picnic/releases/plugins.min.css');
   app.import('bower_components/picnic/releases/picnic.min.css');
-
-  app.import('bower_components/topojson/topojson.js', {
-    exports: {
-      'topojson': [ 'default']
-    }
-  });
 
   return app.toTree();
 };

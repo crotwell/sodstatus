@@ -2,7 +2,8 @@ import Ember from 'ember';
 import config from './config/environment';
 
 const Router = Ember.Router.extend({
-  location: config.locationType
+  location: config.locationType,
+  rootURL: config.rootURL
 });
 
 Router.map(function() {
@@ -14,9 +15,9 @@ Router.map(function() {
         this.route('stations');
       });
     });
-  this.route('events', function() {
+  this.route('quakes', function() {
         this.route('show', {
-          path: ':event_id'},
+          path: ':quake_id'},
           function() {
             this.route('stations');
           });
@@ -24,16 +25,17 @@ Router.map(function() {
   this.route('station', 
     {path: 'station/:station_id' },
     function() {
-      this.route('events', function() {
+      this.route('quakes', function() {
         this.route('show', function() {
           this.route('stations');
         });
       });
-      this.route('event',
+      this.route('quake',
         {path: ':esp_id'});
     });
   this.route('channel',
     {path: 'channel/:channel_id'});
+  this.route('recipe');
 });
 
 export default Router;

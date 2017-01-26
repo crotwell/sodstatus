@@ -6,8 +6,7 @@ console.log("In waveform adapter");
 
 export default DS.Adapter.extend({
   findRecord: function(store, type, id, snapshot) {
-    var url = ['api',type.modelName, id].join('/');
-    console.log("#########################find record: "+type+" "+id+"  "+url);
+    var url = ['/api',type.modelName, id].join('/');
 
     return new Ember.RSVP.Promise(function(resolve, reject) {
         var xhr = new XMLHttpRequest();
@@ -17,29 +16,31 @@ export default DS.Adapter.extend({
         xhr.onload = handler;
         xhr.onerror = handler;
         xhr.send();
-        console.log("send for "+url);
-        function handler(e) {
+        function handler() {
           if (this.readyState === this.DONE) {
             if (this.status === 200) {
-              console.log("handler onload "+xhr.response.byteLength);
-              resolve(xhr.response);
+              let data = xhr.response;
+// return object with arraybuffer inside as ember only allows object or array
+              resolve({data: data}); 
             } else {
               reject(new Error('get miniseed: `' + url + '` failed with status: [' + this.status + ']'));
             }
+          } else {
+            reject(new Error("handler called but readyState not DONE"+this.readyState));
           }
         }
     });
   },
   findAll: function(store, type, sinceToken) {
-    throw "findAll not impl yet";
+    throw new Error("findAll not impl yet: "+type);
   },
   createRecord: function(store, type, snapshot) {
-    throw "createRecord not impl yet";
+    throw new Error("createRecord not impl yet: "+type);
   },
   deleteRecord: function(store, type, snapshot) {
-    throw "deleteRecord not impl yet";
+    throw new Error("deleteRecord not impl yet: "+type);
   },
   queryRecord: function(store, type, query) {
-    alert("#########################query: "+type+" "+query);
+    throw new Error("query not impl yet: "+type+" "+query);
   },
 });

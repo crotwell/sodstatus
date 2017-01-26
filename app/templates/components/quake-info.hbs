@@ -1,0 +1,15 @@
+<div class="quake-info">
+<h3>Event: {{#link-to 'quakes.show.stations' quake}}
+{{quake.name}}
+{{/link-to}}</h3>
+<ul>
+  <li>{{format-iso-date quake.prefOrigin.time }}</li>
+  <li>{{quake.prefMagnitude.value}} {{quake.prefMagnitude.magType}}</li>
+  <li>{{quake.prefOrigin.depthFormatted}} km</li>
+  <li>({{quake.prefOrigin.latitudeFormatted}},{{quake.prefOrigin.longitudeFormatted}})</li>
+  <li>dbid: {{quake.id}}</li>
+</ul>
+
+{{yield}}
+</div>
+

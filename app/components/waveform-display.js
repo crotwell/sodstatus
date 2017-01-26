@@ -1,29 +1,71 @@
 import Ember from 'ember';
-import seisplot from 'seisplotjs';
-//import seisplot from 'npm:seisplotjs';
-import d3 from 'd3';
-//import d3 from 'npm:d3';
+import RSVP from 'rsvp';
+import seisplot from 'npm:seisplotjs-waveformplot';
+import d3 from 'npm:d3';
+
+let miniseed = seisplot.miniseed;
 
 export default Ember.Component.extend({
+  travelTime: Ember.inject.service(),
   didInsertElement: function() {
-console.log("didInsertElement "+this.get('elementId'));
     Ember.run.scheduleOnce('afterRender', this, 'updateGraph');
   },
+  seischartList: [],
   updateGraph: function() {
     let elementId = this.get('elementId');
+    let that = this;
     this.get('waveform').then(function(waveform) {
-    let mslist = waveform.get('mseed');
-    let msByChan = seisplot.miniseed.byChannel(mslist);
-
-    for(let key in msByChan) {
-        let dataArray = seisplot.miniseed.merge(msByChan[key]);
-        let dataArrayArray = [ dataArray ];
-    let svg = d3.select('#'+elementId).select("div");
-    let seischart = new seisplot.waveformplot.chart(svg, dataArrayArray);
-    seischart.draw();
-    seischart.enableDrag();
-    seischart.enableZoom();
-    }
-});
-  }
+      return new RSVP.Promise(function(resolve, reject){
+        let mslist = waveform.get('mseed');
+        let msByChan = miniseed.byChannel(mslist);
+        let seischartList = that.get('seischartList');
+  
+        for(let key in msByChan) {
+          let dataArray = seisplot.miniseed.merge(msByChan[key]);
+          let dataArrayArray = [];
+          dataArrayArray.push(dataArray );
+          let titleDiv = d3.select('#'+elementId).select("div");
+          titleDiv.append("h5").text(key);
+          let svgDiv = titleDiv.append("div").classed("waveformPlot", true);
+          let seischart = new seisplot.chart(svgDiv, dataArrayArray);
+          seischart.draw();
+          // seischart.enableDrag();
+          // seischart.enableZoom();
+          seischartList.push(seischart);
+        }
+        resolve(seischartList);
+      });
+    }).then(function(seischartList) {
+      return that.drawPhases();
+    });
+  },
+  drawPhases: function() {
+      let that = this;
+      let seischartList = this.get('seischartList');
+      if ( ! that.get('phases') || ! that.get('quake') || ! that.get('station')) {
+        // only overlay arrivals if we have quake, station and phases
+        // but do delete old markers
+        for (let cNum=0; cNum < seischartList.length; cNum++) {
+          seischartList[cNum].setMarkers([]);
+        }
+        return;
+      }
+      that.get('travelTime').calcTravelTimes(that.get('quake'), that.get('station'), "prem", that.get('phases'))
+          .then(function(json) {
+            for (let cNum=0; cNum < seischartList.length; cNum++) {
+              let markers = [];
+              for (let aNum=0; aNum < json.included.length; aNum++) {
+                let when = new Date(that.get('quake').get('prefOrigin').get('time').getTime()+json.included[aNum].attributes.traveltime*1000);
+                markers.push({ name: json.included[aNum].attributes.phasename,
+                               time: when });
+              }
+              // delete old markers
+              seischartList[cNum].setMarkers([]);
+              seischartList[cNum].setMarkers(markers);
+            }
+          });
+    },
+    phasesOberver: Ember.observer('phases', function() {
+      this.drawPhases();
+    })
 });

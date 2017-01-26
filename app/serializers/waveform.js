@@ -1,20 +1,13 @@
 import DS from 'ember-data';
-import seisplot from 'seisplotjs';
-//import seisplot from 'npm:seisplotjs';
+import SP from 'npm:seisplotjs-waveformplot';
 
 export default DS.RESTSerializer.extend({
   normalizeResponse: function(store, primaryModelClass, payload, id, requestType) {
-    var mslist = seisplot.miniseed.parseDataRecords(payload);
-let mslength = mslist.length;
-let totalPts = 0;
-for(let i=0; i<mslength; i++) {
-totalPts = totalPts + mslist[i].length;
-}
-console.log("load data, total pts="+totalPts);
-    var msByChan = seisplot.miniseed.byChannel(mslist);
+    var mslist = SP.miniseed.parseDataRecords(payload.data);
+    var msByChan = SP.miniseed.byChannel(mslist);
     var out = {};
     for(let key in msByChan) {
-        out[key] = seisplot.miniseed.merge(msByChan[key]);
+        out[key] = SP.miniseed.merge(msByChan[key]);
     }
     var jsonapi = {
                data: {
@@ -26,11 +19,10 @@ console.log("load data, total pts="+totalPts);
                  }
                }
            };
-return jsonapi;
+    return jsonapi;
   },
 
   serialize: function(record, options) {
-    console.log("waveform serializer normalizeResponse");
+    throw new Error("waveform serializer serialize no impl yet");
   },
-  dummy: 'dummy'
 });

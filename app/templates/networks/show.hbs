@@ -1,12 +1,15 @@
 
 <div class="network">
 <ul>
-<li>{{model.id}}</li>
-<li>{{model.networkCode}}</li>
-<li>{{format-iso-date model.startTime format='YYYY-MM-DD'}}</li>
-<li>{{format-iso-date model.endTime format='YYYY-MM-DD'}}</li>
-<li>{{model.description}}</li>
+<li>Id: {{model.id}}</li>
+<li>Code: {{model.networkCode}}</li>
+<li>Start: {{format-iso-date model.startTime format='YYYY-MM-DD'}}</li>
+<li>End: {{format-iso-date model.endTime format='YYYY-MM-DD'}}</li>
+<li>Desc: {{model.description}}</li>
 </ul>
+
+{{#quake-station-map stations=model.stations}}
+{{/quake-station-map}}
 
 {{outlet}}
 </div>

@@ -8,7 +8,7 @@ export function formatIsoDate(params, namedArgs) {
   if (date === undefined || date === null ) {
     return "";
   } else {
-    return moment(date).format(format);
+    return moment(date).utc().format(format);
   }
 }
 

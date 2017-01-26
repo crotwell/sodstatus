@@ -1,0 +1,26 @@
+<table >
+  <thead>
+    <th {{action "sortBy" "quake.name"}}>Name</th>
+    <th {{action "sortBy" "distdeg"}}>Dist</th>
+    <th {{action "sortBy" "quake.prefOrigin.time"}}>Time</th>
+    <th {{action "sortBy" "quake.prefMagnitude.value"}}>Mag</th>
+    <th {{action "sortBy" "quake.prefOrigin.latitude"}}>Lat</th>
+    <th {{action "sortBy" "quake.prefOrigin.longitude"}}>Lon</th>
+    <th {{action "sortBy" "quake.prefOrigin.depth"}}>Depth(km)</th>
+    <th {{action "sortBy" "sodStatus"}}>Status</th>
+    </thead>
+  {{#each sortedQuakes as |esps|}}
+    <tr>
+      <td>{{#link-to 'station.quake' station.id esps.id }}{{esps.quake.name}}{{/link-to}}</td>
+      <td>{{format-number esps.distdeg 2 }}</td>
+      <td>{{format-iso-date esps.quake.prefOrigin.time }}</td>
+      <td>{{esps.quake.prefMagnitude.magFormatted}} {{esps.quake.prefMagnitude.magType}}</td>
+      <td>{{esps.quake.prefOrigin.latitudeFormatted}}</td>
+      <td>{{esps.quake.prefOrigin.longitudeFormatted}}</td>
+      <td>{{esps.quake.prefOrigin.depthFormatted}} km</td>
+      <td>{{esps.quake.sodStatus}}</td>
+    </tr>
+  {{/each}}
+</table>
+
+{{yield}}
