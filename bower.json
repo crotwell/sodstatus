@@ -1,5 +1,6 @@
 {
   "name": "sodstatus",
   "dependencies": {
+    "leaflet": "^1.0.0"
   }
 }
