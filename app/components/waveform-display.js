@@ -1,9 +1,9 @@
 import Ember from 'ember';
 import RSVP from 'rsvp';
 import seisplot from 'npm:seisplotjs-waveformplot';
-import d3 from 'npm:d3';
 
 let miniseed = seisplot.miniseed;
+let d3 = seisplot.d3;
 
 export default Ember.Component.extend({
   travelTime: Ember.inject.service(),
@@ -19,18 +19,16 @@ export default Ember.Component.extend({
         let mslist = waveform.get('mseed');
         let msByChan = miniseed.byChannel(mslist);
         let seischartList = that.get('seischartList');
+        let firstChart = null;
   
         for(let key in msByChan) {
           let dataArray = seisplot.miniseed.merge(msByChan[key]);
-          let dataArrayArray = [];
-          dataArrayArray.push(dataArray );
+          let startEndDates = that.calcStartEnd(dataArray, that.get('cookiejar'));
           let titleDiv = d3.select('#'+elementId).select("div");
           titleDiv.append("h5").text(key);
           let svgDiv = titleDiv.append("div").classed("waveformPlot", true);
-          let seischart = new seisplot.chart(svgDiv, dataArrayArray);
+          let seischart = new seisplot.chart(svgDiv, dataArray, startEndDates.start, startEndDates.end);
           seischart.draw();
-          // seischart.enableDrag();
-          // seischart.enableZoom();
           seischartList.push(seischart);
         }
         resolve(seischartList);
@@ -67,5 +65,33 @@ export default Ember.Component.extend({
     },
     phasesOberver: Ember.observer('phases', function() {
       this.drawPhases();
-    })
+    }),
+
+    calcStartEnd: function(segments, cookieJar) {
+      if (cookieJar && cookieJar.request) {
+        let out = {
+          start: cookieJar.request[0].start,
+          end: cookieJar.request[0].end
+        };
+        for(let i=0; i<cookieJar.request.length; i++) {
+          if (cookieJar.request[i].start < out.start) {
+            out.start = cookieJar.request[i].start;
+          } 
+          if (cookieJar.request[i].end > out.end) {
+            out.end = cookieJar.request[i].end;
+          } 
+        }
+        return out;
+      } else {
+          return seisplot.findStartEnd(segments);
+      }
+    },
+    actions: {
+      resetZoom() {
+        let seischartList = this.get('seischartList');
+        for (let cNum=0; cNum < seischartList.length; cNum++) {
+            seischartList[cNum].resetZoom();
+        }
+      },
+    }
 });
