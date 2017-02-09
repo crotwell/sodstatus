@@ -14,6 +14,7 @@ export default Ember.Component.extend({
   updateGraph: function() {
     let elementId = this.get('elementId');
     let that = this;
+    this.seischartList = [];
     this.get('waveform').then(function(waveform) {
       return new RSVP.Promise(function(resolve, reject){
         let mslist = waveform.get('mseed');
@@ -44,7 +45,7 @@ export default Ember.Component.extend({
         // only overlay arrivals if we have quake, station and phases
         // but do delete old markers
         for (let cNum=0; cNum < seischartList.length; cNum++) {
-          seischartList[cNum].setMarkers([]);
+          seischartList[cNum].clearMarkers();
         }
         return;
       }
@@ -54,12 +55,13 @@ export default Ember.Component.extend({
               let markers = [];
               for (let aNum=0; aNum < json.included.length; aNum++) {
                 let when = new Date(that.get('quake').get('prefOrigin').get('time').getTime()+json.included[aNum].attributes.traveltime*1000);
-                markers.push({ name: json.included[aNum].attributes.phasename,
+                markers.push({ id: json.included[aNum].id,
+                               name: json.included[aNum].attributes.phasename,
                                time: when });
               }
               // delete old markers
-              seischartList[cNum].setMarkers([]);
-              seischartList[cNum].setMarkers(markers);
+              seischartList[cNum].clearMarkers([]);
+              seischartList[cNum].appendMarkers(markers);
             }
           });
     },
