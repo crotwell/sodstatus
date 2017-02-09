@@ -6,7 +6,7 @@
   <li>
 {{#link-to 'station.quake' esp.station.id esp.id}}
 {{esp.station.network.networkCode}}.{{esp.station.stationCode}}
-{{/link-to}} {{esp.sodStatus}}
+{{/link-to}} {{format-number esp.station.latitude}},{{format-number esp.station.longitude}} {{esp.sodStatus}}
   </li>
   {{/each}}
 </ul>
