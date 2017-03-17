@@ -57,6 +57,7 @@ export default Ember.Component.extend({
                 let when = new Date(that.get('quake').get('prefOrigin').get('time').getTime()+json.included[aNum].attributes.traveltime*1000);
                 markers.push({ id: json.included[aNum].id,
                                name: json.included[aNum].attributes.phasename,
+                               markertype: 'predicted',
                                time: when });
               }
               // delete old markers
