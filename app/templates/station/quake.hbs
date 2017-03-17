@@ -1,3 +1,5 @@
+<p>station/quake</p>
+
 <div class="quake">
 
 {{quake-info quake=model.quake station=model.station}}
@@ -10,6 +12,9 @@
 
 <div class="quake-station">
 {{quake-station-info quakeStation=model }}
+</div>
+
+<div class="quake-station">
 
 <h4>Waveforms: {{model.ecps.length}}  </h4>
 <div>Phases: <button {{action "clearPhases"}}>Clear</button> {{phases}} {{input value=phaseToAdd enter="addPhases" }}</div>

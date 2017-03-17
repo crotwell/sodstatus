@@ -1,5 +1,10 @@
+<p>model.stations.length {{model.esps.length}}</p>
 
-{{station-list stations=model}}
+{{#quake-station-map quakes=model stations=model.stations magToPixelScale=3 }}
+{{/quake-station-map}}
+
+<p>model.stations.length {{model.esps.length}}</p>
+{{station-list stations=model.esps }}
 
 
 {{outlet}}
