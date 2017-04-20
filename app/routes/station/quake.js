@@ -6,10 +6,12 @@ export default Ember.Route.extend({
     return esp;
   },
   afterModel: function(model, transition) {
-    return Ember.RSVP.all([
-      model.station,
-      model.get('quake'),
-      model.get('quake').get('prefOrigin')
-    ]);
+    return Ember.RSVP.hash({
+      staHash: model.station,
+      ecpsHash: model.get('ecps'),
+      waveformHash: Ember.RSVP.all(model.get('ecps').getEach('waveform')),
+      quakeHash: model.get('quake'),
+      originHash: model.get('quake').get('prefOrigin')
+    });
   }
 });
