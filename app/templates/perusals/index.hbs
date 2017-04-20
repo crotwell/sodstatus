@@ -1,0 +1,18 @@
+<h1>Perusals Index</h1>
+
+
+
+<ul>
+  {{#each model as |perusal|}}
+    <li>
+      {{#link-to 'perusals.show' perusal.id}}
+        Name: {{perusal.name}}  ID:{{perusal.id}}
+      {{/link-to}}
+    </li>
+  {{/each}}
+</ul>
+
+{{#link-to 'perusals.new'}}
+Create New Perusal
+{{/link-to}}
+

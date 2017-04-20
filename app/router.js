@@ -36,6 +36,13 @@ Router.map(function() {
   this.route('channel',
     {path: 'channel/:channel_id'});
   this.route('recipe');
+  this.route('perusals', function() {
+    this.route('new');
+
+    this.route('show', {
+      path: ':perusal_id'
+    });
+  });
 });
 
 export default Router;

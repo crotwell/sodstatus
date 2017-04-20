@@ -1,0 +1,20 @@
+
+{{#link-to 'perusals'}}
+Back
+{{/link-to}}
+
+<ul>
+  <li>ID: {{model.id}}</li>
+  <li>Name: {{model.name}}</li>
+  <li>User: {{model.username}}</li>
+  <li>Primary Sort: {{model.primarySort}}</li>
+  <li>Name: {{model.eventSort}}</li>
+  <li>Name: {{model.stationSort}}</li>
+  <li>Prev: {{model.prev.id}}</li>
+  <li>
+{{#link-to 'station.quake' model.curr.station.id model.curr.id}}
+Current: {{model.curr.id}}
+{{/link-to}}
+</li>
+  <li>Next: {{model.next.id}}</li>
+</ul>

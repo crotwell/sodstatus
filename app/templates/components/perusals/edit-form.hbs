@@ -1,0 +1,31 @@
+<form {{action "save" on="submit"}}>
+<h2>{{errorMessage}}</h2>
+  <p>
+    <label> Name:
+      {{input value=model.name}}
+    </label>
+  </p>
+  <p>
+    <label>User Name:
+      {{input value=model.username }}
+    </label>
+  </p>
+  <p>
+    <label>Event Sort:
+      {{input value=model.eventSort}}
+    </label>
+  </p>
+  <p>
+    <label>Station Sort:
+      {{input value=model.stationSort}}
+    </label>
+  </p>
+  <p>
+    <label>Primary Sort:
+      {{input value=model.primarySort}}
+    </label>
+  </p>
+  <input type="submit" value="Save"/>
+  <button {{action "cancel"}}>Cancel</button>
+</form>
+
