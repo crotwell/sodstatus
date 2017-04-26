@@ -1,12 +1,14 @@
 
+<button {{action "prev"}}>Previous</button>
+<button {{action "next"}}>Next</button>
 
 <div class='small-map'>
 {{quake-station-map quakes=model.curr.quake stations=model.curr.station}}
 </div>
 
-<p>Quake: {{model.curr.quake.name}}</p>
+<p>Quake: {{model.curr.quake.name}} {{format-iso-date  model.curr.quake.prefOrigin.time}}</p>
 <p>Station: {{model.curr.station.codes}}</p>
-
+<p>Num Ecps: {{model.curr.ecps.length}}</p>
 {{#each model.curr.ecps as |ecp|}}
   <div class="ecp">
   {{waveform-display waveform=ecp.waveform quake=model.curr.quake station=model.curr.station plotWidth=400 plotHeight=100 phases=phases cookiejar=ecp.cookiejar }}
@@ -33,3 +35,4 @@ All Perusals
   <li>Curr: {{perusals/quake-station-link quakeStation=model.curr primarySort=model.primarySort current=model.curr}} </li>
   <li>Next: {{perusals/quake-station-link quakeStation=model.next primarySort=model.primarySort current=model.curr}} </li>
 </ul>
+<button {{action "delete"}}>Delete</button>
