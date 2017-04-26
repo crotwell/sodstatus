@@ -23,7 +23,7 @@ export default Ember.Component.extend({
         quake: q
       };
     }, this);
-  }.property('quakeList'),
+  }.property('quakeList.@each.prefOrigin', 'quakeList.@each.prefMagnitude'),
 
   originList: function() {
     return this.get('quakeList').getEach('prefOrigin');

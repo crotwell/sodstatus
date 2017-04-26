@@ -1,6 +1,23 @@
 
+
+<div class='small-map'>
+{{quake-station-map quakes=model.curr.quake stations=model.curr.station}}
+</div>
+
+<p>Quake: {{model.curr.quake.name}}</p>
+<p>Station: {{model.curr.station.codes}}</p>
+
+{{#each model.curr.ecps as |ecp|}}
+  <div class="ecp">
+  {{waveform-display waveform=ecp.waveform quake=model.curr.quake station=model.curr.station plotWidth=400 plotHeight=100 phases=phases cookiejar=ecp.cookiejar }}
+</div>
+{{/each}}
+
+
+<h3>Debugging/extra below here:</h3>
+
 {{#link-to 'perusals'}}
-Back
+All Perusals
 {{/link-to}}
 
 <ul>
@@ -8,13 +25,11 @@ Back
   <li>Name: {{model.name}}</li>
   <li>User: {{model.username}}</li>
   <li>Primary Sort: {{model.primarySort}}</li>
-  <li>Name: {{model.eventSort}}</li>
-  <li>Name: {{model.stationSort}}</li>
-  <li>Prev: {{model.prev.id}}</li>
-  <li>
-{{#link-to 'station.quake' model.curr.station.id model.curr.id}}
-Current: {{model.curr.id}}
-{{/link-to}}
-</li>
-  <li>Next: {{model.next.id}}</li>
+  <li>Event Sort: {{model.eventSort}}</li>
+  <li>Station Sort: {{model.stationSort}}</li>
+  <li>Current Event: {{format-iso-date  model.curr.quake.prefOrigin.time}} {{model.curr.quake.name}}</li>
+  <li>Current Station: {{model.curr.station.codes}}</li>
+  <li>Prev: {{perusals/quake-station-link quakeStation=model.prev primarySort=model.primarySort current=model.curr}} </li>
+  <li>Curr: {{perusals/quake-station-link quakeStation=model.curr primarySort=model.primarySort current=model.curr}} </li>
+  <li>Next: {{perusals/quake-station-link quakeStation=model.next primarySort=model.primarySort current=model.curr}} </li>
 </ul>

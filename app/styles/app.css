@@ -192,3 +192,9 @@ h5 {
 .leaflet-container .station {
   color: red;
 }
+
+.small-map .leaflet-container {
+  width: 200px;
+  height: 200px;
+  float: right;
+}

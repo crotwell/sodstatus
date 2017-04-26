@@ -1,0 +1,12 @@
+
+{{#if quakeStation}}
+{{#link-to 'station.quake' quakeStation.station.id quakeStation.id}}
+  {{#if isPrimaryByQuake}}
+    {{quakeStation.id}} {{quakeStation.station.codes}} {{unless isSameAsCurr quakeStation.quake.name}}
+  {{else}}
+    {{quakeStation.id}} {{quakeStation.quake.name}} {{unless isSameAsCurr quakeStation.station.codes}}
+  {{/if}}
+{{/link-to}}
+{{else}}
+  no qs
+{{/if}}
