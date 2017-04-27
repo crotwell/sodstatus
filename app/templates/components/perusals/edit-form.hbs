@@ -10,20 +10,17 @@
       {{input value=model.username }}
     </label>
   </p>
-  <p>
-    <label>Event Sort:
-      {{input value=model.eventSort}}
-    </label>
+  <p>Event Sort:
+<label>{{input click=(action "changeEventSort" "time") type="radio" name="eventSort" checked=true }} <span class="checkable">Time</span></label>
+<label>{{input click=(action "changeEventSort" "mag") type="radio" name="eventSort"}} <span class="checkable">Mag</span></label>
   </p>
-  <p>
-    <label>Station Sort:
-      {{input value=model.stationSort}}
-    </label>
+  <p>Station Sort:
+<label>{{input click=(action "changeStationSort" "alpha") type="radio" name="stationSort" checked=true }} <span class="checkable">Alphabetical</span></label>
+<label>{{input click=(action "changeStationSort" "distance") type="radio" name="stationSort"}} <span class="checkable">Distance</span></label>
   </p>
-  <p>
-    <label>Primary Sort:
-      {{input value=model.primarySort}}
-    </label>
+  <p>Primary Sort:
+<label>{{input click=(action "changePrimarySort" "quake") type="radio" name="primarySort" checked=true }} <span class="checkable">Quake</span></label>
+<label>{{input click=(action "changePrimarySort" "station") type="radio" name="primarySort"}} <span class="checkable">Station</span></label>
   </p>
   <input type="submit" value="Save"/>
   <button {{action "cancel"}}>Cancel</button>

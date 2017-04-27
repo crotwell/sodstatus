@@ -14,6 +14,15 @@ export default Ember.Component.extend({
     cancel() {
       console.log('+- cancel action in edit-form component');
       this.cancel();
+    },
+    changeEventSort(val) {
+       this.get('model').set('eventSort', val);
+    },
+    changeStationSort(val) {
+       this.get('model').set('stationSort', val);
+    },
+    changePrimarySort(val) {
+       this.get('model').set('primarySort', val);
     }
   }
 });
