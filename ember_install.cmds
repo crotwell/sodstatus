@@ -11,4 +11,6 @@ npm link seisplotjs-waveformplot
 //npm install --save-dev topojson
 bower install picnic
 
+//ember install ember-get-config
+ember install ember-truth-helpers
 
