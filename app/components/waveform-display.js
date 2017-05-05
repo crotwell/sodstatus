@@ -21,11 +21,16 @@ export default Ember.Component.extend({
         let msByChan = miniseed.byChannel(mslist);
         let seischartList = that.get('seischartList');
         let firstChart = null;
+        let titleDiv = d3.select('#'+elementId).select("div");
+        if ( ! titleDiv) {
+          reject(new Error("Can't find titleDiv (id = "+elementId+")"));
+          return;
+        }
+        
   
         for(let key in msByChan) {
           let dataArray = seisplot.miniseed.merge(msByChan[key]);
           let startEndDates = that.calcStartEnd(dataArray, that.get('cookiejar'));
-          let titleDiv = d3.select('#'+elementId).select("div");
           titleDiv.append("h5").text(key);
           let svgDiv = titleDiv.append("div").classed("waveformPlot", true);
           let seischart = new seisplot.chart(svgDiv, dataArray, startEndDates.start, startEndDates.end);
