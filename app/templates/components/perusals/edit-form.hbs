@@ -22,6 +22,27 @@
 <label>{{input click=(action "changePrimarySort" "quake") type="radio" name="primarySort" checked=true }} <span class="checkable">Quake</span></label>
 <label>{{input click=(action "changePrimarySort" "station") type="radio" name="primarySort"}} <span class="checkable">Station</span></label>
   </p>
+
+<div>
+  <h5>Measurement Tools</h5>
+  <ul>
+  {{#each model.tools as |tool|}}
+    <li>{{tool.toolType}} {{tool.name}}</li>
+  {{/each}}
+  </ul>
+  <p>Add Measurement Tool:</p>
+  <p>
+    <label>Tool Id:
+      {{input value=toolName }}
+    </label>
+<select onchange={{action (mut toolType) value="target.value"}}>
+  {{#each-in knownToolTypes as |toolTypeChoice toolConfig|}}
+    <option value={{toolConfig.toolType}} selected={{eq toolType toolTypeChoice}}>{{toolConfig.display}}</option>
+  {{/each-in}}
+</select>
+  <button {{action "addTool" toolType toolName }}>Add Tool</button>
+  </p>
+</div>
   <input type="submit" value="Save"/>
   <button {{action "cancel"}}>Cancel</button>
 </form>

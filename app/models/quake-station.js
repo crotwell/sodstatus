@@ -7,5 +7,6 @@ export default DS.Model.extend({
     backazimuth: DS.attr('number'),
     quake: DS.belongsTo('quake', {async: true}),  
     station: DS.belongsTo('station', {async: true}),
-    ecps: DS.hasMany('quakeVector', {async: true})
+    ecps: DS.hasMany('quakeVector', {async: true}),
+    measurements: DS.hasMany('measurement', {async: true})
 });

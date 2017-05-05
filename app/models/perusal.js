@@ -8,5 +8,6 @@ export default DS.Model.extend({
   stationSort: DS.attr('string'),
   prev: DS.belongsTo('quakeStation'),
   curr: DS.belongsTo('quakeStation'),
-  next: DS.belongsTo('quakeStation')
+  next: DS.belongsTo('quakeStation'),
+  tools: DS.hasMany('measurementTool')
 });

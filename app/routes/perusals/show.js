@@ -15,7 +15,9 @@ export default Ember.Route.extend({
           if (qs) {
             return Ember.RSVP.hash({ 
               staHash: qs.get('station'),
-              quakeHash: qs.get('quake').then(function(q) {return q.get('prefOrigin');})
+              quakeHash: qs.get('quake')
+                  .then(function(q) {return q.get('prefOrigin');})
+                  .then(function(o) {return o.get('latitude');})
             });
           } else { return null;}
       }),
@@ -26,7 +28,9 @@ export default Ember.Route.extend({
               quakeHash: qs.get('quake').then(function(q) {return q.get('prefOrigin');})
             });
           } else { return null;}
-      })
+      }),
+      toolHash: Ember.RSVP.all(model.get('tools').getEach('toolName'))
+        .then(t => {console.log("after model tools length: "+t.length);return t;})
     });
   }
 });

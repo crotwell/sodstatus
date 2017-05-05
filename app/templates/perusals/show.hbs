@@ -1,13 +1,21 @@
+{{async-button action=(action "prev" model) default="Previous" pending="Going..."}}
+{{async-button action=(action "save" model) default="Save" pending="Going..."}}
+{{async-button action=(action "next" model) default="Next" pending="Going..."}}
+Next is {{perusals/quake-station-link quakeStation=model.next primarySort=model.primarySort current=model.curr}} 
 
-<button {{action "prev"}}>Previous</button>
-<button {{action "next"}}>Next</button>
+<p>Found {{model.tools.length}} tools</p>
+{{#each model.tools as |tool|}} 
+<h5>{{tool.toolType}} {{tool.name}}</h5>
+{{component (concat 'measurement/' tool.toolType) perusal=model tool=tool }}
+{{/each}}
 
 <div class='small-map'>
 {{quake-station-map quakes=model.curr.quake stations=model.curr.station}}
 </div>
 
-<p>Quake: {{model.curr.quake.name}} {{format-iso-date  model.curr.quake.prefOrigin.time}}</p>
-<p>Station: {{model.curr.station.codes}}</p>
+<p>Perusal: {{model.id}} {{model.name}}</p>
+<p>Quake: {{model.curr.quake.name}} {{format-iso-date  model.curr.quake.prefOrigin.time}} ({{ format-number model.curr.quake.prefOrigin.latitude}}, {{ format-number model.curr.quake.prefOrigin.longitude}})</p>
+<p>Station: {{model.curr.station.codes}} ({{ format-number model.curr.station.latitude}}, {{ format-number model.curr.station.longitude}})</p>
 <p>Num Ecps: {{model.curr.ecps.length}}</p>
 {{#each model.curr.ecps as |ecp|}}
   <div class="ecp">
@@ -34,5 +42,12 @@ All Perusals
   <li>Prev: {{perusals/quake-station-link quakeStation=model.prev primarySort=model.primarySort current=model.curr}} </li>
   <li>Curr: {{perusals/quake-station-link quakeStation=model.curr primarySort=model.primarySort current=model.curr}} </li>
   <li>Next: {{perusals/quake-station-link quakeStation=model.next primarySort=model.primarySort current=model.curr}} </li>
+  <li>Tools:
+    <ul>
+      {{#each model.tools as |tool|}}
+        <li>{{tool.name}} {{tool.toolType}}</li>
+      {{/each}}
+   </ul>
+  </li>
 </ul>
 <button {{action "delete"}}>Delete</button>

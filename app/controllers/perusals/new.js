@@ -4,11 +4,11 @@ export default Ember.Controller.extend({
   actions: {
     save(model) {
       console.log('+--- save action called in friends new controller');
-      this.transitionToRoute('perusals.show', model);
+      return this.transitionToRoute('perusals.show', model);
     },
     cancel() {
       console.log('+--- cancel action called in friends new controller');
-      this.transitionToRoute('perusals');
+      return this.transitionToRoute('perusals');
     }
   }
 
