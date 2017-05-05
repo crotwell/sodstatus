@@ -15,31 +15,50 @@ export default Ember.Component.extend({
     }
   }.property('quakes'),
   plotQuakeList: function() {
-    return this.get('quakeList').map(function(q) {
+console.log("QSMap plotQuakeList");
+    return this.get('quakeList')
+      .filter(q => q && q.get('prefOrigin')) // skip without origin
+      .map(function(q) {
+      if (typeof q == 'undefined') {
+        console.log("q underined: "+q);
+      } else {
+        console.log("q : "+q);
+      }
+      console.log("get prefOrigin: "+q.get('prefOrigin'));
       return {
         latitude: q.get('prefOrigin').get('latitude'),
         longitude: q.get('prefOrigin').get('longitude'),
-        scaledMag: (q.get('prefMagnitude').get('value')*this.get('magToPixelScale')),
+        scaledMag: q.get('prefMagnitude') ? q.get('prefMagnitude').get('value')*this.get('magToPixelScale') : this.get('magToPixelScale'),
         quake: q
       };
     }, this);
-  }.property('quakeList.@each.prefOrigin', 'quakeList.@each.prefMagnitude'),
+  }.property('quakeList', 'quakeList.@each.prefOrigin', 'quakeList.@each.prefMagnitude'),
 
   originList: function() {
-    return this.get('quakeList').getEach('prefOrigin');
+console.log("originList");
+    let out = this.get('quakeList').getEach('prefOrigin')
+        .filter(o => o && o.get('latitude') && ! Number.isNaN(o.get('latitude')) && ! Number.isNaN(o.get('longitude')));
+    console.log("originList return "+out.length); 
+    if (out.length > 0) console.log("   originList[0]="+out[0].get('latitude'));
+    return out;
   }.property('quakeList.@each.prefOrigin'),
 
   stationList: function() {
+console.log("stationList");
     let stations = this.get('stations');
+    let out = [];
     if (stations) {
       if ( ! Ember.isArray(stations)) {
-        return [ stations ];
+        out = [ stations ];
       } else {
-        return stations;
+        out = stations;
       }
-    } else {
-      return [];
     }
+    out = out
+        .filter(s => s && s.get('latitude') && ! Number.isNaN(s.get('latitude')) && ! Number.isNaN(s.get('longitude')));
+    console.log("stationList return "+out.length);
+    if (out.length > 0) console.log("   stationList[0]="+out[0].get('latitude'));
+    return out;
   }.property('stations'),
 
   bounds: function() {
@@ -73,12 +92,18 @@ export default Ember.Component.extend({
     };
     maxLon = originList.reduce(maxLonFn , maxLon); 
     maxLon = stationList.reduce(maxLonFn, maxLon);
+    // expand by 10%, 5% on each edge
+    let degExpand = Math.max(maxLon-minLon, maxLat-minLat)*.05;
+    maxLat += degExpand;
+    minLat -= degExpand;
+    maxLon += degExpand;
+    minLon -= degExpand;
 
-    if (minLat === maxLat) { 
+    if (Math.abs(maxLat-minLat) < 1) { 
       minLat = minLat - 0.5;
       maxLat = maxLat + 0.5;
     }
-    if (minLon === maxLon) {
+    if (Math.abs(maxLon-minLon) < 1) { 
       minLon = minLon - 0.5;
       maxLon = maxLon + 0.5;
     }
