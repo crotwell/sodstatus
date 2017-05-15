@@ -3,6 +3,10 @@
   box-sizing: border-box;
 }
 
+.errorMessage {
+    color: red;
+}
+
 .leftCol {
     width: 48%;
     float: left;
@@ -197,4 +201,23 @@ h5 {
   width: 200px;
   height: 200px;
   float: right;
+}
+
+
+[type="radio"] + span::before {
+  content: '';
+  display: inline-block;
+  width: .75em;
+  height: .75em;
+  vertical-align: -0.125em;
+  border-radius: 1.75em;
+  border: 0.225em solid #fff;
+  box-shadow: 0 0 0 0.125em #000;
+  margin-right: 0.75em;
+  margin-left: 1.0em;
+  transition: 0.25s ease all;
+}
+[type="radio"]:checked + span::before {
+  background: green;
+  box-shadow: 0 0 0 0.125em #000;
 }

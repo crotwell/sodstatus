@@ -1,12 +1,15 @@
+{{error}}
+
+{{async-button action=(action "first" model) default="First" pending="Going..."}}
 {{async-button action=(action "prev" model) default="Previous" pending="Going..."}}
 {{async-button action=(action "save" model) default="Save" pending="Going..."}}
 {{async-button action=(action "next" model) default="Next" pending="Going..."}}
+Curr is {{perusals/quake-station-link quakeStation=model.curr primarySort=model.primarySort current=model.curr}} 
 Next is {{perusals/quake-station-link quakeStation=model.next primarySort=model.primarySort current=model.curr}} 
 
 <p>Found {{model.tools.length}} tools</p>
 {{#each model.tools as |tool|}} 
-<h5>{{tool.toolType}} {{tool.name}}</h5>
-{{component (concat 'measurement/' tool.toolType) perusal=model tool=tool }}
+  {{component (concat 'measurement/' tool.toolType) perusal=model tool=tool curr=model.curr }}
 {{/each}}
 
 <div class='small-map'>
@@ -39,6 +42,7 @@ All Perusals
   <li>Station Sort: {{model.stationSort}}</li>
   <li>Current Event: {{format-iso-date  model.curr.quake.prefOrigin.time}} {{model.curr.quake.name}}</li>
   <li>Current Station: {{model.curr.station.codes}}</li>
+  <li>First: {{perusals/quake-station-link quakeStation=model.first primarySort=model.primarySort current=model.curr}} </li>
   <li>Prev: {{perusals/quake-station-link quakeStation=model.prev primarySort=model.primarySort current=model.curr}} </li>
   <li>Curr: {{perusals/quake-station-link quakeStation=model.curr primarySort=model.primarySort current=model.curr}} </li>
   <li>Next: {{perusals/quake-station-link quakeStation=model.next primarySort=model.primarySort current=model.curr}} </li>

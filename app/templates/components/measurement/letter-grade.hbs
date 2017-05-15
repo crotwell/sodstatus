@@ -1,7 +1,15 @@
 
-<p>Letter Grade: {{tool.name}} m={{measurement}} g={{grade}}</p>
+<span>Letter Grade: "{{measurement.name}}"</span>
 {{#each gradeList as |gradeLetter|}}
-<label>{{input click=(action (mut grade) value="target.value" ) value=gradeLetter type="radio" name='grade' }} <span class="checkable">{{gradeLetter}}</span></label>
+  <label for={{gradeLetter}}>
+  {{#if (eq measurement.value gradeLetter)}}
+    <input {{action 'changeLetterGrade' gradeLetter}} type="radio" value={{gradeLetter}} name="grade" id={{gradeLetter}} checked >
+  {{else}}
+    <input {{action 'changeLetterGrade' gradeLetter}} type="radio" value={{gradeLetter}} name="grade" id={{gradeLetter}} >
+  {{/if}}
+    <span>{{gradeLetter}}</span>
+  </label>
+
 {{/each}}
 
 

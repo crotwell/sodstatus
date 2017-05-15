@@ -92,21 +92,24 @@ console.log("stationList");
     };
     maxLon = originList.reduce(maxLonFn , maxLon); 
     maxLon = stationList.reduce(maxLonFn, maxLon);
-    // expand by 10%, 5% on each edge
-    let degExpand = Math.max(maxLon-minLon, maxLat-minLat)*.05;
+
+    // min 1 deg
+    if (Math.abs(maxLat-minLat) < 1) { 
+      minLat = (minLat+maxLat)/2 - 0.5;
+      maxLat = (minLat+maxLat)/2 + 0.5;
+    }
+    if (Math.abs(maxLon-minLon) < 1) { 
+      minLon = (minLon+maxLon)/2 - 0.5;
+      maxLon = (minLon+maxLon)/2 + 0.5;
+    }
+
+    // expand by 50%, 25% on each edge
+    let degExpand = Math.max(maxLon-minLon, maxLat-minLat)*0.25;
     maxLat += degExpand;
     minLat -= degExpand;
     maxLon += degExpand;
     minLon -= degExpand;
 
-    if (Math.abs(maxLat-minLat) < 1) { 
-      minLat = minLat - 0.5;
-      maxLat = maxLat + 0.5;
-    }
-    if (Math.abs(maxLon-minLon) < 1) { 
-      minLon = minLon - 0.5;
-      maxLon = maxLon + 0.5;
-    }
     return [ [minLat, minLon], [maxLat, maxLon] ];
   }.property('originList.@each.latitude', 'originList.@each.longitude',
              'stations.@each.latitude', 'stations.@each.longitude'),
