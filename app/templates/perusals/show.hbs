@@ -9,7 +9,11 @@ Next is {{perusals/quake-station-link quakeStation=model.next primarySort=model.
 
 <p>Found {{model.tools.length}} tools</p>
 {{#each model.tools as |tool|}} 
-  {{component (concat 'measurement/' tool.toolType) perusal=model tool=tool curr=model.curr }}
+  {{#if tool.toolType}}
+    {{component (concat 'measurement/' tool.toolType) perusal=model tool=tool curr=model.curr }}
+  {{else}}
+    <span>Loading tool: {{tool.name}} {{tool.toolType}}</span>
+  {{/if}}
 {{/each}}
 
 <div class='small-map'>
