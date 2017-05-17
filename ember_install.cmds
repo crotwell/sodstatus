@@ -9,7 +9,7 @@ ember install ember-leaflet
 // or if using snapshot and already done npm link in seisplotjs-waveformplot
 npm link seisplotjs-waveformplot
 //npm install --save-dev topojson
-bower install picnic
+npm install picnic
 
 //ember install ember-get-config
 ember install ember-truth-helpers

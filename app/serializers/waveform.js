@@ -1,5 +1,5 @@
 import DS from 'ember-data';
-import SP from 'npm:seisplotjs-waveformplot';
+import SP from 'npm:seisplotjs';
 
 export default DS.RESTSerializer.extend({
   normalizeResponse: function(store, primaryModelClass, payload, id, requestType) {

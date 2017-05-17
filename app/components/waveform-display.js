@@ -1,9 +1,10 @@
 import Ember from 'ember';
 import RSVP from 'rsvp';
-import seisplot from 'npm:seisplotjs-waveformplot';
+import seisplot from 'npm:seisplotjs';
 
 let miniseed = seisplot.miniseed;
-let d3 = seisplot.d3;
+let waveformplot = seisplot.waveformplot;
+let d3 = waveformplot.d3;
 
 export default Ember.Component.extend({
   travelTime: Ember.inject.service(),
@@ -29,11 +30,11 @@ export default Ember.Component.extend({
         
   
         for(let key in msByChan) {
-          let dataArray = seisplot.miniseed.merge(msByChan[key]);
+          let dataArray = miniseed.merge(msByChan[key]);
           let startEndDates = that.calcStartEnd(dataArray, that.get('cookiejar'));
           titleDiv.append("h5").text(key);
           let svgDiv = titleDiv.append("div").classed("waveformPlot", true);
-          let seischart = new seisplot.chart(svgDiv, dataArray, startEndDates.start, startEndDates.end);
+          let seischart = new waveformplot.chart(svgDiv, dataArray, startEndDates.start, startEndDates.end);
           seischart.draw();
           seischartList.push(seischart);
         }
@@ -91,7 +92,7 @@ export default Ember.Component.extend({
         }
         return out;
       } else {
-          return seisplot.findStartEnd(segments);
+          return waveformplot.findStartEnd(segments);
       }
     },
     actions: {
