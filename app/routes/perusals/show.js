@@ -7,36 +7,7 @@ export default Ember.Route.extend({
   afterModel: function(model, transition) {
     let measurementInit = this.get('measurementInit');
     return Ember.RSVP.hash({
-      prevHash: model.get('prev').then(function(qs) {
-          if (qs) {
-            return Ember.RSVP.hash({ 
-              staHash: qs.get('station'),
-              quakeHash: qs.get('quake').then(function(q) {return q.get('prefOrigin');})
-            });
-          } else { return null;}
-      }),
-      currHash: model.get('curr').then(function(qs) {
-          if (qs) {
-            return Ember.RSVP.hash({ 
-              staHash: qs.get('station'),
-              quakeHash: qs.get('quake')
-                  .then(function(q) {return q.get('prefOrigin');})
-                  .then(function(o) {return o.get('latitude');}),
-              measurementHas: qs.get('measurements')
-            });
-          } else { return null;}
-      }),
-      nextHash: model.get('next').then(function(qs) {
-          if (qs == null) {
-            return null;
-          } else {
-            return Ember.RSVP.hash({ 
-              staHash: qs.get('station'),
-              quakeHash: qs.get('quake').then(function(q) {return q.get('prefOrigin');}),
-              measurementsHash: qs.get('measurements')
-            });
-          }
-      }),
+      currHash: model.hashQuakeStation(model.get('curr')),
       toolHash: Ember.RSVP.all(model.get('tools').getEach('name'))
         .then(t => {console.log("after model tools length: "+t.length);return t;})
     }).then(function() {

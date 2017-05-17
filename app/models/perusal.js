@@ -23,10 +23,28 @@ export default DS.Model.extend({
       });
   },
   goToNext() {
-    return this.get('next')
-      .then(n => {
+    return this.hashQuakeStation(this.get('next'))
+      .then( () => { 
+        let n = this.get('next');
         let c = this.get('curr');
         this.setProperties({'prev': c, 'curr': n, 'next': null});
       });
+  },
+  hashQuakeStation(qs) {
+console.log("hashQuakeStation: "+qs.get("id"));
+    if (qs) {
+console.log("qs "+qs.then);
+       return qs.then( qs => {
+          return Ember.RSVP.hash({
+              qs: qs,
+              staHash: qs.get('station').then(s => s.get('latitude')),
+              netHash: qs.get('station').get('network'),
+              quakeHash: qs.get('quake')
+                  .then(function(q) {return q.get('prefOrigin');})
+                  .then(function(o) {return o.get('latitude');}),
+              measurementHas: qs.get('measurements')
+          });
+      }).then(() => console.log("hashQuakeStation done"));
+    } else { console.log("ERROR qs is null!!!");return null;}
   }
 });

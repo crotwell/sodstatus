@@ -46,29 +46,35 @@ export default Ember.Component.extend({
   },
   drawPhases: function() {
       let that = this;
-      let seischartList = this.get('seischartList');
-      if ( ! that.get('phases') || ! that.get('quake') || ! that.get('station')) {
-        // only overlay arrivals if we have quake, station and phases
-        // but do delete old markers
-        for (let cNum=0; cNum < seischartList.length; cNum++) {
-          seischartList[cNum].clearMarkers();
+      return Ember.RSVP.hash({
+        seisChartListHash: this.get('seischartList'),
+        phaseHash: this.get('phases'),
+        quakeHash: that.get('quake'),
+        stationHash: that.get('station').get('network')
+      }).then( hash => {
+        let seischartList = this.get('seischartList');
+        if ( ! that.get('phases') || ! that.get('quake') || ! that.get('station') || ! that.get('station').get('network')) {
+          // only overlay arrivals if we have quake, station and phases
+          // but do delete old markers
+          for (let cNum=0; cNum < seischartList.length; cNum++) {
+            seischartList[cNum].clearMarkers();
+          }
+          return;
         }
-        return;
-      }
-      let phaseList = that.get('phases').split(',');
+        let phaseList = that.get('phases').split(',');
 console.log("phaseList: "+phaseList);
 console.log("phaseList: "+phaseList.length);
-      let onlyFirstP = phaseList.find(p => p === 'firstP');
-      let onlyFirstS = phaseList.find(p => p === 'firstS');
-      if (onlyFirstP) {
-        phaseList = phaseList.filter(p => p != 'firstP')
-            .concat(['P', 'p', 'Pdiff', 'PKP', 'PKIKP']);
-      }
-      if (onlyFirstS) {
-        phaseList = phaseList.filter(p => p != 'firstS')
-            .concat(['S', 's', 'Sdiff', 'SKS', 'SKIKS']);
-      }
-      that.get('travelTime').calcTravelTimes(that.get('quake'), that.get('station'), "prem", phaseList.join())
+        let onlyFirstP = phaseList.find(p => p === 'firstP');
+        let onlyFirstS = phaseList.find(p => p === 'firstS');
+        if (onlyFirstP) {
+          phaseList = phaseList.filter(p => p != 'firstP')
+              .concat(['P', 'p', 'Pdiff', 'PKP', 'PKIKP']);
+        }
+        if (onlyFirstS) {
+          phaseList = phaseList.filter(p => p != 'firstS')
+              .concat(['S', 's', 'Sdiff', 'SKS', 'SKIKS']);
+        }
+        return that.get('travelTime').calcTravelTimes(that.get('quake'), that.get('station'), "prem", phaseList.join())
           .then(function(json) {
             if (onlyFirstP) {
               let firstPArrival = json.included.find(a => a.attributes.phasename.startsWith('P') || a.attributes.phasename.startsWith('p'));
@@ -94,6 +100,7 @@ console.log("phaseList: "+phaseList.length);
               seischartList[cNum].appendMarkers(markers);
             }
           });
+      });
     },
     phasesOberver: Ember.observer('phases', function() {
       this.drawPhases();
