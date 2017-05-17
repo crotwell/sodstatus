@@ -55,8 +55,31 @@ export default Ember.Component.extend({
         }
         return;
       }
-      that.get('travelTime').calcTravelTimes(that.get('quake'), that.get('station'), "prem", that.get('phases'))
+      let phaseList = that.get('phases').split(',');
+console.log("phaseList: "+phaseList);
+console.log("phaseList: "+phaseList.length);
+      let onlyFirstP = phaseList.find(p => p === 'firstP');
+      let onlyFirstS = phaseList.find(p => p === 'firstS');
+      if (onlyFirstP) {
+        phaseList = phaseList.filter(p => p != 'firstP')
+            .concat(['P', 'p', 'Pdiff', 'PKP', 'PKIKP']);
+      }
+      if (onlyFirstS) {
+        phaseList = phaseList.filter(p => p != 'firstS')
+            .concat(['S', 's', 'Sdiff', 'SKS', 'SKIKS']);
+      }
+      that.get('travelTime').calcTravelTimes(that.get('quake'), that.get('station'), "prem", phaseList.join())
           .then(function(json) {
+            if (onlyFirstP) {
+              let firstPArrival = json.included.find(a => a.attributes.phasename.startsWith('P') || a.attributes.phasename.startsWith('p'));
+              json.included = json.included.filter( a => ! (a.attributes.phasename.startsWith('P') || a.attributes.phasename.startsWith('p')));
+              json.included.push(firstPArrival);
+            }
+            if (onlyFirstS) {
+              let firstSArrival = json.included.find(a => a.attributes.phasename.startsWith('S') || a.attributes.phasename.startsWith('s'));
+              json.included = json.included.filter( a => ! (a.attributes.phasename.startsWith('S') || a.attributes.phasename.startsWith('s')));
+              json.included.push(firstSArrival);
+            }
             for (let cNum=0; cNum < seischartList.length; cNum++) {
               let markers = [];
               for (let aNum=0; aNum < json.included.length; aNum++) {
