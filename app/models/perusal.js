@@ -31,11 +31,12 @@ export default DS.Model.extend({
       });
   },
   hashQuakeStation(qs) {
-console.log("hashQuakeStation: "+qs.get("id"));
     if (qs) {
-console.log("qs "+qs.then);
-       return qs.then( qs => {
-          return Ember.RSVP.hash({
+       // kind of dumb, but sometimes qs is a promise and sometimes not
+       if (qs.then) {
+         return qs.then(r => this.hashQuakeStation(r));
+       }
+       return Ember.RSVP.hash({
               qs: qs,
               staHash: qs.get('station').then(s => s.get('latitude')),
               netHash: qs.get('station').get('network'),
@@ -43,8 +44,10 @@ console.log("qs "+qs.then);
                   .then(function(q) {return q.get('prefOrigin');})
                   .then(function(o) {return o.get('latitude');}),
               measurementHas: qs.get('measurements')
-          });
-      }).then(() => console.log("hashQuakeStation done"));
-    } else { console.log("ERROR qs is null!!!");return null;}
+      });
+    } else { 
+      console.log("perusal.hashQuakeStation: ERROR qs is null!!!");
+      return null;
+    }
   }
 });
