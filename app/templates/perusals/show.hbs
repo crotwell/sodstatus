@@ -1,9 +1,9 @@
 {{error}}
 
 {{async-button action=(action "first" model) default="First" pending="Going..."}}
-{{async-button action=(action "prev" model) default="Previous" pending="Going..."}}
+{{async-button action=(action "prev" model) default="Previous" pending="Going..." disableWhen=(not model.prev ) }}
 {{async-button action=(action "save" model) default="Save" pending="Going..."}}
-{{async-button action=(action "next" model) default="Next" pending="Going..."}}
+{{async-button action=(action "next" model) default="Next" pending="Going..." disableWhen=(not model.next) }}
 Curr is {{perusals/quake-station-link quakeStation=model.curr primarySort=model.primarySort current=model.curr}} 
 Next is {{perusals/quake-station-link quakeStation=model.next primarySort=model.primarySort current=model.curr}} 
 
