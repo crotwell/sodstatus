@@ -2,5 +2,8 @@
 
 <div class="waveformPlotOuterDiv">
   <button {{action "resetZoom"}} >ResetZoom</button>
+  <label>{{input type="checkbox" name="overlay" checked=isOverlay }}<span class="checkable">Overlay</span></label>
+  <div class="waveformPlotInnerDiv">
+  </div>
 </div>
 {{yield}}

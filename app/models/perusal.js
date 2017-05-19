@@ -31,10 +31,14 @@ export default DS.Model.extend({
       });
   },
   hashQuakeStation(qs) {
+    let perusalThis = this;
     if (qs) {
        // kind of dumb, but sometimes qs is a promise and sometimes not
        if (qs.then) {
-         return qs.then(r => this.hashQuakeStation(r));
+         return qs.then(r => {
+           if (r) return perusalThis.hashQuakeStation(r)
+           return r;
+         });
        }
        return Ember.RSVP.hash({
               qs: qs,
@@ -42,11 +46,12 @@ export default DS.Model.extend({
               netHash: qs.get('station').get('network'),
               quakeHash: qs.get('quake')
                   .then(function(q) {return q.get('prefOrigin');})
-                  .then(function(o) {return o.get('latitude');}),
+                  .then(function(o) {return o.get('latitude');})
+                  .then(l => console.log("Got latitude: "+l)),
               measurementHas: qs.get('measurements')
       });
     } else { 
-      console.log("perusal.hashQuakeStation: ERROR qs is null!!!");
+      console.assert(false, "perusal.hashQuakeStation: ERROR qs is null!!!");
       return null;
     }
   }

@@ -7,29 +7,34 @@
 Curr is {{perusals/quake-station-link quakeStation=model.curr primarySort=model.primarySort current=model.curr}} 
 Next is {{perusals/quake-station-link quakeStation=model.next primarySort=model.primarySort current=model.curr}} 
 
-<p>Found {{model.tools.length}} tools</p>
-{{#each model.tools as |tool|}} 
-  {{#if tool.toolType}}
-    {{component (concat 'measurement/' tool.toolType) perusal=model tool=tool curr=model.curr }}
-  {{else}}
-    <span>Loading tool: {{tool.name}} {{tool.toolType}}</span>
-  {{/if}}
-{{/each}}
 
 <div class='small-map'>
 {{quake-station-map quakes=model.curr.quake stations=model.curr.station}}
 </div>
 
-<p>Perusal: {{model.id}} {{model.name}}</p>
-<p>Quake: {{model.curr.quake.name}} {{format-iso-date  model.curr.quake.prefOrigin.time}} ({{ format-number model.curr.quake.prefOrigin.latitude}}, {{ format-number model.curr.quake.prefOrigin.longitude}})</p>
-<p>Station: {{model.curr.station.codes}} ({{ format-number model.curr.station.latitude}}, {{ format-number model.curr.station.longitude}})</p>
-<p>Num Ecps: {{model.curr.ecps.length}}</p>
-{{#each model.curr.ecps as |ecp|}}
-  <div class="ecp">
-  {{waveform-display waveform=ecp.waveform quake=model.curr.quake station=model.curr.station plotWidth=400 plotHeight=100 phases=phases cookiejar=ecp.cookiejar }}
-</div>
+<ul>
+<li>Found {{model.tools.length}} tools</li>
+{{#each model.tools as |tool|}} 
+  <li>
+  {{#if tool.toolType}}
+    {{component (concat 'measurement/' tool.toolType) perusal=model tool=tool curr=model.curr }}
+  {{else}}
+    <span>Loading tool: {{tool.name}} {{tool.toolType}}</span>
+  {{/if}}
+  </li>
 {{/each}}
+</ul>
 
+<ul>
+<li>Perusal: {{model.name}} <span class="small">{{model.id}}</span></li>
+<li>Quake: {{model.curr.quake.name}} {{format-iso-date  model.curr.quake.prefOrigin.time}} ({{ format-number model.curr.quake.prefOrigin.latitude}}, {{ format-number model.curr.quake.prefOrigin.longitude}})</li>
+<li>Station: {{model.curr.station.codes}} ({{ format-number model.curr.station.latitude}}, {{ format-number model.curr.station.longitude}})</li>
+<li>Num Ecps: {{model.curr.ecps.length}}</li>
+</ul>
+
+  <div class="ecp">
+  {{waveform-display isOverlay=false waveformList=model.curr.allWaveforms quake=model.curr.quake station=model.curr.station plotWidth=400 plotHeight=100 phases=phases cookiejar=ecp.cookiejar }}
+</div>
 
 <h3>Debugging/extra below here:</h3>
 

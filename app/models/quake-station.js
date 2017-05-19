@@ -11,6 +11,10 @@ export default DS.Model.extend({
     ecps: DS.hasMany('quakeVector', {async: true}),
     measurements: DS.hasMany('measurement', {async: true, defaultValue: Ember.A([]) }),
 
+    allWaveforms: Ember.computed('ecps', function() {
+      return Ember.RSVP.all(this.get('ecps').getEach('waveform'));
+    }),
+
     measurementForName(name) {
 console.log("quake-station model measurementsForName");
       return this.get('measurements').then(meas => {

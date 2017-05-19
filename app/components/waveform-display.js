@@ -8,41 +8,77 @@ let d3 = waveformplot.d3;
 
 export default Ember.Component.extend({
   travelTime: Ember.inject.service(),
+  isOverlay: true,
   didInsertElement: function() {
     Ember.run.scheduleOnce('afterRender', this, 'updateGraph');
   },
   seischartList: [],
   updateGraph: function() {
-    let elementId = this.get('elementId');
-    let that = this;
     this.seischartList = [];
-    this.get('waveform').then(function(waveform) {
-      return new RSVP.Promise(function(resolve, reject){
+    let elementId = this.get('elementId');
+    d3.select('#'+elementId).select("div.waveformPlotInnerDiv").selectAll("div").remove();
+    this.get('waveformList').then(wList => {
+      wList.forEach(ww => {
+        this.appendWaveform(ww);
+      });
+      return this.drawPhases();
+    });
+  },
+  appendWaveform: function(waveform) {
+    let that = this;
+    let seischartList = that.get('seischartList');
+    let sharedXScale = null;
+      if (seischartList.length != 0) {
+        sharedXScale = seischartList[0].xScale;
+      }
+      if (seischartList.length == 0 || ! this.get('isOverlay')) {
+        let sc = this.initSeisChart(waveform, sharedXScale);
+        this.seischartList.push(sc);
+        sc.scaleChangeListeners.push(this);
+      } else {
         let mslist = waveform.get('mseed');
         let msByChan = miniseed.byChannel(mslist);
-        let seischartList = that.get('seischartList');
-        let firstChart = null;
-        let titleDiv = d3.select('#'+elementId).select("div");
-        if ( ! titleDiv) {
-          reject(new Error("Can't find titleDiv (id = "+elementId+")"));
-          return;
-        }
-        
-  
+        let elementId = this.get('elementId');
+        let title = seischartList[0].title;
         for(let key in msByChan) {
           let dataArray = miniseed.merge(msByChan[key]);
-          let startEndDates = that.calcStartEnd(dataArray, that.get('cookiejar'));
-          titleDiv.append("h5").text(key);
-          let svgDiv = titleDiv.append("div").classed("waveformPlot", true);
-          let seischart = new waveformplot.chart(svgDiv, dataArray, startEndDates.start, startEndDates.end);
-          seischart.draw();
-          seischartList.push(seischart);
+          this.seischartList[0].append(dataArray);
+          title += " "+key;
         }
-        resolve(seischartList);
-      });
-    }).then(function(seischartList) {
-      return that.drawPhases();
-    });
+        d3.select('#'+elementId).select("div").select(".waveformPlotInnerDiv").select("div").select("h5").text(title);
+        seischartList[0].setTitle(title);
+      }
+  },
+  initSeisChart: function(waveform, sharedXScale) {
+    let elementId = this.get('elementId');
+    let mslist = waveform.get('mseed');
+    let msByChan = miniseed.byChannel(mslist);
+    let firstChart = null;
+    let titleDiv = d3.select('#'+elementId).select("div").select(".waveformPlotInnerDiv").append("div");
+    if ( ! titleDiv) {
+      throw new Error("Can't find titleDiv (id = "+elementId+")");
+    }
+        
+    let seischart = null;
+    let title = "";
+    for(let key in msByChan) {
+      title += " "+key;
+      let dataArray = miniseed.merge(msByChan[key]);
+      let startEndDates = this.calcStartEnd(dataArray, this.get('cookiejar'));
+      titleDiv.append("h5").text(key);
+      let svgDiv = titleDiv.append("div").classed("waveformPlot", true);
+      if (! seischart) {
+        seischart = new waveformplot.chart(svgDiv, dataArray, startEndDates.start, startEndDates.end);
+      } else {
+        seischart.append(dataArray);
+      }
+      if (sharedXScale) {
+        seischart.xScale = sharedXScale;
+      }
+      seischart.draw();
+    }
+    seischart.setTitle(title);
+    return seischart;
   },
   drawPhases: function() {
       let that = this;
@@ -62,8 +98,6 @@ export default Ember.Component.extend({
           return;
         }
         let phaseList = that.get('phases').split(',');
-console.log("phaseList: "+phaseList);
-console.log("phaseList: "+phaseList.length);
         let onlyFirstP = phaseList.find(p => p === 'firstP');
         let onlyFirstS = phaseList.find(p => p === 'firstS');
         if (onlyFirstP) {
@@ -105,6 +139,19 @@ console.log("phaseList: "+phaseList.length);
     phasesOberver: Ember.observer('phases', function() {
       this.drawPhases();
     }),
+    overlayOberver: Ember.observer('isOverlay', function() {
+      this.updateGraph();
+    }),
+    waveformListOberver: Ember.observer('waveformList', function() {
+      this.updateGraph();
+    }),
+    notifyScaleChange(xScale) {
+      this.seischartList.forEach( sc => {
+        if ( sc.currZoomXScale != xScale) {
+          sc.redrawWithXScale(xScale);
+        }
+      });
+    },
 
     calcStartEnd: function(segments, cookieJar) {
       if (cookieJar && cookieJar.request) {

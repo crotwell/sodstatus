@@ -5,8 +5,8 @@
 <ul>
   {{#each model as |perusal|}}
     <li>
-      {{#link-to 'perusals.show' perusal.id}}
-        Name: {{perusal.name}}  ID:{{perusal.id}}
+      Name: {{#link-to 'perusals.show' perusal.id}} {{perusal.name}} {{/link-to}} 
+      ID: {{#link-to 'perusals.show' perusal.id}}<span class="small">{{perusal.id}}</span>
       {{/link-to}}
     </li>
   {{/each}}

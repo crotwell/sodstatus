@@ -17,6 +17,11 @@
     float: right;
 }
 
+span.small {
+  font-size: smaller;
+  color: grey;
+}
+
 /* generic list styling */
 ul {
     list-style: none;

@@ -41,6 +41,7 @@ export default Ember.Controller.extend({
       return new Ember.RSVP.Promise(function(resolve, reject) {
           resolve( that.doSaveCurr());
         })
+        .then(() => this.get('store').unloadAll('waveform'))
         .then(() => model.hashQuakeStation(model.get(destination)))
         .then(function() {
           if (measurementInit.checkNeedCreate(model.get('tools'), model.get(destination))) {
