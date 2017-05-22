@@ -85,6 +85,42 @@ path.seispath {
   stroke-width: 1px;
 }
 
+svg g.allsegments g:nth-child(9n+1) path.seispath {
+  stroke: skyblue;
+}
+
+svg g.allsegments g:nth-child(9n+2) path.seispath {
+  stroke: olivedrab;
+}
+
+svg g.allsegments g:nth-child(9n+3) path.seispath {
+  stroke: goldenrod;
+}
+
+svg g.allsegments g:nth-child(9n+4) path.seispath {
+  stroke: firebrick;
+}
+
+svg g.allsegments g:nth-child(9n+5) path.seispath {
+  stroke: darkcyan;
+}
+
+svg g.allsegments g:nth-child(9n+6) path.seispath {
+  stroke: orange;
+}
+
+svg g.allsegments g:nth-child(9n+7) path.seispath {
+  stroke: darkmagenta;
+}
+
+svg g.allsegments g:nth-child(9n+8) path.seispath {
+  stroke: deeppink2;
+}
+
+svg g.allsegments g:nth-child(9n+9) path.seispath {
+  stroke: sienna;
+}
+
 .predicted polygon {
   fill: rgba(220,220,220,.4);
 }
