@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import RSVP from 'rsvp';
 import seisplot from 'npm:seisplotjs';
 
 let miniseed = seisplot.miniseed;
@@ -8,7 +7,7 @@ let d3 = waveformplot.d3;
 
 export default Ember.Component.extend({
   travelTime: Ember.inject.service(),
-  isOverlay: true,
+  isOverlay: false,
   didInsertElement: function() {
     Ember.run.scheduleOnce('afterRender', this, 'updateGraph');
   },
@@ -28,56 +27,43 @@ export default Ember.Component.extend({
     let that = this;
     let seischartList = that.get('seischartList');
     let sharedXScale = null;
-      if (seischartList.length != 0) {
-        sharedXScale = seischartList[0].xScale;
-      }
+    if (seischartList.length != 0) {
+      sharedXScale = seischartList[0].xScale;
+    }
+    let mslist = waveform.get('mseed');
+    let msByChan = miniseed.byChannel(mslist);
+    let elementId = this.get('elementId');
+    for(let key in msByChan) {
+      let mseedRecordArray = miniseed.merge(msByChan[key]);
       if (seischartList.length == 0 || ! this.get('isOverlay')) {
-        let sc = this.initSeisChart(waveform, sharedXScale);
+        let sc = this.initSeisChart(mseedRecordArray, key, sharedXScale);
         this.seischartList.push(sc);
         sc.scaleChangeListeners.push(this);
       } else {
-        let mslist = waveform.get('mseed');
-        let msByChan = miniseed.byChannel(mslist);
-        let elementId = this.get('elementId');
         let title = seischartList[0].title;
-        for(let key in msByChan) {
-          let dataArray = miniseed.merge(msByChan[key]);
-          this.seischartList[0].append(dataArray);
-          title += " "+key;
-        }
+        this.seischartList[0].append(mseedRecordArray);
+        title += " "+key;
         d3.select('#'+elementId).select("div").select(".waveformPlotInnerDiv").select("div").select("h5").text(title);
         seischartList[0].setTitle(title);
       }
+    }
   },
-  initSeisChart: function(waveform, sharedXScale) {
+  initSeisChart: function(mseedRecords, title, sharedXScale) {
     let elementId = this.get('elementId');
-    let mslist = waveform.get('mseed');
-    let msByChan = miniseed.byChannel(mslist);
-    let firstChart = null;
     let titleDiv = d3.select('#'+elementId).select("div").select(".waveformPlotInnerDiv").append("div");
     if ( ! titleDiv) {
       throw new Error("Can't find titleDiv (id = "+elementId+")");
     }
         
-    let seischart = null;
-    let title = "";
-    for(let key in msByChan) {
-      title += " "+key;
-      let dataArray = miniseed.merge(msByChan[key]);
-      let startEndDates = this.calcStartEnd(dataArray, this.get('cookiejar'));
-      titleDiv.append("h5").text(key);
-      let svgDiv = titleDiv.append("div").classed("waveformPlot", true);
-      if (! seischart) {
-        seischart = new waveformplot.chart(svgDiv, dataArray, startEndDates.start, startEndDates.end);
-      } else {
-        seischart.append(dataArray);
-      }
-      if (sharedXScale) {
-        seischart.xScale = sharedXScale;
-      }
-      seischart.draw();
+    let startEndDates = this.calcStartEnd(mseedRecords, this.get('cookiejar'));
+    titleDiv.append("h5").text(title);
+    let svgDiv = titleDiv.append("div").classed("waveformPlot", true);
+    let seischart = new waveformplot.chart(svgDiv, mseedRecords, startEndDates.start, startEndDates.end);
+    if (sharedXScale) {
+      seischart.xScale = sharedXScale;
     }
     seischart.setTitle(title);
+    seischart.draw();
     return seischart;
   },
   drawPhases: function() {
@@ -87,7 +73,7 @@ export default Ember.Component.extend({
         phaseHash: this.get('phases'),
         quakeHash: that.get('quake'),
         stationHash: that.get('station').get('network')
-      }).then( hash => {
+      }).then( () => {
         let seischartList = this.get('seischartList');
         if ( ! that.get('phases') || ! that.get('quake') || ! that.get('station') || ! that.get('station').get('network')) {
           // only overlay arrivals if we have quake, station and phases
