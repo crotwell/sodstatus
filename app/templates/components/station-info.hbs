@@ -24,10 +24,37 @@ until&#8230;
 
 <h5>Channels</h5>
 
-<ul>
-{{#each station.channels as |chan|}}
-<li>{{chan.id}} {{chan.siteCode}}.{{chan.channelCode}}</li>
-{{/each}}
-</ul>
+<label>{{input type="checkbox" checked=showChannels}} {{#if showChannels}}Hide{{else}}Show{{/if}} Channels</label>
+  {{#liquid-spacer growDuration=250}}
+    {{#if showChannels}}
+      <table>
+       <tr><th>Id</th>
+           <th>Codes</th>
+           <th>Start</th>
+           <th>End</th>
+           <th>Lat</th>
+           <th>Lon</th>
+           <th>Elev</th>
+           <th>Depth</th>
+           <th>Sps</th>
+       </tr>
+      {{#each station.channels as |chan|}}
+        <tr><td>{{chan.id}}</td>
+            <td> {{chan.siteCode}}.{{chan.channelCode}}</td>
+            <td>{{chan.startTime}}</td> 
+            <td>{{chan.endTime}}</td> 
+            <td>{{chan.latitude}}</td> 
+            <td>{{chan.longitude}}</td> 
+            <td>{{chan.elevation}}</td> 
+            <td>{{chan.depth}}</td> 
+            <td>{{chan.sps}}</td> 
+        </tr>
+      {{/each}}
+      </table>
+    {{else}}
+      {{station.channels.length}} channels.
+    {{/if}}
+  {{/liquid-spacer}}
+
 </div>
 

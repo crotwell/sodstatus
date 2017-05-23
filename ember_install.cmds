@@ -14,3 +14,5 @@ npm install picnic
 //ember install ember-get-config
 ember install ember-truth-helpers
 ember install ember-async-button
+ember install ember-elsewhere
+ember install liquid-fire
