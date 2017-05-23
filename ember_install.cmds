@@ -1,17 +1,17 @@
 ember install ember-browserify
 ember install ember-moment
-//ember install ember-ajax // maybe already in ember???
-//ember install ember-d3
-//npm install --save-dev d3
-//npm install --save-dev d3-geo
+# ember install ember-ajax // maybe already in ember???
+# ember install ember-d3
+# npm install --save-dev d3
+# npm install --save-dev d3-geo
 ember install ember-leaflet
-//npm install --save-dev seisplotjs-waveformplot
-// or if using snapshot and already done npm link in seisplotjs-waveformplot
-npm link seisplotjs-waveformplot
-//npm install --save-dev topojson
+# npm install --save-dev seisplotjs-waveformplot
+#  or if using snapshot and already done npm link in seisplotjs-waveformplot
+npm link seisplotjs
+# npm install --save-dev topojson
 npm install picnic
 
-//ember install ember-get-config
+# ember install ember-get-config
 ember install ember-truth-helpers
 ember install ember-async-button
 ember install ember-elsewhere
