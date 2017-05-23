@@ -10,7 +10,9 @@ export default Ember.Route.extend({
         chanHash: model.get('channels'),
         qHash: model.get('quakes'),
         espsHash: Ember.RSVP.all(model.get('esps').getEach('quake')),
+        espsHash2: Ember.RSVP.all(model.get('esps').getEach('quake').getEach('prefOrigin')),
         quakesHash: Ember.RSVP.all(model.get('quakes').getEach('prefOrigin')),
+        quakesLatHash: Ember.RSVP.all(model.get('quakes').getEach('prefOrigin').getEach('latitude')),
         originHash: model.get('originList'),
         originLatHash: Ember.RSVP.all(model.get('originList').getEach('latitude')),
       });
