@@ -6,9 +6,13 @@
 </ul>
 
 <h4>Cookie Jar Measurements</h4>
+<label>{{input type="checkbox" checked=showCookieJar}}{{#if showCookieJar}}<i class="icon-down-dir"></i>{{else}}<i class="icon-guage"></i>{{/if}}  {{#if showCookieJar}}Hide{{else}}Show{{/if}} CookieJar</label>
+{{#liquid-spacer}}
+  {{#if showCookieJar}}
 {{#each quakeStation.ecps as |quakeVector|}}
 <h5>{{#each quakeVector.channels as |channel|}}{{channel.siteCode}}.{{channel.channelCode}}{{/each}}</h5>
 {{raw-json-display rawJson=quakeVector.cookieJar}}
 {{/each}}
-
+  {{/if}}
+{{/liquid-spacer}}
 {{yield}}
