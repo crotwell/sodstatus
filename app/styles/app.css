@@ -28,6 +28,11 @@ ul {
     text-indent: -1em;
 }
 
+/* ember input not be whole width */
+input.ember-text-field {
+    width: 15em;
+}
+
 .networkList {
     width: 40%;
     float: left;
@@ -239,7 +244,7 @@ h5 {
 }
 
 .small-map .leaflet-container {
-  width: 200px;
+  width: 300px;
   height: 200px;
   float: right;
 }
