@@ -33,10 +33,11 @@ export default Ember.Component.extend({
     let mslist = waveform.get('mseed');
     let msByChan = miniseed.byChannel(mslist);
     let elementId = this.get('elementId');
-    for(let key in msByChan) {
-      let mseedRecordArray = miniseed.merge(msByChan[key]);
+    for(let key of msByChan.keys()) {
+      let mseedRecordArray = miniseed.merge(msByChan.get(key));
       if (seischartList.length == 0 || ! this.get('isOverlay')) {
         let sc = this.initSeisChart(mseedRecordArray, key, sharedXScale);
+        sc.setTitle(key);
         this.seischartList.push(sc);
         sc.scaleChangeListeners.push(this);
       } else {
@@ -44,8 +45,11 @@ export default Ember.Component.extend({
         this.seischartList[0].append(mseedRecordArray);
         title += " "+key;
         d3.select('#'+elementId).select("div").select(".waveformPlotInnerDiv").select("div").select("h5").text(title);
-        seischartList[0].setTitle(title);
+
       }
+    }
+    if (seischartList.length > 0 && this.get('isOverlay')) {
+      seischartList[0].setTitle(Array.from(msByChan.keys()));
     }
   },
   initSeisChart: function(mseedRecords, title, sharedXScale) {
@@ -54,7 +58,7 @@ export default Ember.Component.extend({
     if ( ! titleDiv) {
       throw new Error("Can't find titleDiv (id = "+elementId+")");
     }
-        
+
     let startEndDates = this.calcStartEnd(mseedRecords, this.get('cookiejar'));
     titleDiv.append("h5").text(title);
     let svgDiv = titleDiv.append("div").classed("waveformPlot", true);
@@ -148,10 +152,10 @@ export default Ember.Component.extend({
         for(let i=0; i<cookieJar.request.length; i++) {
           if (cookieJar.request[i].start < out.start) {
             out.start = cookieJar.request[i].start;
-          } 
+          }
           if (cookieJar.request[i].end > out.end) {
             out.end = cookieJar.request[i].end;
-          } 
+          }
         }
         return out;
       } else {

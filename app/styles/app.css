@@ -80,6 +80,7 @@ input.ember-text-field {
 .quake {
 }
 
+
 /* comment
 */
 
@@ -123,6 +124,44 @@ svg g.allsegments g:nth-child(9n+8) path.seispath {
 }
 
 svg g.allsegments g:nth-child(9n+9) path.seispath {
+  stroke: sienna;
+}
+
+/* same colors for titles */
+
+svg g.title tspan:nth-child(9n+1)  {
+  fill: skyblue;
+}
+
+svg g.title tspan:nth-child(9n+2)  {
+  stroke: olivedrab;
+}
+
+svg g.title tspan:nth-child(9n+3)  {
+  stroke: goldenrod;
+}
+
+svg g.title tspan:nth-child(9n+4)  {
+  stroke: firebrick;
+}
+
+svg g.title tspan:nth-child(9n+5)  {
+  stroke: darkcyan;
+}
+
+svg g.title tspan:nth-child(9n+6)  {
+  stroke: orange;
+}
+
+svg g.title tspan:nth-child(9n+7)  {
+  stroke: darkmagenta;
+}
+
+svg g.title tspan:nth-child(9n+8)  {
+  stroke: deeppink2;
+}
+
+svg g.title tspan:nth-child(9n+9)  {
   stroke: sienna;
 }
 
