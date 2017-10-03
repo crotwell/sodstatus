@@ -13,11 +13,11 @@
 {{quake-station-info quakeStation=model }}
 </div>
 
-<div class="quake-station">
+<div class="waveforms">
 
 <h4>Waveforms: {{model.ecps.length}}  </h4>
 <div>Phases: <button {{action "clearPhases"}}>Clear</button> {{phases}} {{input value=phaseToAdd enter="addPhases" }}</div>
 </div>
-  {{waveform-display waveformList=model.allWaveforms quake=model.quake station=model.station plotWidth=400 plotHeight=100 phases=phases cookiejar=ecp.cookiejar }} 
+  {{waveform-display waveformList=model.allWaveforms quake=model.quake station=model.station plotWidth=400 plotHeight=100 phases=phases cookiejar=ecp.cookiejar }}
 
 {{outlet}}

@@ -2,7 +2,7 @@ import DS from 'ember-data';
 
 export default DS.Model.extend({
   channelCode: DS.attr('string'),
-  siteCode: DS.attr('string'),  
+  locCode: DS.attr('string'),  
   station: DS.belongsTo('station', {async: true}),
   startTime: DS.attr('date'),
   endTime: DS.attr('date'),

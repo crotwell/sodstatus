@@ -1,4 +1,5 @@
 
+<div class="quake-station-info.cmp">
 <ul>
 <li>Dist: {{format-number quakeStation.distdeg}}</li>
 <li>Azimuth: {{format-number quakeStation.azimuth}}</li>
@@ -10,9 +11,10 @@
 {{#liquid-spacer}}
   {{#if showCookieJar}}
 {{#each quakeStation.ecps as |quakeVector|}}
-<h5>{{#each quakeVector.channels as |channel|}}{{channel.siteCode}}.{{channel.channelCode}}{{/each}}</h5>
+<h5>{{#each quakeVector.channels as |channel|}}{{channel.locCode}}.{{channel.channelCode}}{{/each}}</h5>
 {{raw-json-display rawJson=quakeVector.cookieJar}}
 {{/each}}
   {{/if}}
 {{/liquid-spacer}}
 {{yield}}
+</div>
