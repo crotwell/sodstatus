@@ -1,21 +1,27 @@
 ---
 language: node_js
 node_js:
-  - "6"
+  - "10"
 
-sudo: false
+dist: trusty
+
+addons:
+  chrome: stable
 
 cache:
   directories:
     - $HOME/.npm
 
-before_install:
-  - npm config set spin false
-  - npm install -g phantomjs-prebuilt
-  - phantomjs --version
+env:
+  global:
+    # See https://git.io/vdao3 for details.
+    - JOBS=1
 
-install:
-  - npm install
+branches:
+  only:
+    - master
 
 script:
+  - npm run lint:hbs
+  - npm run lint:js
   - npm test
