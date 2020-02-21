@@ -1,9 +1,10 @@
-import Ember from 'ember';
+import { helper } from '@ember/component/helper';
 
-export function formatXml(params/*, hash*/) {
+export default helper(function formatXml(params/*, hash*/) {
   let raw = params[0];
   return Ember.String.htmlSafe(doformatXml(raw));
-}
+});
+
 
 // modified from from https://gist.github.com/kurtsson/3f1c8efc0ccd549c9e31
 function doformatXml(xml) {
@@ -28,13 +29,13 @@ function doformatXml(xml) {
     } else {
       indent = 0;
     }
-  
+
     var padding = '';
     for (var i = 0; i < pad; i++) {
       //padding += '  ';
       padding += '  ';
     }
-  
+
     //formatted += padding + escapeBrackets(node) + '<br/>';
     formatted += padding + escapeBrackets(node) + '\n';
     pad += indent;
@@ -47,5 +48,3 @@ function escapeBrackets(node) {
   //return formatted.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/ /g, '&nbsp;');
   return node.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/ /g, '&nbsp;');
 }
-
-export default Ember.Helper.helper(formatXml);

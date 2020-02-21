@@ -1,6 +1,6 @@
-import DS from 'ember-data';
+import Model, { attr } from '@ember-data/model';
 
-export default DS.Model.extend({
-  timestamp: DS.attr('date'),
-  config: DS.attr('string')
-});
+export default class SodConfigModel extends Model {
+  @attr('date') timestamp;
+  @attr('string') config;
+}
