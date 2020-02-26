@@ -1,12 +1,10 @@
-import DS from 'ember-data';
-import Ember from 'ember';
+import Model, { attr } from '@ember-data/model';
 
-export default DS.Model.extend({
-  value: DS.attr('number'),
-  magType: DS.attr('string'),
-  contributor: DS.attr('string'),
-  quake: DS.belongsTo('quake'),
-  magFormatted: Ember.computed('value', function() {
-     return this.get('value').toFixed(2);
-  }),
-});
+export default class MagnitudeModel extends Model {
+  @attr('number') value;
+  @attr('string') magType;
+  @attr('string') contributor
+  get magFormatted() {
+    return this.get('value').toFixed(2);
+  }
+}

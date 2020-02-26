@@ -1,14 +1,9 @@
-import DS from 'ember-data';
-import Ember from 'ember';
+import Model, { attr, belongsTo, hasMany} from '@ember-data/model';
 
-export default DS.Model.extend({
-  name: DS.attr('string'),
-  numSuccessfulStations: DS.attr('number'),
-  prefOrigin: DS.belongsTo('origin', { async: true }),
-  prefMagnitude: DS.belongsTo('magnitude', { async: false }),
-  sodStatus: DS.attr('string'),
-  esps: DS.hasMany('quakeStation', {async: true}),
-  stations: Ember.computed('esps', function() {
-    return this.get('esps').getEach('station');
-  }),
-});
+export default class QuakeModel extends Model {
+  @attr('string') name;
+  @attr('string') sodStatus;
+  @attr('number') numSuccessfulStations;
+  @belongsTo('magnitude') prefMagnitude;
+  @belongsTo('origin') prefOrigin;
+}

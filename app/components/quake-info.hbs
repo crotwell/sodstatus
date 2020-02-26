@@ -1,0 +1,16 @@
+<div class="quake-info">
+<h3>Event: <LinkTo @route='quakes.quake.stations' @model={{@quake}} >
+  {{@quake.name}}
+  </LinkTo>
+</h3>
+<ul>
+  <li>{{format-iso-date @quake.prefOrigin.time }}</li>
+  <li>{{@quake.prefMagnitude.magFormatted}} {{@quake.prefMagnitude.magType}}</li>
+  <li>{{@quake.prefOrigin.depthFormatted}} km</li>
+  <li>({{@quake.prefOrigin.latitudeFormatted}},{{@quake.prefOrigin.longitudeFormatted}})</li>
+  <li>dbid: {{@quake.id}}</li>
+</ul>
+
+
+{{yield}}
+</div>

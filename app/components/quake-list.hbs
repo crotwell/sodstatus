@@ -1,3 +1,4 @@
+
 <table >
   <thead>
     <th {{action "sortBy" "name"}}>Name</th>
@@ -9,16 +10,18 @@
     <th {{action "sortBy" "sodStatus"}}>Status</th>
     <th {{action "sortBy" "numSuccessfulStations"}}>Num</th>
     </thead>
-  {{#each sortedQuakes as |e|}}
+  {{#each @quakes as |quake|}}
     <tr>
-      <td>{{#link-to 'quakes.show.stations' e}}{{e.name}}{{/link-to}}</td>
-      <td>{{format-iso-date e.prefOrigin.time }}</td>
-      <td>{{e.prefMagnitude.magFormatted}} {{e.prefMagnitude.magType}}</td>
-      <td>{{e.prefOrigin.latitudeFormatted}}</td>
-      <td>{{e.prefOrigin.longitudeFormatted}}</td>
-      <td>{{e.prefOrigin.depthFormatted}} km</td>
-      <td>{{e.sodStatus}}</td>
-      <td>{{e.numSuccessfulStations}}</td>
+      <td>
+        <LinkTo @route='quakes.quake' @model={{quake.id}} >{{quake.name}}</LinkTo>
+      </td>
+      <td>{{format-iso-date quake.prefOrigin.time }}</td>
+      <td>{{quake.prefMagnitude.magFormatted}} {{quake.prefMagnitude.magType}}</td>
+      <td>{{quake.prefOrigin.latitudeFormatted}}</td>
+      <td>{{quake.prefOrigin.longitudeFormatted}}</td>
+      <td>{{quake.prefOrigin.depthFormatted}} km</td>
+      <td>{{quake.sodStatus}}</td>
+      <td>{{quake.numSuccessfulStations}}</td>
     </tr>
   {{/each}}
 </table>

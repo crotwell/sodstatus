@@ -1,13 +1,9 @@
+
 <div class="quakeList">
-<h1>Events</h1>
+  <h1>Events</h1>
+  <h5>Found {{@model.length}} {{@this.sortedQuakes.length}}</h5>
 
-
-{{#quake-station-map quakes=model magToPixelScale=3 }}
-{{/quake-station-map}}
-
-
-
-{{quake-list quakes=model }}
+  <QuakeList @quakes={{@model}}></QuakeList>
 
 </div>
 
