@@ -1,15 +1,4 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
 
-export default Ember.Route.extend({
-  model: function(params) {
-    return this.store.findRecord('station', params.station_id);
-  },
-  afterModel: function(model, transition) {
-      return Ember.RSVP.hash({
-        netHash: model.get('network'),
-        chanHash: model.get('channels'),
-        qHash: model.get('quakes'),
-        quakesHash: Ember.RSVP.all(model.get('quakes').getEach('prefOrigin'))
-      });
-  }
-});
+export default class StationRoute extends Route {
+}

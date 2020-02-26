@@ -1,8 +1,17 @@
+
+
+<h3>Station</h3>
+
 <div class="station">
-
-{{station-info station=model}}
-
+  <ul>
+    <li>Id: {{@model.id}}</li>
+    <li>Code: {{@model.stationCode}}</li>
+    <li>Start: {{format-iso-date @model.startTime format='YYYY-MM-DD'}}</li>
+    <li>End: {{format-iso-date @model.endTime format='YYYY-MM-DD'}}</li>
+    <li>Name: {{@model.site.name}}</li>
+    <li>Desc: {{@model.site.description}}</li>
+    <li>Loc: {{@model.latitude}}/{{@model.longitude}}</li>
+  </ul>
 </div>
 
 {{outlet}}
-

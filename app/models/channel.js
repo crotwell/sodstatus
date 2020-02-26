@@ -1,14 +1,14 @@
-import DS from 'ember-data';
+import Model, { attr, belongsTo } from '@ember-data/model';
 
-export default DS.Model.extend({
-  channelCode: DS.attr('string'),
-  locCode: DS.attr('string'),  
-  station: DS.belongsTo('station', {async: true}),
-  startTime: DS.attr('date'),
-  endTime: DS.attr('date'),
-  latitude: DS.attr('number'),
-  longitude: DS.attr('number'),
-  elevation: DS.attr('number'),
-  depth: DS.attr('number'),
-  sps: DS.attr('number')
-});
+export default class ChannelModel extends Model {
+    @attr('string') channelCode;
+    @attr('string') locCode;
+    @belongsTo('station', {async: true}) station;
+    @attr('date') startTime;
+    @attr('date') endTime;
+    @attr('number') latitude;
+    @attr('number') longitude;
+    @attr('number') elevation;
+    @attr('number') depth;
+    @attr('number') sps;
+}

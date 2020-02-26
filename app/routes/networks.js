@@ -1,7 +1,8 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
 
-export default Ember.Route.extend({
-  model: function() {
+
+export default class NetworksRoute extends Route {
+  model() {
     return this.store.findAll('network');
   }
-});
+}

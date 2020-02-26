@@ -1,0 +1,23 @@
+<div class="network">
+  <ul>
+    <li>Id: {{@model.id}}</li>
+    <li>Code: {{@model.networkCode}}</li>
+    <li>Start: {{format-iso-date @model.startTime format='YYYY-MM-DD'}}</li>
+    <li>End: {{format-iso-date @model.endTime format='YYYY-MM-DD'}}</li>
+    <li>Desc: {{@model.description}}</li>
+  </ul>
+</div>
+
+
+<div class="stationList">
+<h1>Stations</h1>
+<ul>
+  {{#each @model.stations as |station|}}
+    <li>
+      <LinkTo @route='station' @model={{station.id}} >
+        {{station.stationCode}} - {{station.site.name}} {{station.site.description}}
+      </LinkTo>
+    </li>
+  {{/each}}
+</ul>
+</div>

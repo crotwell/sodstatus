@@ -1,0 +1,13 @@
+
+<div class="networkList">
+<h1>Networks</h1>
+<ul>
+  {{#each @model as |network|}}
+    <li>
+      <LinkTo @route='networks.network' @model={{network.id}} >
+        {{network.networkCode}}{{#if network.isTempNet}}({{network.startTimeUTC}}){{/if}} - {{network.description}}
+      </LinkTo>
+    </li>
+  {{/each}}
+</ul>
+</div>
