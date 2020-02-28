@@ -1,8 +1,9 @@
 import { helper } from '@ember/component/helper';
+import { htmlSafe } from '@ember/template';
 
 export default helper(function formatXml(params/*, hash*/) {
   let raw = params[0];
-  return Ember.String.htmlSafe(doformatXml(raw));
+  return htmlSafe(doformatXml(raw));
 });
 
 
@@ -24,7 +25,7 @@ function doformatXml(xml) {
       if (pad !== 0) {
         pad -= 1;
       }
-    } else if (node.match(/^<\w[^>]*[^\/]>.*$/)) {
+    } else if (node.match(/^<\w[^>]*[^/]>.*$/)) {
       indent = 1;
     } else {
       indent = 0;

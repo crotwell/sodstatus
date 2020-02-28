@@ -14,7 +14,7 @@
 <ul>
   {{#each @model.stations as |station|}}
     <li>
-      <LinkTo @route='station' @model={{station.id}} >
+      <LinkTo @route='stations.station' @model={{station.id}} >
         {{station.stationCode}} - {{station.site.name}} {{station.site.description}}
       </LinkTo>
     </li>

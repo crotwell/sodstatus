@@ -10,4 +10,13 @@ export default class StationModel extends Model {
   @attr('number') latitude;
   @attr('number') longitude;
   @attr('number') elevation;
+  get latitudeFormatted() {
+     return this.latitude.toFixed(2);
+  }
+  get longitudeFormatted() {
+     return this.longitude.toFixed(2);
+  }
+  get elevationFormatted() {
+     return this.elevation.toFixed(2);
+  }
 }

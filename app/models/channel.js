@@ -11,4 +11,16 @@ export default class ChannelModel extends Model {
     @attr('number') elevation;
     @attr('number') depth;
     @attr('number') sps;
+    get latitudeFormatted() {
+       return this.latitude.toFixed(2);
+    }
+    get longitudeFormatted() {
+       return this.longitude.toFixed(2);
+    }
+    get elevationFormatted() {
+       return this.elevation.toFixed(2);
+    }
+    get depthFormatted() {
+       return this.depth.toFixed(2);
+    }
 }

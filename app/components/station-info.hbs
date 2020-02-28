@@ -1,0 +1,62 @@
+<div class="station-info">
+
+<h3>Station: <LinkTo @route='stations.station.quakes' @model=@station>
+    {{@station.network.networkCode}}.{{@station.stationCode}}
+  </LinkTo>
+</h3>
+
+<ul>
+<li><LinkTo @route='networks.network'  @model=@station.network>
+    {{@station.network.networkCode}}
+  </LinkTo></li>
+<li>{{@station.stationCode}}</li>
+<li>{{@station.id}}</li>
+<li>{{@station.name}}</li>
+<li>{{@station.description}}</li>
+<li>{{format-iso-date @station.startTime format='YYYY-MM-DD'}}
+{{#if @station.endTime}} to {{format-iso-date @station.endTime format='YYYY-MM-DD'}}
+{{else}}
+until&#8230;
+{{/if}}</li>
+<li>{{@station.elevationFormatted}} m</li>
+<li>({{@station.latitudeFormatted}}, {{@station.longitudeFormatted}})</li>
+</ul>
+
+<h5>Channels</h5>
+
+<label>{{input type="checkbox" checked=showChannels}} {{#if showChannels}}Hide{{else}}Show{{/if}} Channels</label>
+
+    {{#if showChannels}}
+      <table>
+       <tr><th>Id</th>
+           <th>Codes</th>
+           <th>Start</th>
+           <th>End</th>
+           <th>Lat</th>
+           <th>Lon</th>
+           <th>Elev</th>
+           <th>Depth</th>
+           <th>Sps</th>
+       </tr>
+      {{#each @station.channels as |chan|}}
+        <tr><td>{{chan.id}}</td>
+            <td> {{chan.locCode}}.{{chan.channelCode}}</td>
+            <td>{{chan.startTime}}</td>
+            <td>{{chan.endTime}}</td>
+            <td>{{chan.latitudeFormatted}}</td>
+            <td>{{chan.longitudeFormatted}}</td>
+            <td>{{chan.elevationFormatted}}</td>
+            <td>{{chan.depthFormatted}}</td>
+            <td>{{chan.sps}}</td>
+        </tr>
+      {{/each}}
+      </table>
+    {{else}}
+      {{@station.channels.length}} channels.
+    {{/if}}
+
+</div>
+
+
+
+{{yield}}
