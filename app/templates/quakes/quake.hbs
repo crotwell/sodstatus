@@ -4,5 +4,8 @@
 <div class="quake">
 <QuakeInfo @quake={{@model}}/>
 
+<LinkTo @route="quakes.quake.stations" @model={{@model.id}} >Stations</LinkTo>
+
+
 {{outlet}}
 </div>

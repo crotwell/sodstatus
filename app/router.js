@@ -22,4 +22,7 @@ Router.map(function() {
       this.route('quakes');
     });
   });
+  this.route('quake-stations', function() {
+    this.route('quake-station', { path: '/:quake_station_id' });
+  });
 });

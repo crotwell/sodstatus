@@ -1,32 +1,10 @@
-import DS from 'ember-data';
-import Ember from 'ember';
+import Model, { attr, belongsTo } from '@ember-data/model';
 
-export default DS.Model.extend({
-    sodStatus: DS.attr('string'),
-    distdeg: DS.attr('number'),
-    azimuth: DS.attr('number'),
-    backazimuth: DS.attr('number'),
-    quake: DS.belongsTo('quake', {async: true}),  
-    station: DS.belongsTo('station', {async: true}),
-    ecps: DS.hasMany('quakeVector', {async: true}),
-    measurements: DS.hasMany('measurement', {async: true, defaultValue: Ember.A([]) }),
-
-    allWaveforms: Ember.computed('ecps', function() {
-      return Ember.RSVP.all(this.get('ecps').getEach('waveform'));
-    }),
-
-    measurementForName(name) {
-console.log("quake-station model measurementsForName");
-      return this.get('measurements').then(meas => {
-      console.log("measurementForName("+name+"  "+meas.length);
-      return meas.find( m => m.get('name') == name);
-      });
-    },
-    putMeasurement(inMeas) {
-      this.get('measurements').then(meas => {
-        let idx = meas.findIndex(m => m.get('name') == inMeas.get('name'));
-        if (idx == -1) meas.push(inMeas);
-        else meas[idx] = inMeas;
-      });
-    }
-});
+export default class QuakeStationModel extends Model {
+    @attr('string') sodStatus;
+    @attr('number') distdeg;
+    @attr('number') azimuth;
+    @attr('number') backazimuth;
+    @belongsTo('quake') quake;
+    @belongsTo('station') station;
+}

@@ -1,3 +1,12 @@
+
+<p>station-quake-list: found {{sortedQuakes.length}} sorted quakes</p>
+
+{{#each sortedQuakes as |esp|}}
+<p>ESP: {{esp}}</p>
+{{else}}
+<p>Oops, list is empty</p>
+{{/each}}
+
 <table >
   <thead>
     <th {{action "sortBy" "quake.name"}}>Name</th>
@@ -11,7 +20,7 @@
     </thead>
   {{#each sortedQuakes as |esps|}}
     <tr>
-      <td>{{#link-to 'station.quake' station.id esps.id }}{{esps.quake.name}}{{/link-to}}</td>
+      <td><LinkTo @route='quake-stations.quake-station' @model={{esps.id}} >{{esps.quake.name}}</LinkTo></td>
       <td>{{format-number esps.distdeg 2 }}</td>
       <td>{{format-iso-date esps.quake.prefOrigin.time }}</td>
       <td>{{esps.quake.prefMagnitude.magFormatted}} {{esps.quake.prefMagnitude.magType}}</td>

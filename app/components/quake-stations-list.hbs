@@ -1,0 +1,23 @@
+
+<p>quake-stations-list</p>
+<p>Found {{@quakeStationPairs.length}} quake-station pairs.</p>
+<table >
+  <thead>
+    <th {{action "sortBy" "station.codes"}}>Name</th>
+    <th {{action "sortBy" "distdeg"}}>Dist</th>
+    <th {{action "sortBy" "quake.prefOrigin.latitude"}}>Lat</th>
+    <th {{action "sortBy" "quake.prefOrigin.longitude"}}>Lon</th>
+    <th {{action "sortBy" "sodStatus"}}>Status</th>
+    </thead>
+  {{#each @quakeStationPairs as |esps|}}
+    <tr>
+      <td><LinkTo @route='quake-stations.quake-station' @model={{esps.id}} >{{esps.station.codes}}</LinkTo></td>
+      <td>{{format-number esps.distdeg 2 }}</td>
+      <td>{{esps.station.latitudeFormatted}}</td>
+      <td>{{esps.station.longitudeFormatted}}</td>
+      <td>{{esps.sodStatus}}</td>
+    </tr>
+  {{/each}}
+</table>
+
+{ {yield}}

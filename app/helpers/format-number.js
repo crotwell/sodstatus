@@ -1,9 +1,7 @@
-import Ember from 'ember';
+import { helper } from '@ember/component/helper';
 
-export function formatNumber(params/*, hash*/) {
+export default helper(function formatNumber(params/*, hash*/) {
   if ( typeof params[0] == 'undefined') { return "";}
   let decimalDigits = params[1]===undefined ? 2 : params[1];
   return params[0].toFixed(decimalDigits);
-}
-
-export default Ember.Helper.helper(formatNumber);
+});
