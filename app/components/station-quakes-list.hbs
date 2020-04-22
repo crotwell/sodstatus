@@ -1,12 +1,6 @@
 
 <p>station-quake-list: found {{sortedQuakes.length}} sorted quakes</p>
 
-{{#each sortedQuakes as |esp|}}
-<p>ESP: {{esp}}</p>
-{{else}}
-<p>Oops, list is empty</p>
-{{/each}}
-
 <table >
   <thead>
     <th {{action "sortBy" "quake.name"}}>Name</th>
