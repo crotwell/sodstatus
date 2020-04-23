@@ -1,15 +1,6 @@
 
-<h3>Quake-Station Pairs</h3>
-
-<p>Found {{@model.quakeStationPairs.length}} quake-station pairs.</p>
-
+<h3>Quake-Station Pairs ({{@model.quakeStationPairs.length}})</h3>
 
 <QuakeStationsList @quakeStationPairs={{@model.quakeStationPairs}} ></QuakeStationsList>
 
-<!--
-{{#each @model.quakeStationPairs as |esps|}}
-<p>{{esps}}  {{format-number esps.distdeg 2 }}</p>
-
-{{/each}}
--->
 {{outlet}}

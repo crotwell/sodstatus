@@ -1,24 +1,32 @@
 
 <h3>Quake-Station Pair</h3>
 
+
+<h3>Station: </h3>
 <StationInfo @station={{@model.station}}>
 </StationInfo>
 
+<h3>Quake: </h3>
 <QuakeInfo @quake={{@model.quake}}/>
 
+<h3>Quake-Station</h3>
 <table>
   <tbody>
     <tr>
-      <td>sodStatus</td><td>{{@model.sodStatus}}</td>
+      <td>Dist</td>
+      <td>{{@model.distDegFormatted}} deg/ {{@model.distKmFormatted}} km</td>
     </tr>
     <tr>
-      <td>distdeg</td><td>{{@model.distdeg}}</td>
+      <td>Azimuth</td>
+      <td>{{@model.azimuthFormatted}}</td>
     </tr>
     <tr>
-      <td>azimuth</td><td>{{@model.azimuth}}</td>
+      <td>Backazimuth</td>
+      <td>{{@model.backazimuthFormatted}}</td>
     </tr>
     <tr>
-      <td>backazimuth</td><td>{{@model.backazimuth}}</td>
+      <td>Status</td>
+      <td>{{@model.sodStatus}}</td>
     </tr>
   </tbody>
 </table>

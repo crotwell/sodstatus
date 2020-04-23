@@ -1,26 +1,44 @@
 <div class="station-info">
 
-<h3>Station: <LinkTo @route='stations.station.quakes' @model=@station>
-    {{@station.network.networkCode}}.{{@station.stationCode}}
-  </LinkTo>
-</h3>
 
-<ul>
-<li><LinkTo @route='networks.network'  @model=@station.network>
-    {{@station.network.networkCode}}
-  </LinkTo></li>
-<li>{{@station.stationCode}}</li>
-<li>{{@station.id}}</li>
-<li>{{@station.name}}</li>
-<li>{{@station.description}}</li>
-<li>{{format-iso-date @station.startTime format='YYYY-MM-DD'}}
-{{#if @station.endTime}} to {{format-iso-date @station.endTime format='YYYY-MM-DD'}}
-{{else}}
-until&#8230;
-{{/if}}</li>
-<li>{{@station.elevationFormatted}} m</li>
-<li>({{@station.latitudeFormatted}}, {{@station.longitudeFormatted}})</li>
-</ul>
+<table>
+  <tbody>
+    <tr>
+      <td>Network</td>
+      <td><LinkTo @route='networks.network'  @model={{@station.network}}>
+          {{@station.network.networkCode}}
+        </LinkTo></td>
+    </tr>
+    <tr>
+      <td>Station</td>
+      <td><LinkTo @route='stations.station.quakes' @model={{@station}}>{{@station.stationCode}}</LinkTo></td>
+    </tr>
+    <tr>
+      <td>Name</td>
+      <td>{{@station.site.name}}</td>
+    </tr>
+    <tr>
+      <td>Desc</td>
+      <td>{{@station.site.description}}</td>
+    </tr>
+    <tr>
+      <td>Time Epoch</td>
+      <td>{{format-iso-date @station.startTime format='YYYY-MM-DD'}}
+      {{#if @station.endTime}} to {{format-iso-date @station.endTime format='YYYY-MM-DD'}}
+      {{else}}
+      until&#8230;
+      {{/if}}</td>
+    </tr>
+    <tr>
+      <td>Lat/Lon</td>
+      <td>({{@station.latitudeFormatted}}, {{@station.longitudeFormatted}})</td>
+    </tr>
+    <tr>
+      <td>Elevation</td>
+      <td>{{@station.elevationFormatted}} m</td>
+    </tr>
+  </tbody>
+</table>
 
 <h5>Channels</h5>
 

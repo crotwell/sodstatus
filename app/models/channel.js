@@ -12,15 +12,31 @@ export default class ChannelModel extends Model {
     @attr('number') depth;
     @attr('number') sps;
     get latitudeFormatted() {
-       return this.latitude.toFixed(2);
+      if (this.latitude) {
+        return this.latitude.toFixed(2);
+      } else {
+        return "UNDEF";
+      }
     }
     get longitudeFormatted() {
-       return this.longitude.toFixed(2);
+      if (this.longitude) {
+        return this.longitude.toFixed(2);
+      } else {
+        return "UNDEF";
+      }
     }
     get elevationFormatted() {
-       return this.elevation.toFixed(2);
+      if (this.elevation) {
+        return this.elevation.toFixed(2);
+      } else {
+        return "UNDEF";
+      }
     }
     get depthFormatted() {
-       return this.depth.toFixed(2);
+      if (this.depth) {
+        return this.depth.toFixed(2);
+      } else {
+        return "UNDEF";
+      }
     }
 }

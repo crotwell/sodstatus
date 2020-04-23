@@ -58,5 +58,8 @@
   },
   "ember": {
     "edition": "octane"
+  },
+  "dependencies": {
+    "seisplotjs": "^2.0.0"
   }
 }
