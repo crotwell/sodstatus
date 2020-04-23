@@ -1,7 +1,5 @@
-import DS from 'ember-data';
+import Model from '@ember-data/model';
 
-export default DS.Model.extend({
-  numRecords: DS.attr('number'),
-  mseed: DS.attr()
-   
-});
+export default class WaveformModel extends Model {
+
+}

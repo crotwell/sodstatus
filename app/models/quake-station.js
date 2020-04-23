@@ -1,4 +1,4 @@
-import Model, { attr, belongsTo } from '@ember-data/model';
+import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 import {distaz,} from 'seisplotjs';
 
 export default class QuakeStationModel extends Model {
@@ -8,6 +8,7 @@ export default class QuakeStationModel extends Model {
     @attr('number') backazimuth;
     @belongsTo('quake') quake;
     @belongsTo('station') station;
+    @hasMany('quake-vector', {async: true}) ecps;
 
     get distDegFormatted() {
       if (this.distdeg) {

@@ -8,6 +8,7 @@ export default class QuakeStationsQuakeStationRoute extends Route {
       return RSVP.hash({
           model: quakeStation,
           quakeHash: quakeStation.get('quake'),
+          qvHash: RSVP.all(Array.from(quakeStation.get('ecps'))),
           stationHash: quakeStation.get('station')
       }).then(hash => {
         return RSVP.hash({
