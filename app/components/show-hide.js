@@ -12,11 +12,15 @@ export default class ShowHideComponent extends Component {
     this.hide = ! this.hide;
   }
 
+  get buttonText() {
+    return this.hide ? "Show" : "Hide";
+  }
+
   @action
   showMe() {
     this.hide = false;
   }
-  
+
   @action
   hideMe() {
     this.hide = true;

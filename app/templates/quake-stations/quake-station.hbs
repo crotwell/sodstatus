@@ -1,34 +1,35 @@
 
 <h3>Quake-Station Pair</h3>
 
+<ShowHide @divTitle="Info">
+  <div class="boxRow">
+    <div>
+      <h3>Station: </h3>
+      <StationInfo @station={{@model.station}}>
+      </StationInfo>
+    </div>
+    <div>
+      <h3>Quake: </h3>
+      <QuakeInfo @quake={{@model.quake}}/>
+    </div>
+    <div>
+      <h3>Quake-Station</h3>
+      <QuakeStationInfo @quakeStation={{@model}}></QuakeStationInfo>
+    </div>
+  </div>
+</ShowHide>
 
-<h3>Station: </h3>
-<StationInfo @station={{@model.station}}>
-</StationInfo>
+<h3>Quake-Vectors</h3>
+<ul>
+{{#each @model.ecps as |qv|}}
+<li>{{qv}}  {{qv.waveformURL}} {{qv.channels.length}}
+  {{#each qv.channels as |ch|}}{{ch.channelCode}}{{/each}}
+</li>
+{{/each}}
+</ul>
 
-<h3>Quake: </h3>
-<QuakeInfo @quake={{@model.quake}}/>
-
-<h3>Quake-Station</h3>
-<table>
-  <tbody>
-    <tr>
-      <td>Dist</td>
-      <td>{{@model.distDegFormatted}} deg/ {{@model.distKmFormatted}} km</td>
-    </tr>
-    <tr>
-      <td>Azimuth</td>
-      <td>{{@model.azimuthFormatted}}</td>
-    </tr>
-    <tr>
-      <td>Backazimuth</td>
-      <td>{{@model.backazimuthFormatted}}</td>
-    </tr>
-    <tr>
-      <td>Status</td>
-      <td>{{@model.sodStatus}}</td>
-    </tr>
-  </tbody>
-</table>
+{{#each @model.ecps as |qv|}}
+<SeismogramDisplay @quakeVector={{qv}}></SeismogramDisplay>
+{{/each}}
 
 {{outlet}}
