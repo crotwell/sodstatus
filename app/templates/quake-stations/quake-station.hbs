@@ -19,15 +19,6 @@
   </div>
 </ShowHide>
 
-<h3>Quake-Vectors</h3>
-<ul>
-{{#each @model.ecps as |qv|}}
-<li>{{qv}}  {{qv.waveformURL}} {{qv.channels.length}}
-  {{#each qv.channels as |ch|}}{{ch.channelCode}}{{/each}}
-</li>
-{{/each}}
-</ul>
-
 {{#each @model.ecps as |qv|}}
 <SeismogramDisplay @quakeVector={{qv}}></SeismogramDisplay>
 {{/each}}
