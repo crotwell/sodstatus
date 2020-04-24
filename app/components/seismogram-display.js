@@ -28,5 +28,8 @@ export default class SeismogramDisplayComponent extends Component {
       let seisData = seismogram.SeismogramDisplayData.fromSeismogram(seis);
       let graph = new seismograph.Seismograph(div, seisConfig, seisData);
       graph.draw();
+      if (graph.checkResize()) {
+        graph.draw();
+      }
   }
 }

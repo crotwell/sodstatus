@@ -6,3 +6,7 @@
 .boxRow div {
   padding: 10px;
 }
+
+.seismogramDiv svg.seismograph {
+  min-height: 300px;
+}
