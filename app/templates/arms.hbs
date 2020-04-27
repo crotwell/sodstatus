@@ -1,8 +1,16 @@
 <table>
-<thead><th>Arm</th><th>Status</th></thead>
-{{#each model as |a|}}
-<tr><td>{{a.name}}</td><td>{{a.isActive}}</td></tr>
-{{/each}}
+  <thead>
+    <th>Arm</th>
+    <th>Status</th>
+  </thead>
+  <tbody>
+    {{#each @model as |a|}}
+      <tr>
+        <td>{{a.name}}</td>
+        <td>{{#if a.isActive}}Running{{else}}Stopped{{/if}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
 </table>
 
 {{outlet}}

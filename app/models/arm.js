@@ -1,6 +1,6 @@
-import DS from 'ember-data';
+import Model, {attr} from '@ember-data/model';
 
-export default DS.Model.extend({
-  name: DS.attr('string'),
-  isActive: DS.attr('boolean')
-});
+export default class ArmModel extends Model {
+  @attr('string') name;
+  @attr('boolean') isActive;
+}
