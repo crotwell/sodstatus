@@ -1,0 +1,15 @@
+
+
+{{#if @quakeStation}}
+<LinkTo @route='quake-stations.quake-station' @model={{@quakeStation.id}} >{{quakeStation.quake.name}}
+  {{#if isPrimaryByQuake}}
+    {{@quakeStation.id}} {{@quakeStation.station.codes}} {{unless isSameAsCurr @quakeStation.quake.name}}
+  {{else}}
+    {{@quakeStation.id}} {{@quakeStation.quake.name}} {{unless isSameAsCurr @quakeStation.station.codes}}
+  {{/if}}
+</LinkTo>
+{{else}}
+  no qs {{@quakeStation}}
+{{/if}}
+
+{{yield}}

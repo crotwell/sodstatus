@@ -1,16 +1,14 @@
 <h1>Perusals</h1>
 
 <ul>
-  {{#each model as |perusal|}}
+  {{#each @model as |perusal|}}
     <li>
-      Name: {{#link-to 'perusals.show' perusal.id}} {{perusal.name}} {{/link-to}} 
-      ID: {{#link-to 'perusals.show' perusal.id}}<span class="small">{{perusal.id}}</span>
-      {{/link-to}}
+      Name: <LinkTo @route="perusals.perusal" @model={{perusal.id}} >{{perusal.name}}</LinkTo>
+      ID: <LinkTo @route="perusals.perusal" @model={{perusal.id}} ><span class="small">{{perusal.id}}</span></LinkTo>
     </li>
   {{/each}}
 </ul>
 
-{{#link-to 'perusals.new'}}
-Create New Perusal
-{{/link-to}}
+<LinkTo @route="perusals.new" >Create New Perusal</LinkTo>
 
+{{outlet}}

@@ -1,8 +1,8 @@
-import DS from 'ember-data';
+import Model, {attr, belongsTo } from '@ember-data/model';
 
-export default DS.Model.extend({
-  toolType: DS.attr('string'),
-  name: DS.attr('string'),
-  toolConfig: DS.attr(),
-  perusal: DS.belongsTo('perusal')
-});
+export default class MeasurementToolModel extends Model {
+  @attr('string') toolType;
+  @attr('string') name;
+  @attr() toolConfig;
+  @belongsTo('perusal') perusal;
+}

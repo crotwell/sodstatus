@@ -1,0 +1,78 @@
+
+
+
+<button {{on "click"  @model.goToFirst }} type="button">First</button>
+<button {{on "click"  @model.goToPrev }}  type="button">Previous</button>
+<button {{on "click"  @model.goToFirst }} type="button">Save</button>
+<button {{on "click"  @model.goToNext }}   type="button">Next</button>
+Curr is <Perusals::QuakeOrStationLink @quakeStation={{@model.curr}} @primarySort={{@model.primarySort}} @current={{@model.curr}}/>
+Next is <Perusals::QuakeOrStationLink @quakeStation={{@model.next}} @primarySort={{@model.primarySort}} @current={{@model.curr}}/>
+
+<div class='small-map'>
+<Quake-Station-Map @quakes={{@model.curr.quake}} @stations={{@model.curr.station}}/>
+</div>
+
+<ul>
+<li>Found {{@model.tools.length}} tools</li>
+{{#each @model.tools as |tool|}}
+  <li>
+  {{#if tool.toolType}}
+    {{component (concat 'measurement/' tool.toolType) perusal=@model tool=tool curr=@model.curr }}
+  {{else}}
+    <span>Loading tool: {{tool.name}} {{tool.toolType}}</span>
+  {{/if}}
+  </li>
+{{/each}}
+</ul>
+
+<ul>
+<li>Perusal: {{@model.name}} <span class="small">{{@model.id}}</span></li>
+<li>Quake: {{@model.curr.quake.name}} {{format-iso-date  @model.curr.quake.prefOrigin.time}} ({{ format-number @model.curr.quake.prefOrigin.latitude}}, {{ format-number @model.curr.quake.prefOrigin.longitude}})</li>
+<li>Station: {{@model.curr.station.codes}} ({{ format-number @model.curr.station.latitude}}, {{ format-number @model.curr.station.longitude}})</li>
+<li>Num Ecps: {{@model.curr.ecps.length}}</li>
+</ul>
+
+  <div class="ecp">
+    {{#each @model.curr.ecps as |qv|}}
+      <SeismogramDisplay @isOverlay="false" @quakeVector={{qv}} />
+    {{/each}}
+  </div>
+
+<h3>Debugging/extra below here:</h3>
+
+<LinkTo @route='perusals'>
+All Perusals
+</LinkTo>
+
+<ul>
+  <li>ID: {{@model.id}}</li>
+  <li>Name: {{@model.name}}</li>
+  <li>User: {{@model.username}}</li>
+  <li>Primary Sort: {{@model.primarySort}}</li>
+  <li>Event Sort: {{@model.eventSort}}</li>
+  <li>Station Sort: {{@model.stationSort}}</li>
+  <li>Current Event: {{format-iso-date  @model.curr.quake.prefOrigin.time}} {{@model.curr.quake.name}}</li>
+  <li>Current Station: {{@model.curr.station.codes}}</li>
+  <li>
+    First: <Perusals::QuakeOrStationLink @quakeStation={{@model.first}} @primarySort={{@model.primarySort}} @current={{@model.curr}}/>
+  </li>
+  <li>
+    Prev: <Perusals::QuakeOrStationLink @quakeStation={{@model.prev}} @primarySort={{@model.primarySort}} @current={{@model.curr}}/>
+  </li>
+  <li>
+    Curr: <Perusals::QuakeOrStationLink @quakeStation={{@model.curr}} @primarySort={{@model.primarySort}} @current={{@model.curr}}/>
+  </li>
+  <li>
+    Next: <Perusals::QuakeOrStationLink @quakeStation={{@model.next}} @primarySort={{@model.primarySort}} @current={{@model.curr}}/>
+  </li>
+  <li>Tools:
+    <ul>
+      {{#each @model.tools as |tool|}}
+        <li>{{tool.name}} {{tool.toolType}}</li>
+      {{/each}}
+   </ul>
+  </li>
+</ul>
+<button {{on "click" @model.delete}} type="button">Delete</button>
+
+{{outlet}}

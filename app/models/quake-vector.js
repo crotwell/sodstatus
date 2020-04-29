@@ -8,6 +8,6 @@ export default class QuakeVectorModel extends Model {
     @belongsTo('quake') quake;
     @hasMany('channel') channels;
     @attr('string') cookieJar;
-    @hasMany('waveform', {async: true}) waveforms;
+    @hasMany('waveform') waveforms;
 
 }

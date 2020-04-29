@@ -1,3 +1,7 @@
+<h5>Seismograph qv: {{@quakeVector.id}} w:{{@quakeVector.waveforms.length}}</h5>
+{{#each @quakeVector.waveforms as |w|}}
+<h5>{{w.dataUrl}}</h5>
+{{/each}}
 
 <div class="seismogramDiv" ...attributes {{did-insert this.createGraph}}>
 

@@ -26,4 +26,8 @@ Router.map(function() {
     this.route('quake-station', { path: '/:quake_station_id' });
   });
   this.route('arms');
+  this.route('perusals', function() {
+    this.route('perusal', { path: '/:perusal_id' });
+    this.route('new');
+  });
 });

@@ -1,0 +1,57 @@
+<form {{action "save" on="submit"}}>
+<h2 class="errorMessage">{{errorMessage}}</h2>
+  <p>
+    <label> Name:
+      <Input value={{mut @perusal.name}}/>
+    </label>
+  </p>
+  <p>
+    <label>User Name:
+      <Input value={{mut @perusal.username}}/>
+    </label>
+  </p>
+  <p>Event Sort:
+  <div>
+    <Input {{on "click" (action (mut @perusal.eventSort) "time")}} type="radio" name="eventSort" checked=true /> <label><span class="checkable">Time</span></label>
+    <Input {{on "click" (action (mut @perusal.eventSort) "mag")}}  type="radio" name="eventSort"/> <label><span class="checkable">Mag</span></label>
+    <Input {{on "click" (action (mut @perusal.eventSort) "distance")}}  type="radio" name="eventSort"/> <label><span class="checkable">Distance</span></label>
+  </div>
+  </p>
+  <p>Station Sort:
+  <div>
+    <Input {{on "click" (action (mut @perusal.stationSort) "alpha")}} type="radio" name="stationSort" checked=true /> <label><span class="checkable">Alphabetical</span></label>
+    <Input {{on "click" (action (mut @perusal.stationSort) "distance")}}  type="radio" name="stationSort"/> <label><span class="checkable">Distance</span></label>
+  </div>
+  </p>
+  <p>Primary Sort:
+    <div>
+      <Input {{on "click" (action (mut @perusal.primarySort) "quake")}} type="radio" name="primarySort" checked=true /> <label><span class="checkable">Quake</span></label>
+      <Input {{on "click" (action (mut @perusal.primarySort) "station")}}  type="radio" name="primarySort"/> <label><span class="checkable">Station</span></label>
+    </div>
+  </p>
+
+<div>
+  <h5>Measurement Tools</h5>
+  <ul>
+  {{#each @perusal.tools as |tool|}}
+    <li>{{tool.toolType}} {{tool.name}}</li>
+  {{/each}}
+  </ul>
+  <p>Add Measurement Tool:</p>
+  <p>
+    <label>Tool Id:
+      {{input value=toolName }}
+    </label>
+<select onchange={{action (mut toolType) value="target.value"}}>
+  {{#each-in knownToolTypes as |toolTypeChoice toolConfig|}}
+    <option value={{toolConfig.toolType}} selected={{eq toolType toolTypeChoice}}>{{toolConfig.display}}</option>
+  {{/each-in}}
+</select>
+  <button {{action "addTool" toolType toolName }}>Add Tool</button>
+  </p>
+</div>
+  <Input type="submit" value="Save" />
+  <button {{action "cancel"}} type="button">Cancel</button>
+</form>
+
+{{yield}}

@@ -1,35 +1,48 @@
-import Ember from 'ember';
-import DS from 'ember-data';
+import Model, {attr, belongsTo, hasMany } from '@ember-data/model';
+import { action } from '@ember/object';
+import RSVP from 'rsvp';
 
-export default DS.Model.extend({
-  name: DS.attr('string'),
-  username: DS.attr('string'),
-  primarySort: DS.attr('string'),
-  eventSort: DS.attr('string'),
-  stationSort: DS.attr('string'),
-  first: DS.belongsTo('quakeStation'),
-  prev: DS.belongsTo('quakeStation'),
-  curr: DS.belongsTo('quakeStation'),
-  next: DS.belongsTo('quakeStation'),
-  tools: DS.hasMany('measurementTool'),
+export default class PerusalModel extends Model {
+  @attr('string') name;
+  @attr('string') username;
+  @attr('string') primarySort;
+  @attr('string') eventSort;
+  @attr('string') stationSort;
+  @belongsTo('quake-station', {async: true}) first;
+  @belongsTo('quake-station', {async: true}) prev;
+  @belongsTo('quake-station') curr;
+  @belongsTo('quake-station', {async: true}) next;
+  @hasMany('measurement-tool') tools;
+
+  @action
   goToFirst() {
-    return this.setProperties({'prev': null, 'curr': this.get('first'), 'next': null});
-  },
+    return this.setProperties({'prev': null, 'curr': this.get('first'), 'next': null})
+    .then( p => this.save());
+  }
+  @action
   goToPrev() {
     return this.get('prev')
       .then(p => {
         let c = this.get('curr');
         this.setProperties({'prev': null, 'curr': p, 'next': c});
-      });
-  },
+      })
+      .then( p => this.save());
+  }
+  @action
   goToNext() {
+    const mythis = this;
     return this.hashQuakeStation(this.get('next'))
-      .then( () => { 
+      .then( () => {
         let n = this.get('next');
         let c = this.get('curr');
         this.setProperties({'prev': c, 'curr': n, 'next': null});
-      });
-  },
+      })
+      .then( p => mythis.save());
+  }
+  @action
+  delete() {
+    this.store.deleteRecord(this);
+  }
   hashQuakeStation(qs) {
     let perusalThis = this;
     if (qs) {
@@ -40,7 +53,7 @@ export default DS.Model.extend({
            return r;
          });
        }
-       return Ember.RSVP.hash({
+       return RSVP.hash({
               qs: qs,
               staHash: qs.get('station').then(s => s.get('latitude')),
               netHash: qs.get('station').get('network'),
@@ -48,11 +61,12 @@ export default DS.Model.extend({
                   .then(function(q) {return q.get('prefOrigin');})
                   .then(function(o) {return o.get('latitude');})
                   .then(l => console.log("Got latitude: "+l)),
+              qvHash: qs.get('ecps'),
               measurementHas: qs.get('measurements')
       });
-    } else { 
+    } else {
       console.assert(false, "perusal.hashQuakeStation: ERROR qs is null!!!");
       return null;
     }
   }
-});
+}

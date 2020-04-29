@@ -1,11 +1,19 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
 
-export default Ember.Route.extend({
+export default class PerusalsNewRoute extends Route {
   model() {
-    let p = this.store.createRecord('perusal');
-    p.set('eventSort', 'time');
-    p.set('stationSort', 'alpha');
-    p.set('primarySort', 'quake');
+    let p = this.store.createRecord('perusal', {
+      name: 'perusal',
+      username: 'defaultuser',
+      eventSort: 'time',
+      stationSort: 'alpha',
+      primarySort: 'quake',
+      first: null,
+      prev: null,
+      curr: null,
+      next: null,
+      tools: []
+    });
     return p;
   }
-});
+}

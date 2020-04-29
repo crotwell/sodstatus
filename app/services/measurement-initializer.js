@@ -1,7 +1,8 @@
-import Ember from 'ember';
+import Service from '@ember/service';
+import { inject as service } from '@ember/service';
 
-export default Ember.Service.extend({
-  store: Ember.inject.service('store'),
+export default class MeasurementInitializerService extends Service {
+  @service store;
   checkNeedCreate(tools, quakeStation) {
     let out = false;
     tools.forEach(tool => {
@@ -11,15 +12,15 @@ export default Ember.Service.extend({
       }
     });
     return out;
-  },
+  }
 
   createMeasurement(tool, quakeStation) {
     let measure = this.get('store').createRecord('measurementText', {
-        name: tool.get('name'), 
+        name: tool.get('name'),
         value: null
     });
     quakeStation.get('measurements').pushObject(measure);
     measure.set('quakeStation', quakeStation);
     return measure;
   }
-});
+}
