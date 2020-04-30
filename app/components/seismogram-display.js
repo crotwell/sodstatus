@@ -15,7 +15,10 @@ export default class SeismogramDisplayComponent extends Component {
       } else {
         let channels = await this.args.quakeVector.channels;
         if (channels) {
-          seisConfig.title = channels.getEach('channelCode');
+          seisConfig.title = "";
+          channels.forEach( c => {
+            seisConfig.title += c.locCode+"."+c.channelCode;
+          });
         } else {
           seisConfig.title = "no channels...";
         }
