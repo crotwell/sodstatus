@@ -17,16 +17,16 @@ export default class PerusalModel extends Model {
   @action
   goToFirst() {
     return this.setProperties({'prev': null, 'curr': this.get('first'), 'next': null})
-    .then( p => this.save());
+    .then( () => this.save());
   }
   @action
   goToPrev() {
     return this.get('prev')
-      .then(p => {
+      .then(() => {
         let c = this.get('curr');
         this.setProperties({'prev': null, 'curr': p, 'next': c});
       })
-      .then( p => this.save());
+      .then( () => this.save());
   }
   @action
   goToNext() {
