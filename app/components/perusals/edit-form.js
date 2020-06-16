@@ -1,6 +1,7 @@
 import Component from '@glimmer/component';
 import RSVP from 'rsvp';
 import EmberObject from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 
@@ -11,13 +12,16 @@ export default class PerusalsEditFormComponent extends Component {
     letterGrade: {toolType: 'letter-grade', display: 'Letter Grade'},
     somethingElse:  {toolType: 'something-else', display: 'Something Else'} });
 
+  @tracked
   toolType = 'letter-grade';
-
+  @tracked
+  errorMessage = "";
   @action
   save() {
     console.log('+- save action in edit-form component');
-    console.log('   with '+this.args.perusal.get('tools').length);
     let model = this.args.perusal;
+    console.log(`model/perusal is ${model}`);
+    console.log('   with '+this.args.perusal.get('tools').length);
     if ( ! model.get('name')) {
       this.set("errorMessage", "name is required.");
       return true;
@@ -26,21 +30,28 @@ export default class PerusalsEditFormComponent extends Component {
       this.set("errorMessage", "username is required.");
       return true;
     }
+    /*
+    return model.save();
+     */
     return RSVP.all(model.get('tools').map(t => t.save()))
       .then((tools)=> {
-        model.set('tools', tools);
+        //model.set('tools', tools);
         return model.save();
     }).then(model => {
             console.log("model saved"+model);
-            return this.save(model);
+            //return this.save(model);
+            return model;
           },
-          err => this.args.set('errorMessage', 'problem saving the pursal: '+err));
+          err => {this.errorMessage = 'problem saving the pursal: '+err});
+
   }
   @action
   cancel() {
     console.log('+- cancel action in edit-form component');
-    this.args.perusal.destroyRecord();
-    this.cancel();
+    if (this.args.perusal.id) {
+      this.args.perusal.destroyRecord();
+    }
+    //this.cancel();
   }
   @action
   changeEventSort(val) {

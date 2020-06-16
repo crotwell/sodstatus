@@ -1,6 +1,8 @@
-import DS from 'ember-data';
+import Model, {attr, belongsTo } from '@ember-data/model';
 
-export default DS.Model.extend({
-  name: DS.attr('string'),
-  quakeStation: DS.belongsTo('quake-station')
-});
+export default class MeasurementModel extends Model {
+    @attr('string') name;
+    @belongsTo('quake-station') quakeStation;
+    @belongsTo('perusal') perusal;
+    @attr() value;
+}

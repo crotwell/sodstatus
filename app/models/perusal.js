@@ -16,17 +16,25 @@ export default class PerusalModel extends Model {
 
   @action
   goToFirst() {
-    return this.setProperties({'prev': null, 'curr': this.get('first'), 'next': null})
-    .then( () => this.save());
+    const mythis = this;
+    return this.hashQuakeStation(this.get('first'))
+    .then(() => {
+      let f = this.get('first');
+      this.setProperties({'prev': null, 'curr': f, 'next': null})
+     })
+     .then( () => mythis.save());
   }
   @action
   goToPrev() {
-    return this.get('prev')
-      .then(() => {
+    const mythis = this;
+    return this.hashQuakeStation(this.get('prev'))
+      .then( () => {
+        let n = this.get('prev');
         let c = this.get('curr');
-        this.setProperties({'prev': null, 'curr': p, 'next': c});
+        this.setProperties({'next': c, 'curr': n, 'prev': null});
       })
-      .then( () => this.save());
+      .then( () => mythis.save())
+      .then( () => console.log(`after goToPrev ${mythis.prev}`))
   }
   @action
   goToNext() {
@@ -37,7 +45,12 @@ export default class PerusalModel extends Model {
         let c = this.get('curr');
         this.setProperties({'prev': c, 'curr': n, 'next': null});
       })
-      .then( p => mythis.save());
+      .then( () => mythis.save());
+  }
+  @action
+  doSave() {
+    console.log("doSave");
+    this.save();
   }
   @action
   delete() {
@@ -62,8 +75,13 @@ export default class PerusalModel extends Model {
                   .then(function(o) {return o.get('latitude');})
                   .then(l => console.log("Got latitude: "+l)),
               qvHash: qs.get('ecps'),
-              measurementHas: qs.get('measurements')
-      });
+              measurementHas: qs.get('measurements'),
+              measurementAllHas: RSVP.all(Array.from(qs.get('measurements')))
+        }).then(hash=> hash.qs)
+        .then(qs=> {
+          console.log(`hashQuakeStation ${qs}  ${qs.measurements}`);
+          return qs;
+        });
     } else {
       console.assert(false, "perusal.hashQuakeStation: ERROR qs is null!!!");
       return null;

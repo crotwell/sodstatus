@@ -1,0 +1,11 @@
+
+<span>Letter Grade: "{{@tool.name}}"</span>
+{{#each gradeList as |gradeLetter|}}
+  <label for={{gradeLetter}}>
+    <Input {{on "click" (fn this.changeLetterGrade gradeLetter)}} @type="checkbox" name="grade" id={{gradeLetter}} @checked={{eq currMeasurement.value gradeLetter}} />
+    <span>{{gradeLetter}}</span>
+  </label>
+
+{{/each}}
+
+{{yield}}

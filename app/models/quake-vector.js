@@ -7,7 +7,7 @@ export default class QuakeVectorModel extends Model {
     @attr('number') backazimuth;
     @belongsTo('quake') quake;
     @hasMany('channel') channels;
-    @attr('string') cookieJar;
+    @attr() measurements;
     @hasMany('waveform') waveforms;
 
 }
