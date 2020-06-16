@@ -3,8 +3,9 @@
 
 <button {{on "click"  @model.goToFirst }} type="button">First</button>
 <button {{on "click"  @model.goToPrev }}  type="button">Previous</button>
-<button {{on "click"  @model.goToFirst }} type="button">Save</button>
+<button {{on "click"  @model.doSave }} type="button">Save</button>
 <button {{on "click"  @model.goToNext }}   type="button">Next</button>
+Prev is <Perusals::QuakeOrStationLink @quakeStation={{@model.prev}} @primarySort={{@model.primarySort}} @current={{@model.curr}}/>
 Curr is <Perusals::QuakeOrStationLink @quakeStation={{@model.curr}} @primarySort={{@model.primarySort}} @current={{@model.curr}}/>
 Next is <Perusals::QuakeOrStationLink @quakeStation={{@model.next}} @primarySort={{@model.primarySort}} @current={{@model.curr}}/>
 
@@ -12,12 +13,13 @@ Next is <Perusals::QuakeOrStationLink @quakeStation={{@model.next}} @primarySort
 <Quake-Station-Map @quakes={{@model.curr.quake}} @stations={{@model.curr.station}}/>
 </div>
 
+
+<h5>Found {{@model.tools.length}} tools:</h5>
 <ul>
-<li>Found {{@model.tools.length}} tools</li>
 {{#each @model.tools as |tool|}}
   <li>
   {{#if tool.toolType}}
-    {{component (concat 'measurement/' tool.toolType) perusal=@model tool=tool curr=@model.curr }}
+    {{component (concat 'measurements/' tool.toolType) perusal=@model tool=tool curr=@model.curr }}
   {{else}}
     <span>Loading tool: {{tool.name}} {{tool.toolType}}</span>
   {{/if}}
@@ -25,6 +27,7 @@ Next is <Perusals::QuakeOrStationLink @quakeStation={{@model.next}} @primarySort
 {{/each}}
 </ul>
 
+<h5>Current:</h5>
 <ul>
 <li>Perusal: {{@model.name}} <span class="small">{{@model.id}}</span></li>
 <li>Quake: {{@model.curr.quake.name}} {{format-iso-date  @model.curr.quake.prefOrigin.time}} ({{ format-number @model.curr.quake.prefOrigin.latitude}}, {{ format-number @model.curr.quake.prefOrigin.longitude}})</li>
@@ -32,8 +35,9 @@ Next is <Perusals::QuakeOrStationLink @quakeStation={{@model.next}} @primarySort
 <li>Num Ecps: {{@model.curr.ecps.length}}</li>
 </ul>
 
+  <h3>{{@model.curr.station.codes}} - {{@model.curr.quake.name}} {{format-iso-date  @model.curr.quake.prefOrigin.time}}</h3>
   <div class="ecp">
-    {{#each @model.curr.ecps as |qv|}}
+    {{#each @model.curr.sortedQuakeVectors as |qv|}}
       <SeismogramDisplay @isOverlay="false" @quakeVector={{qv}} />
     {{/each}}
   </div>
