@@ -2,6 +2,11 @@
 
 
 <h3>Station-Quakes ({{@model.quakeStationPairs.length}})</h3>
+
+
+<QuakeStationMap @stations={{array @model}} @quakeStations={{@model.quakeStationPairs}} />
+
+
 <StationQuakesList @quakeStationPairs={{@model.quakeStationPairs}}></StationQuakesList>
 
 

@@ -1,0 +1,47 @@
+
+
+<LeafletMap @worldCopyJump='true' @lat={{centerLat}} @lng={{centerLon}} @zoom={{zoomLevel}} as |layers|>
+  <layers.tile @url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"/>
+
+
+  {{#each stationList as |s|}}
+    <layers.marker @lat={{s.latitude}} @lng={{s.longitude}} class='stationMarker' as |marker|>
+      <marker.popup>
+        <h3><LinkTo @route='stations.station' @model={{s}} >{{s.codes}}</LinkTo></h3>
+      </marker.popup>
+    </layers.marker>
+  {{/each}}
+
+  {{#each quakeList as |q|}}
+    <layers.circle-marker @lat={{q.prefOrigin.latitude}} @lng={{sub-360 q.prefOrigin.longitude}} @radius={{scaled-magnitude q pixelsPerMag=5}} class='stationMarker' as |marker|>
+      <marker.popup>
+        <h3>Quake: <LinkTo @route='quakes.quake' @model={{q}} >{{q.name}} {{format-iso-date q.prefOrigin.time }} {{q.prefMagnitude.magFormatted}} {{q.prefMagnitude.magType}}</LinkTo></h3>
+      </marker.popup>
+    </layers.circle-marker>
+      <layers.circle-marker @lat={{q.prefOrigin.latitude}} @lng={{q.prefOrigin.longitude}} @radius={{scaled-magnitude q pixelsPerMag=5}} class='stationMarker' as |marker|>
+        <marker.popup>
+          <h3>Quake: <LinkTo @route='quakes.quake' @model={{q}} >{{q.name}} {{format-iso-date q.prefOrigin.time }} {{q.prefMagnitude.magFormatted}} {{q.prefMagnitude.magType}}</LinkTo></h3>
+        </marker.popup>
+      </layers.circle-marker>
+    <layers.circle-marker @lat={{q.prefOrigin.latitude}} @lng={{add-360 q.prefOrigin.longitude}} @radius={{scaled-magnitude q pixelsPerMag=5}} class='stationMarker' as |marker|>
+      <marker.popup>
+        <h3>Quake: <LinkTo @route='quakes.quake' @model={{q}} >{{q.name}} {{format-iso-date q.prefOrigin.time }} {{q.prefMagnitude.magFormatted}} {{q.prefMagnitude.magType}}</LinkTo></h3>
+      </marker.popup>
+    </layers.circle-marker>
+  {{/each}}
+
+<!--
+      {{#each @quakes as |q|}}
+        <CircleMarkerLayer @lat=q.latitude @lng=q.longitude @radius={{scaledMagnitude q pixelPerMag=@pixelPerMagnitude}} class='quakeMarker' as |marker|>
+          <marker.popup>
+            <h3>Event: {{#link-to 'quakes.show.stations' q.quake }}{{format-iso-date q.quake.prefOrigin.time }} {{q.quake.prefMagnitude.magFormatted}} {{q.quake.prefMagnitude.magType}}{{/link-to}}</h3>
+          </marker.popup>
+        </CircleMarkerLayer>
+      {{/each}}
+-->
+
+</LeafletMap>
+
+<p>Center: {{centerLat}} {{centerLon}}</p>
+
+{{yield}}

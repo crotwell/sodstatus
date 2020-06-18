@@ -1,70 +1,57 @@
-import Ember from 'ember';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 
-export default Ember.Component.extend({
-  magToPixelScale: 3,
-  quakeList: function() {
-    let quakes = this.get('quakes');
-    if (quakes) {
-      if ( ! Ember.isArray(quakes)) {
-        return [ quakes ];
-      } else {
-        return quakes;
-      }
+
+export default class QuakeStationMapComponent extends Component {
+  @tracked zoomLevel = 1;
+  @tracked pixelPerMagnitude = 3;
+  get quakeList() {
+    if (this.args.quakes) {
+      console.log(`quakestation quakeList map => quakes  ${this.args.quakes.length}`);
+      return this.args.quakes;
+    } else if (this.args.quakeStations) {
+      console.log("quakestation quakeList map => quakestation mapping");
+      return this.args.quakeStations.map(qs => qs.quake);
     } else {
-      return [];
+      console.log(`QuakeStationMapComponent quakeList oops ${this.args.quakes}  ${this.args.quakeStations}`);
     }
-  }.property('quakes'),
-  plotQuakeList: function() {
-console.log("QSMap plotQuakeList");
-    return this.get('quakeList')
-      .filter(q => q && q.get('prefOrigin')) // skip without origin
-      .map(function(q) {
-      if (typeof q == 'undefined') {
-        console.log("q underined: "+q);
-      } else {
-        console.log("q : "+q);
-      }
-      console.log("get prefOrigin: "+q.get('prefOrigin'));
-      return {
-        latitude: q.get('prefOrigin').get('latitude'),
-        longitude: q.get('prefOrigin').get('longitude'),
-        scaledMag: q.get('prefMagnitude') ? q.get('prefMagnitude').get('value')*this.get('magToPixelScale') : this.get('magToPixelScale'),
-        quake: q
-      };
-    }, this);
-  }.property('quakeList', 'quakeList.@each.prefOrigin', 'quakeList.@each.prefMagnitude'),
-
-  originList: function() {
-console.log("originList");
-    let out = this.get('quakeList').getEach('prefOrigin')
+  }
+  get stationList() {
+    if (this.args.stations) {
+      console.log(`quakestation stationList map => stations  ${this.args.stations.length}`);
+      return this.args.stations;
+    } else if (this.args.quakeStations) {
+      console.log("quakestation stationList map => quakestation mapping");
+      console.log(` codes: ${this.args.quakeStations.map(qs => qs.station.get('codes'))}`);
+      return this.args.quakeStations.map(qs => qs.station);
+    } else {
+      console.log(`QuakeStationMapComponent stationList oops ${this.args.stations}  ${this.args.quakeStations}`);
+    }
+  }
+  get centerLat() {
+    const b = this.bounds;
+    return (b[0][0] + b[1][0])/2;
+  }
+  get centerLon() {
+    const b = this.bounds;
+    console.log(`bounds: ${b}`)
+    return (b[0][1] + b[1][1])/2;
+  }
+  get originList() {
+    console.log("originList");
+    if ( ! this.args.quakes) { return [];}
+    let out = this.args.quakes.getEach('prefOrigin')
         .filter(o => o && o.get('latitude') && ! Number.isNaN(o.get('latitude')) && ! Number.isNaN(o.get('longitude')));
-    console.log("originList return "+out.length); 
+    console.log("originList return "+out.length);
     if (out.length > 0) console.log("   originList[0]="+out[0].get('latitude'));
     return out;
-  }.property('quakeList.@each.prefOrigin'),
-
-  stationList: function() {
-console.log("stationList");
-    let stations = this.get('stations');
-    let out = [];
-    if (stations) {
-      if ( ! Ember.isArray(stations)) {
-        out = [ stations ];
-      } else {
-        out = stations;
-      }
+  }
+  get bounds() {
+    let originList = this.originList ? this.originList : [];
+    let stationList = []; //this.get('stationList');
+    if ((! this.quakeList || this.quakeList.length == 0) && (! this.stationList || this.stationList.length == 0)) {
+      return [ [ - 0.5, 0.5], [- 0.5, 0.5]]
     }
-    out = out
-        .filter(s => s && s.get('latitude') && ! Number.isNaN(s.get('latitude')) && ! Number.isNaN(s.get('longitude')));
-    console.log("stationList return "+out.length);
-    if (out.length > 0) console.log("   stationList[0]="+out[0].get('latitude'));
-    return out;
-  }.property('stations'),
-
-  bounds: function() {
-    let quakeList = this.get('quakeList');
-    let originList = this.get('originList');
-    let stationList = this.get('stationList');
     let minLat=99;
     let maxLat=-99;
     let minLon=200;
@@ -72,46 +59,50 @@ console.log("stationList");
     let minLatFn = function(a,b) {
       if (! b || a < b.get('latitude')) { return a; } else { return b.get('latitude'); }
     };
-    minLat = originList.reduce(minLatFn , minLat); 
+    minLat = originList.reduce(minLatFn , minLat);
     minLat = stationList.reduce(minLatFn, minLat);
 
     let maxLatFn = function(a,b) {
       if (! b || a > b.get('latitude')) { return a; } else { return b.get('latitude'); }
     };
-    maxLat = originList.reduce(maxLatFn , maxLat); 
+    maxLat = originList.reduce(maxLatFn , maxLat);
     maxLat = stationList.reduce(maxLatFn, maxLat);
-     
+
     let minLonFn = function(a,b) {
       if (! b || a < b.get('longitude')) { return a; } else { return b.get('longitude'); }
     };
-    minLon = originList.reduce(minLonFn , minLon); 
+    minLon = originList.reduce(minLonFn , minLon);
     minLon = stationList.reduce(minLonFn, minLon);
 
     let maxLonFn = function(a,b) {
       if (! b || a > b.get('longitude')) { return a; } else { return b.get('longitude'); }
     };
-    maxLon = originList.reduce(maxLonFn , maxLon); 
+    maxLon = originList.reduce(maxLonFn , maxLon);
     maxLon = stationList.reduce(maxLonFn, maxLon);
 
+console.log(`bound raw: ${minLat} ${maxLat}  lon: ${minLon} ${maxLon}`);
+
     // min 1 deg
-    if (Math.abs(maxLat-minLat) < 1) { 
+    if (Math.abs(maxLat-minLat) < 1) {
       minLat = (minLat+maxLat)/2 - 0.5;
       maxLat = (minLat+maxLat)/2 + 0.5;
     }
-    if (Math.abs(maxLon-minLon) < 1) { 
+    if (Math.abs(maxLon-minLon) < 1) {
       minLon = (minLon+maxLon)/2 - 0.5;
       maxLon = (minLon+maxLon)/2 + 0.5;
     }
 
     // expand by 50%, 25% on each edge
     let degExpand = Math.max(maxLon-minLon, maxLat-minLat)*0.25;
+    if (degExpand > 10) {degExpand = 10;}
     maxLat += degExpand;
+    if (maxLat > 90) { maxLat = 90.0;}
     minLat -= degExpand;
+    if (minLat < -90) { minLat = -90.0;}
     maxLon += degExpand;
     minLon -= degExpand;
+    console.log(`bound expanded: ${minLat} ${maxLat}  lon: ${minLon} ${maxLon}`);
 
     return [ [minLat, minLon], [maxLat, maxLon] ];
-  }.property('originList.@each.latitude', 'originList.@each.longitude',
-             'stations.@each.latitude', 'stations.@each.longitude'),
-
-});
+  }
+}

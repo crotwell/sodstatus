@@ -15,7 +15,9 @@ export default class QuakeStationsQuakeStationRoute extends Route {
             model: hash.model,
             waveHash: RSVP.all(Array.from(hash.model.ecps.map(qv => qv.get('waveforms')))),
             chAll: RSVP.all(Array.from(hash.model.get('station').get('channels'))),
-            networkHash: hash.model.get('station').get('network')
+            networkHash: hash.model.get('station').get('network'),
+            magHash: hash.model.get('quake').get('prefMagnitude'),
+            originHash: hash.model.get('quake').get('prefOrigin')
         });
       }).then(hash => {
         return RSVP.hash({

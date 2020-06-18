@@ -3,6 +3,8 @@
   <h1>Events</h1>
   <h5>Found {{@model.length}} {{@this.sortedQuakes.length}}</h5>
 
+  <QuakeStationMap @quakes={{@model}} />
+
   <QuakeList @quakes={{@model}}></QuakeList>
 
 </div>
