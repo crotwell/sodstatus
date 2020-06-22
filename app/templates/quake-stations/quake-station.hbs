@@ -1,10 +1,12 @@
 
 <h3>Quake-Station Pair</h3>
 
-<ShowHide @divTitle="Info">
+<ShowHide @divTitle="Map">
   <div class="boxRow">
     <QuakeStationMap @quakeStations={{array @model}} />
   </div>
+</ShowHide>
+<ShowHide @divTitle="Info">
   <div class="boxRow">
     <div>
       <h3>Station: </h3>
@@ -22,8 +24,10 @@
   </div>
 </ShowHide>
 
+<ShowHide @divTitle="Seismograms">
 {{#each @model.ecps as |qv|}}
 <SeismogramDisplay @quakeVector={{qv}}></SeismogramDisplay>
 {{/each}}
+</ShowHide>
 
 {{outlet}}

@@ -1,26 +1,43 @@
 <div class="network">
   <h3>Network</h3>
-  <ul>
-    <li>Id: {{@model.id}}</li>
-    <li>Code: {{@model.networkCode}}</li>
-    <li>Start: {{format-iso-date @model.startTime format='YYYY-MM-DD'}}</li>
-    <li>End: {{format-iso-date @model.endTime format='YYYY-MM-DD'}}</li>
-    <li>Desc: {{@model.description}}</li>
-  </ul>
+
+  <ShowHide @divTitle="Info">
+    <div class="boxRow">
+      <ul>
+        <li>Code: {{@model.networkCode}}</li>
+        <li>Desc: {{@model.description}}</li>
+        <li>Time Epoch:
+          {{format-iso-date @model.startTime format='YYYY-MM-DD'}}
+          {{#if @model.endTime}} to {{format-iso-date @model.endTime format='YYYY-MM-DD'}}
+          {{else}}
+          until&#8230;
+          {{/if}}
+        </li>
+      </ul>
+    </div>
+  </ShowHide>
 </div>
 
-<QuakeStationMap @stations={{@model.stations}} />
+<ShowHide @divTitle="Map">
+  <div class="boxRow">
+    <QuakeStationMap @stations={{@model.stations}} />
+  </div>
+</ShowHide>
 
 
 <div class="stationList">
-<h3>Stations</h3>
-<ul>
-  {{#each @model.stations as |station|}}
-    <li>
-      <LinkTo @route='stations.station' @model={{station.id}} >
-        {{station.stationCode}} - {{station.site.name}} {{station.site.description}}
-      </LinkTo>
-    </li>
-  {{/each}}
-</ul>
+  <ShowHide @divTitle="List">
+    <div >
+      <h3>Stations</h3>
+      <ul>
+        {{#each @model.stations as |station|}}
+          <li>
+            <LinkTo @route='stations.station' @model={{station.id}} >
+              {{station.stationCode}} - {{station.site.name}} {{station.site.description}}
+            </LinkTo>
+          </li>
+        {{/each}}
+      </ul>
+    </div>
+  </ShowHide>
 </div>

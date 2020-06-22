@@ -4,8 +4,9 @@
 <div class="quake">
 
 
-  <QuakeInfo @quake={{@model}}/>
-
+  <ShowHide @divTitle="Info">
+    <QuakeInfo @quake={{@model}}/>
+  </ShowHide>
 
 
   {{outlet}}

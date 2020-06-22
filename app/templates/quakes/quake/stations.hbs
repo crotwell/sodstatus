@@ -1,9 +1,13 @@
 
 
-  <QuakeStationMap @quakes={{array @model}} @quakeStations={{@model.quakeStationPairs}}/>
+  <ShowHide @divTitle="Map">
+    <QuakeStationMap @quakes={{array @model}} @quakeStations={{@model.quakeStationPairs}}/>
+  </ShowHide>
 
 <h3>Quake-Station Pairs ({{@model.quakeStationPairs.length}})</h3>
 
-<QuakeStationsList @quakeStationPairs={{@model.quakeStationPairs}} ></QuakeStationsList>
+  <ShowHide @divTitle="List">
+    <QuakeStationsList @quakeStationPairs={{@model.quakeStationPairs}} ></QuakeStationsList>
+  </ShowHide>
 
 {{outlet}}
