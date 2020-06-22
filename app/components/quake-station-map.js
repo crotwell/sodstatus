@@ -1,24 +1,38 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-
+import { A, isArray } from '@ember/array';
 
 export default class QuakeStationMapComponent extends Component {
   @tracked zoomLevel = 1;
   @tracked pixelPerMagnitude = 3;
   get quakeList() {
     if (this.args.quakes) {
-      console.log(`quakestation quakeList map => quakes  ${this.args.quakes.length}`);
-      return this.args.quakes;
+      console.log(`isArray: ${isArray(this.args.quakes)}`);
+      if (isArray(this.args.quakes)) {
+        console.log(`quakestation quakeList map => quakes ${this.args.quakes}  ${this.args.quakes.length}`);
+        return this.args.quakes;
+      } else {
+        console.log(`quakestation quakeList map => quakes array ${this.args.quakes}`);
+        return A([this.args.quakes]);
+      }
     } else if (this.args.quakeStations) {
       console.log("quakestation quakeList map => quakestation mapping");
       return this.args.quakeStations.map(qs => qs.quake);
     } else {
       console.log(`QuakeStationMapComponent quakeList oops ${this.args.quakes}  ${this.args.quakeStations}`);
     }
+    return A([]);
   }
   get stationList() {
     if (this.args.stations) {
       console.log(`quakestation stationList map => stations  ${this.args.stations.length}`);
+      if (isArray(this.args.stations)) {
+        console.log(`quakestation stationList map => stations  ${this.args.stations.length}`);
+        return this.args.stations;
+      } else {
+        console.log(`quakestation stationList map => stations array ${this.args.stations}`);
+        return A([this.args.stations]);
+      }
       return this.args.stations;
     } else if (this.args.quakeStations) {
       console.log("quakestation stationList map => quakestation mapping");
@@ -27,6 +41,7 @@ export default class QuakeStationMapComponent extends Component {
     } else {
       console.log(`QuakeStationMapComponent stationList oops ${this.args.stations}  ${this.args.quakeStations}`);
     }
+    return A([]);
   }
   get centerLat() {
     const b = this.bounds;
@@ -39,8 +54,7 @@ export default class QuakeStationMapComponent extends Component {
   }
   get originList() {
     console.log("originList");
-    if ( ! this.args.quakes) { return [];}
-    let out = this.args.quakes.getEach('prefOrigin')
+    let out = this.quakeList.getEach('prefOrigin')
         .filter(o => o && o.get('latitude') && ! Number.isNaN(o.get('latitude')) && ! Number.isNaN(o.get('longitude')));
     console.log("originList return "+out.length);
     if (out.length > 0) console.log("   originList[0]="+out[0].get('latitude'));
