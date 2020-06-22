@@ -59,8 +59,8 @@
       {{#each @station.channels as |chan|}}
         <tr><td>{{chan.id}}</td>
             <td> {{chan.locCode}}.{{chan.channelCode}}</td>
-            <td>{{chan.startTime}}</td>
-            <td>{{chan.endTime}}</td>
+            <td>{{format-iso-date chan.startTime format='YYYY-MM-DD'}}</td>
+            <td>{{format-iso-date chan.endTime format='YYYY-MM-DD'}}</td>
             <td>{{chan.latitudeFormatted}}</td>
             <td>{{chan.longitudeFormatted}}</td>
             <td>{{chan.elevationFormatted}}</td>
