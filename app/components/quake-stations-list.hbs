@@ -3,11 +3,11 @@
   <thead>
     <th {{action "sortBy" "station.codes"}}>Name</th>
     <th {{action "sortBy" "distdeg"}}>Dist</th>
-    <th {{action "sortBy" "quake.prefOrigin.latitude"}}>Lat</th>
-    <th {{action "sortBy" "quake.prefOrigin.longitude"}}>Lon</th>
+    <th {{action "sortBy" "station.latitude"}}>Lat</th>
+    <th {{action "sortBy" "station.longitude"}}>Lon</th>
     <th {{action "sortBy" "sodStatus"}}>Status</th>
     </thead>
-  {{#each @quakeStationPairs as |esps|}}
+  {{#each sortedQuakeStationPairs as |esps|}}
     <tr>
       <td><LinkTo @route='quake-stations.quake-station' @model={{esps.id}} >{{esps.station.codes}}</LinkTo></td>
       <td>{{format-number esps.distdeg 2 }}</td>

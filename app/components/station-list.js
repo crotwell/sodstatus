@@ -3,14 +3,13 @@ import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
 import { sort } from '@ember/object/computed';
 
-export default class QuakeListComponent extends Component {
+export default class StationListComponent extends Component {
 
-    @tracked sortDefinition = ['prefOrigin.time'];
+    @tracked sortDefinition = ['station.stationCode'];
 
-    @sort('args.quakes', 'sortDefinition') sortedQuakes;
+    @sort('args.stations', 'sortDefinition') sortedStations;
 
     @action sortBy(key) {
-      console.log(`QuakeStationsListComponent sortBy(${key})  `);
       let direction = "asc";
       if (this.sortDefinition[0].startsWith(key)) {
         if (this.sortDefinition[0].endsWith(":desc")) {

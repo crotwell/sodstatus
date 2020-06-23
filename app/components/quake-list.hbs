@@ -10,7 +10,7 @@
     <th {{action "sortBy" "sodStatus"}}>Status</th>
     <th {{action "sortBy" "numSuccessfulStations"}}>Num</th>
     </thead>
-  {{#each @quakes as |quake|}}
+  {{#each sortedQuakes as |quake|}}
     <tr>
       <td>
         <LinkTo @route='quakes.quake' @model={{quake.id}} >{{quake.name}}</LinkTo>

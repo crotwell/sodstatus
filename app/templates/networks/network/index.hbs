@@ -29,15 +29,7 @@
   <ShowHide @divTitle="List">
     <div >
       <h3>Stations</h3>
-      <ul>
-        {{#each @model.stations as |station|}}
-          <li>
-            <LinkTo @route='stations.station' @model={{station.id}} >
-              {{station.stationCode}} - {{station.site.name}} {{station.site.description}}
-            </LinkTo>
-          </li>
-        {{/each}}
-      </ul>
+      <StationList @stations={{@model.stations}}/>
     </div>
   </ShowHide>
 </div>

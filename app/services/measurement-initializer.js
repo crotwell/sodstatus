@@ -4,10 +4,12 @@ import { inject as service } from '@ember/service';
 export default class MeasurementInitializerService extends Service {
   @service store;
   checkNeedCreate(tools, quakeStation) {
-    console.log(`MeasurementInitializerService.checkNeedCreate qs=${quakeStation}`);
     let out = false;
+    if ( ! quakeStation) {
+      throw new Error("quakeStation is null in MeasurementInitializerService");
+    }
     tools.forEach(tool => {
-      if( quakeStation.get('measurements').find( m => m.get('name') == tool.get('name')) == undefined) {
+      if( quakeStation.get('measurements').find( m => m.get('name') === tool.get('name')) === undefined) {
         this.createMeasurement(tool, quakeStation);
         out = true;
       }
@@ -16,7 +18,6 @@ export default class MeasurementInitializerService extends Service {
   }
 
   createMeasurement(tool, quakeStation) {
-    if ( ! quakeStation) {console.log("Warn: quakeStation is null in createMeasurement(tool, quakeStation)")}
     let measure = this.get('store').createRecord('measurement', {
         name: tool.get('name'),
         value: null

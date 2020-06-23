@@ -15,10 +15,9 @@ export default class MeasurementsLetterGradeComponent extends Component {
       const tool = this.args.tool;
       const curr = this.args.curr;
       let measurements = curr.get('measurements');
-      let m = measurements.find( m => m.get('name') == tool.get('name'));
-      if (typeof m == 'undefined') {
-        //throw new Error("Measurement for tool: "+tool.get('name')+" is undefined.");
-        console.log(`did not find measurment for tool ${tool.name}`);
+      let m = measurements.find( m => m.get('name') === tool.get('name'));
+      if (typeof m === 'undefined') {
+        throw new Error("Measurement for tool: "+tool.get('name')+" is undefined.");
       } else {
         this.measurement = m;
       }
@@ -27,21 +26,14 @@ export default class MeasurementsLetterGradeComponent extends Component {
     const tool = this.args.tool;
     const curr = this.args.curr;
     let measurements = curr.get('measurements');
-    //let measurements = curr.measurements;
     if ( ! measurements) {
-      console.log('curr measurements is undef, return []');
       return null;
     }
-    console.log(`measurements: ${curr} ${measurements.length}`)
     let m = measurements.find( m => m.get('name') == tool.get('name'));
-    if (typeof m == 'undefined') {
-      console.log("Measurement for tool: "+tool.get('name')+" is undefined.");
-    }
     return m;
   }
   @action
     changeLetterGrade(val) {
-      console.log("changeLetterGrade: "+val);
       let meas = this.args.measurement;
       //let meas = this.get('measurement');
       if ( ! meas ) {
@@ -56,7 +48,6 @@ export default class MeasurementsLetterGradeComponent extends Component {
         });
         record.save();
         curr.get('measurements').pushObject(record);
-        console.log(`saved measurement: ${record}`);
       }
     }
 

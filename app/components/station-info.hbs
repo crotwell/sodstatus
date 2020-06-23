@@ -42,9 +42,7 @@
 
 <h5>Channels</h5>
 
-<label>{{input type="checkbox" checked=showChannels}} {{#if showChannels}}Hide{{else}}Show{{/if}} Channels</label>
-
-    {{#if showChannels}}
+<ShowHide @divTitle="Channels">
       <table>
        <tr><th>Id</th>
            <th>Codes</th>
@@ -69,10 +67,7 @@
         </tr>
       {{/each}}
       </table>
-    {{else}}
-      {{@station.channels.length}} channels.
-    {{/if}}
-
+  </ShowHide>
 </div>
 
 

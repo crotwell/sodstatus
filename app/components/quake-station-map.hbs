@@ -5,7 +5,17 @@
 
 
   {{#each stationList as |s|}}
+    <layers.marker @lat={{s.latitude}} @lng={{sub-360 s.longitude}} class='stationMarker' as |marker|>
+      <marker.popup>
+        <h3><LinkTo @route='stations.station' @model={{s}} >{{s.codes}}</LinkTo></h3>
+      </marker.popup>
+    </layers.marker>
     <layers.marker @lat={{s.latitude}} @lng={{s.longitude}} class='stationMarker' as |marker|>
+      <marker.popup>
+        <h3><LinkTo @route='stations.station' @model={{s}} >{{s.codes}}</LinkTo></h3>
+      </marker.popup>
+    </layers.marker>
+    <layers.marker @lat={{s.latitude}} @lng={{add-360 s.longitude}} class='stationMarker' as |marker|>
       <marker.popup>
         <h3><LinkTo @route='stations.station' @model={{s}} >{{s.codes}}</LinkTo></h3>
       </marker.popup>

@@ -7,39 +7,26 @@ export default class QuakeStationMapComponent extends Component {
   @tracked pixelPerMagnitude = 3;
   get quakeList() {
     if (this.args.quakes) {
-      console.log(`isArray: ${isArray(this.args.quakes)}`);
       if (isArray(this.args.quakes)) {
-        console.log(`quakestation quakeList map => quakes ${this.args.quakes}  ${this.args.quakes.length}`);
         return this.args.quakes;
       } else {
-        console.log(`quakestation quakeList map => quakes array ${this.args.quakes}`);
         return A([this.args.quakes]);
       }
     } else if (this.args.quakeStations) {
-      console.log("quakestation quakeList map => quakestation mapping");
       return this.args.quakeStations.map(qs => qs.quake);
-    } else {
-      console.log(`QuakeStationMapComponent quakeList oops ${this.args.quakes}  ${this.args.quakeStations}`);
     }
     return A([]);
   }
   get stationList() {
     if (this.args.stations) {
-      console.log(`quakestation stationList map => stations  ${this.args.stations.length}`);
       if (isArray(this.args.stations)) {
-        console.log(`quakestation stationList map => stations  ${this.args.stations.length}`);
         return this.args.stations;
       } else {
-        console.log(`quakestation stationList map => stations array ${this.args.stations}`);
         return A([this.args.stations]);
       }
       return this.args.stations;
     } else if (this.args.quakeStations) {
-      console.log("quakestation stationList map => quakestation mapping");
-      console.log(` codes: ${this.args.quakeStations.map(qs => qs.station.get('codes'))}`);
       return this.args.quakeStations.map(qs => qs.station);
-    } else {
-      console.log(`QuakeStationMapComponent stationList oops ${this.args.stations}  ${this.args.quakeStations}`);
     }
     return A([]);
   }
@@ -49,20 +36,16 @@ export default class QuakeStationMapComponent extends Component {
   }
   get centerLon() {
     const b = this.bounds;
-    console.log(`bounds: ${b}`)
     return (b[0][1] + b[1][1])/2;
   }
   get originList() {
-    console.log("originList");
     let out = this.quakeList.getEach('prefOrigin')
         .filter(o => o && o.get('latitude') && ! Number.isNaN(o.get('latitude')) && ! Number.isNaN(o.get('longitude')));
-    console.log("originList return "+out.length);
-    if (out.length > 0) console.log("   originList[0]="+out[0].get('latitude'));
     return out;
   }
   get bounds() {
     let originList = this.originList ? this.originList : [];
-    let stationList = []; //this.get('stationList');
+    let stationList = this.stationList ? this.stationList : [];
     if ((! this.quakeList || this.quakeList.length == 0) && (! this.stationList || this.stationList.length == 0)) {
       return [ [ - 0.5, 0.5], [- 0.5, 0.5]]
     }
@@ -94,7 +77,6 @@ export default class QuakeStationMapComponent extends Component {
     maxLon = originList.reduce(maxLonFn , maxLon);
     maxLon = stationList.reduce(maxLonFn, maxLon);
 
-console.log(`bound raw: ${minLat} ${maxLat}  lon: ${minLon} ${maxLon}`);
 
     // min 1 deg
     if (Math.abs(maxLat-minLat) < 1) {
@@ -115,7 +97,6 @@ console.log(`bound raw: ${minLat} ${maxLat}  lon: ${minLon} ${maxLon}`);
     if (minLat < -90) { minLat = -90.0;}
     maxLon += degExpand;
     minLon -= degExpand;
-    console.log(`bound expanded: ${minLat} ${maxLat}  lon: ${minLon} ${maxLon}`);
 
     return [ [minLat, minLon], [maxLat, maxLon] ];
   }

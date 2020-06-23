@@ -7,18 +7,13 @@ export default class StationQuakesListComponent extends Component {
 
   @tracked sortDefinition = ['quake.prefOrigin.time'];
 
-  get sortedQuakes() {
-    let out = sort('quakeStationPairs', 'sortDefinition');
-    console.log(`in get sortedQuakes ${out.length}`);
-    console.log(out[0])
-    //return out;
-    return this.args.quakeStationPairs;
-  }
+  @sort('args.quakeStationPairs', 'sortDefinition') sortedQuakes;
 
   @action sortBy(key) {
+    console.log(`sortBy(${key})  `);
     let direction = "asc";
-    if (this.get('sortDefinition')[0].startsWith(key)) {
-      if (this.get('sortDefinition')[0].endsWith(":desc")) {
+    if (this.sortDefinition[0].startsWith(key)) {
+      if (this.sortDefinition[0].endsWith(":desc")) {
         direction = "asc";
       } else {
         direction = "desc";
@@ -26,6 +21,6 @@ export default class StationQuakesListComponent extends Component {
     } else {
       direction = "asc";
     }
-    this.set("sortDefinition", [ key+":"+direction ]);
+    this.sortDefinition = [ key+":"+direction ];
   }
 }

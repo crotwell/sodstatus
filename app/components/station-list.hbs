@@ -1,0 +1,18 @@
+<table >
+  <thead>
+    <th {{action "sortBy" "codes"}}>Codes</th>
+    <th {{action "sortBy" "latitude"}}>Lat</th>
+    <th {{action "sortBy" "longitude"}}>Lon</th>
+    <th {{action "sortBy" "name"}}>Name</th>
+    </thead>
+  {{#each sortedStations as |s|}}
+    <tr>
+      <td><LinkTo @route='stations.station' @model={{s.id}} >{{s.codes}}</LinkTo></td>
+      <td>{{s.latitudeFormatted}}</td>
+      <td>{{s.longitudeFormatted}}</td>
+      <td>{{s.site.name}}</td>
+    </tr>
+  {{/each}}
+</table>
+
+{{yield}}
