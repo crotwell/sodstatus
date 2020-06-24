@@ -11,7 +11,6 @@ Router.map(function() {
   this.route('networks', function() {
     this.route('network', { path: '/:network_id' }, function() {});
   });
-  this.route('station', { path: '/:station_id' });
   this.route('quakes', function() {
     this.route('quake', { path: '/:quake_id' }, function() {
       this.route('stations');
