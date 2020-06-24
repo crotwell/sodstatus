@@ -56,7 +56,7 @@ export default class PerusalsEditFormComponent extends Component {
   }
   @action
   addTool(toolType, toolName) {
-    if ( ! this.args.perusal.get('tools').find(t => t.get('name') == toolName)) {
+    if ( ! this.args.perusal.get('tools').find(t => t.get('name') === toolName)) {
       let tool = this.store.createRecord('measurement-tool', {
         toolType: toolType,
         name: toolName,

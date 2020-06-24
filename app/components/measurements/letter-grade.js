@@ -29,7 +29,7 @@ export default class MeasurementsLetterGradeComponent extends Component {
     if ( ! measurements) {
       return null;
     }
-    let m = measurements.find( m => m.get('name') == tool.get('name'));
+    let m = measurements.find( m => m.get('name') === tool.get('name'));
     return m;
   }
   @action

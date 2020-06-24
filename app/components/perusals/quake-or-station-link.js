@@ -6,7 +6,7 @@ export default class PerusalsQuakeOrStationLinkComponent extends Component {
   tagName = 'span';
 
   get isPrimaryByQuake() {
-    return (this.primarySort == 'quake');
+    return (this.primarySort === 'quake');
   }
   get isSameAsCurr() {
     if( ! this.quakeStation || ! this.current) {

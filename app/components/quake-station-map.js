@@ -24,7 +24,6 @@ export default class QuakeStationMapComponent extends Component {
       } else {
         return A([this.args.stations]);
       }
-      return this.args.stations;
     } else if (this.args.quakeStations) {
       return this.args.quakeStations.map(qs => qs.station);
     }
@@ -46,7 +45,7 @@ export default class QuakeStationMapComponent extends Component {
   get bounds() {
     let originList = this.originList ? this.originList : [];
     let stationList = this.stationList ? this.stationList : [];
-    if ((! this.quakeList || this.quakeList.length == 0) && (! this.stationList || this.stationList.length == 0)) {
+    if ((! this.quakeList || this.quakeList.length === 0) && (! this.stationList || this.stationList.length === 0)) {
       return [ [ - 0.5, 0.5], [- 0.5, 0.5]]
     }
     let minLat=99;
